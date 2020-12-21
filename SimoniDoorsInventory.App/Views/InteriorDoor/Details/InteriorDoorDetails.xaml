@@ -1,0 +1,76 @@
+﻿<UserControl
+    x:Class="SimoniDoorsInventory.Views.InteriorDoorDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:SimoniDoorsInventory.Controls"
+    xmlns:views="using:SimoniDoorsInventory.Views"
+    xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:InteriorDoorDetailsViewModel">
+            <controls:FluidGrid  Margin="12,18,6,6" Columns="2" ColumnSpacing="12" RowSpacing="12">
+                <!--
+                <controls:ProductSuggestBox DisplayText="{x:Bind EditableItem.Product.Name, Mode=OneWay}" ProductSelectedCommand="{x:Bind ProductSelectedCommand}" />
+                -->
+                <Rectangle />
+                <controls:FormComboBox Header="Κατηγορία" ItemsSource="{x:Bind LookupTables.OpeningTypes}"
+                                       SelectedValue="{x:Bind EditableItem.OpeningTypeID, Mode=TwoWay, Converter={StaticResource Int32Converter}}"
+                                       SelectedValuePath="OpeningTypeID" DisplayMemberPath="Name" />
+
+                <controls:FormComboBox Header="Επένδυση" ItemsSource="{x:Bind LookupTables.InteriorDoorSkins}"
+                                       SelectedValue="{x:Bind EditableItem.InteriorDoorSkinID, Mode=TwoWay}"
+                                       SelectedValuePath="InteriorDoorSkinID" DisplayMemberPath="InteriorDoorSkinDesc" />
+
+                <controls:FormComboBox Header="Σχέδιο" ItemsSource="{x:Bind LookupTables.InteriorDoorDesigns}"
+                                       SelectedValue="{x:Bind EditableItem.InteriorDoorDesignID, Mode=TwoWay}"
+                                       SelectedValuePath="InteriorDoorDesignID" DisplayMemberPath="InteriorDoorDesignID" />
+
+                <controls:FormComboBox Header="Αξεσουάρ" ItemsSource="{x:Bind LookupTables.Accessories}"
+                                       SelectedValue="{x:Bind EditableItem.AccessoryID, Mode=TwoWay, Converter={StaticResource Int32Converter}}"
+                                       SelectedValuePath="AccessoryID" DisplayMemberPath="Name" />
+
+                <controls:FormComboBox Header="Άνοιγμα" ItemsSource="{x:Bind LookupTables.OpeningSides}"
+                                       SelectedValue="{x:Bind EditableItem.OpeningSideID, Mode=TwoWay, Converter={StaticResource Int32Converter}}"
+                                       SelectedValuePath="OpeningSideID" DisplayMemberPath="Name" />
+
+                <controls:FormTextBox Header="Πλάτος" Text="{x:Bind EditableItem.Width, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer" />
+
+                <controls:FormTextBox Header="Ύψος" Text="{x:Bind EditableItem.Height, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer" />
+
+                <controls:FormTextBox Header="Κάσα" Text="{x:Bind EditableItem.Lamb, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer" />
+
+                <controls:FormTextBox Header="Τιμή (€)" Text="{x:Bind EditableItem.Price, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
+
+                <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
+                                      TextWrapping="Wrap" AcceptsReturn="True" />
+            </controls:FluidGrid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid BorderBrush="LightGray" 
+              BorderThickness="0,1,1,0"                                   
+              Background="{StaticResource DetailsViewBackgroundColor}">
+            <views:InteriorDoorCard Margin="6" Item="{x:Bind ViewModel.Item, Mode=OneWay}" />
+        </Grid>
+
+        <controls:Details x:Name="details" Grid.Column="1" Margin="6"
+                          DetailsContent="{x:Bind ViewModel}"
+                          DetailsTemplate="{StaticResource DetailsTemplate}"
+                          CanGoBack="{x:Bind ViewModel.CanGoBack}"
+                          IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"
+                          BackCommand="{x:Bind ViewModel.BackCommand}"
+                          EditCommand="{x:Bind ViewModel.EditCommand}"
+                          DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
+                          SaveCommand="{x:Bind ViewModel.SaveCommand}"
+                          CancelCommand="{x:Bind ViewModel.CancelCommand}" />
+    </Grid>
+</UserControl>
