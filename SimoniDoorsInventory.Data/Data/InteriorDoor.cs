@@ -26,6 +26,7 @@ namespace SimoniDoorsInventory.Data
 
         [Required]
         public int OpeningTypeID { get; set; }
+        public virtual OpeningType OpeningType { get; set; }
         [Required(ErrorMessage = "Το άνοιγμα της πόρτας είναι υποχρεωτικό")]
         public int OpeningSideID { get; set; }
 
@@ -50,6 +51,6 @@ namespace SimoniDoorsInventory.Data
         // Collections
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() =>
-            $"{OrderID} {InteriorDoorSkinID} {InteriorDoorDesignID}".ToLower();
+            $"{OrderID} {InteriorDoorSkinID} {InteriorDoorDesignID} {OpeningType?.Name}".ToLower();
     }
 }

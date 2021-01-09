@@ -70,5 +70,6 @@ namespace SimoniDoorsInventory.Data
             $"{CustomerID} {FirstName} {LastName} {Phone1} {Phone2} {Email} {AddressLine} {City}".ToLower();
         
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

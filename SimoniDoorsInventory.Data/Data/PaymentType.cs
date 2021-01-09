@@ -14,5 +14,9 @@ namespace SimoniDoorsInventory.Data
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+
+        // ----------------------------------------------------------
+        // Collections
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }
