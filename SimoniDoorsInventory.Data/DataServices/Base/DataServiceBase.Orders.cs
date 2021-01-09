@@ -16,7 +16,7 @@ namespace SimoniDoorsInventory.Data.Services
             // Query
             if (!string.IsNullOrEmpty(request.Query))
             {
-                items = items.Where(r => r.SearchTerms.Contains(request.Query.ToLower()));
+                items = items.Where(r => r.SearchTerms.ToLowerInvariant().Contains(request.Query.ToLower()));
             }
 
             // Where
@@ -53,6 +53,8 @@ namespace SimoniDoorsInventory.Data.Services
             // Execute
             var records = await items.Skip(skip)
                                      .Take(take)
+                                     .Include(r => r.Customer)
+                                     .Include(r => r.Crew)
                                      .AsNoTracking()
                                      .ToListAsync();
 
@@ -83,7 +85,7 @@ namespace SimoniDoorsInventory.Data.Services
             // Query
             if (!string.IsNullOrEmpty(request.Query))
             {
-                items = items.Where(r => r.SearchTerms.Contains(request.Query.ToLower()));
+                items = items.Where(r => r.SearchTerms.ToLowerInvariant().Contains(request.Query.ToLower()));
             }
 
             // Where

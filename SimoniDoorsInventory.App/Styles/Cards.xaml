@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <x:Double x:Key="CardPictureRadius">68</x:Double>
+    <x:Int32 x:Key="CardPictureRadiusInt32">68</x:Int32>
 
     <Style x:Key="CardSuperHeader" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="SemiBold" />

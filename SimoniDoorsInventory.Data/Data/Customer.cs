@@ -62,7 +62,10 @@ namespace SimoniDoorsInventory.Data
 
         // ----------------------------------------------------------
         // Collections
-        public string SearchTerms { get; set; }
+        public string SearchTerms { 
+            get; 
+            set; 
+        }
         public string BuildSearchTerms() => 
             $"{CustomerID} {FirstName} {LastName} {Phone1} {Phone2} {Email} {AddressLine} {City}".ToLower();
         
