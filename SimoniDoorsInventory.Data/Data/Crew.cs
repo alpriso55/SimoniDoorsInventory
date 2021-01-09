@@ -8,7 +8,7 @@ namespace SimoniDoorsInventory.Data
     public partial class Crew
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CrewID { get; set; }
 
         [Required]

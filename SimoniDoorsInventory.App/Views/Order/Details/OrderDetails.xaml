@@ -16,14 +16,20 @@
                 <controls:CustomerSuggestBox DisplayText="{x:Bind EditableItem.Customer.FullName, Mode=OneWay}"
                                              CustomerSelectedCommand="{x:Bind CustomerSelectedCommand}"
                                              IsReadOnly="{x:Bind CanEditCustomer, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
-                
+
+                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
+                    <controls:FormTextBox Header="Τηλέφωνο" Text="{x:Bind EditableItem.Customer.Phone1, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Email" Text="{x:Bind EditableItem.Customer.Email, Mode=TwoWay}" />
+                </controls:FluidGrid>
+
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
                     <controls:FormTextBox Header="Διεύθυνση Αποστολής" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer"/>
+                    <controls:FormTextBox Header="Πόλη Αποστολής" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
                 </controls:FluidGrid>
+
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
                     <controls:FormTextBox Header="Ταχ. Κώδικας Αποστολής" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="Πόλη Αποστολής" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer"/>
                 </controls:FluidGrid>
                 
                 <!--
@@ -55,7 +61,7 @@
                                                      MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" />
                 </controls:FluidGrid>
 
-                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.00" />
+                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
 

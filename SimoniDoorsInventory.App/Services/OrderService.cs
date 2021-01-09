@@ -163,6 +163,16 @@ namespace SimoniDoorsInventory.Services
             {
                 model.Customer = await CustomerService.CreateCustomerModelAsync(source.Customer, includeAllFields);
             }
+            if (source.Crew != null)
+            {
+                model.Crew = new CrewModel()
+                {
+                    CrewID = source.Crew.CrewID,
+                    Name = source.Crew.Name,
+                    Phone = source.Crew.Phone,
+                    Observations = source.Crew.Observations
+                };
+            }
             return model;
         }
 

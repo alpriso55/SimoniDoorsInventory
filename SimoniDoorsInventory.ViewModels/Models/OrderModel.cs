@@ -65,6 +65,8 @@ namespace SimoniDoorsInventory.Models
             }
         }
 
+        public string FullName => Customer?.FullName;
+
         public override void Merge(ObservableObject source)
         {
             if (source is OrderModel model)

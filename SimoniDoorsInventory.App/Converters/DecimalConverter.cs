@@ -33,7 +33,7 @@ namespace SimoniDoorsInventory.Converters
         {
             if (value != null)
             {
-                if (Decimal.TryParse(value.ToString(), out decimal m))
+                if (decimal.TryParse(value.ToString(), out decimal m))
                 {
                     return m;
                 }
