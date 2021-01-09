@@ -20,11 +20,6 @@ namespace SimoniDoorsInventory.Data.Services
             return await _dataSource.Accessories.ToListAsync();
         }
 
-        public async Task<IList<Account>> GetAccountsAsync()
-        {
-            return await _dataSource.Accounts.ToListAsync();
-        }
-
         public async Task<IList<Category>> GetCategoriesAsync()
         {
             return await _dataSource.Categories.ToListAsync();

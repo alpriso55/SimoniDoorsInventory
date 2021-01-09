@@ -21,12 +21,6 @@ namespace SimoniDoorsInventory.Data.Services
         {
             /* 
             // -----------------------------------------------------------
-            // Account
-            modelBuilder.Entity<Account>()
-                        .Property(p => p.Balance)
-                        .HasDefaultValue(0);
-
-            // -----------------------------------------------------------
             // Armored Door
             modelBuilder.Entity<ArmoredDoor>()
                         .Property(p => p.Armor)
@@ -98,8 +92,6 @@ namespace SimoniDoorsInventory.Data.Services
         public DbSet<DbVersion> DbVersion { get; set; }
 
         public DbSet<Accessory> Accessories { get; set; }
-
-        public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 

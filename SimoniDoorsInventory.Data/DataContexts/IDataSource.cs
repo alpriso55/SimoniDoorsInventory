@@ -12,7 +12,6 @@ namespace SimoniDoorsInventory.Data.Services
         DbSet<DbVersion> DbVersion { get; }
 
         DbSet<Accessory> Accessories { get; }
-        DbSet<Account> Accounts { get; }
         DbSet<Category> Categories { get; }
         DbSet<Crew> Crews { get; }
         DbSet<Customer> Customers { get; }

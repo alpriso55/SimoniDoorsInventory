@@ -41,8 +41,7 @@ namespace SimoniDoorsInventory.Data.Services
         public async Task<Payment> GetPaymentAsync(long id)
         {
             return await _dataSource.Payments.Where(r => r.PaymentID == id)
-                                             .Include(r => r.Account)
-                                             .Include(r => r.Order)
+                                             .Include(r => r.Customer)
                                              .Include(r => r.PaymentType)
                                              .FirstOrDefaultAsync();
         }
@@ -54,6 +53,8 @@ namespace SimoniDoorsInventory.Data.Services
             // Execute
             var records = await items.Skip(skip)
                                      .Take(take)
+                                     .Include(r => r.Customer)
+                                     .Include(r => r.PaymentType)
                                      .AsNoTracking()
                                      .ToListAsync();
 
@@ -106,6 +107,7 @@ namespace SimoniDoorsInventory.Data.Services
             {
                 payment.PaymentID = UIDGenerator.Next(6);
                 payment.PaymentDate = DateTime.UtcNow;
+                payment.Amount = 0.0m;
                 _dataSource.Entry(payment).State = EntityState.Added;
             }
 

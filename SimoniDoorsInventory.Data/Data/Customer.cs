@@ -13,6 +13,9 @@ namespace SimoniDoorsInventory.Data
         public long CustomerID { get; set; }
 
         [Required]
+        public decimal Balance { get; set; }
+
+        [Required]
         [MaxLength(50)]
         public string FirstName { get; set; }
 

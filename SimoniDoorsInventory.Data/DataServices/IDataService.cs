@@ -42,8 +42,7 @@ namespace SimoniDoorsInventory.Data.Services
         Task<int> DeletePaymentsAsync(params Payment[] payments);
 
         // -------------------------------------------------------------------------------------
-        Task<IList<Accessory>> GetAccessoriesAsync(); 
-        Task<IList<Account>> GetAccountsAsync();
+        Task<IList<Accessory>> GetAccessoriesAsync();
         Task<IList<Category>> GetCategoriesAsync();
         Task<IList<Crew>> GetCrewsAsync();
         Task<IList<InteriorDoorDesign>> GetInteriorDoorDesignsAsync();

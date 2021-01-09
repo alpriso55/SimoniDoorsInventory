@@ -3,16 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SimoniDoorsInventory.Data.Services
 {
-    public enum CommonPrice
-    {
-        Closet = 160,
-        Kitchen = 170,
-        InteriorDoor = 200,
-        SkinChange = 250,
-        LockChange = 250,
-        ArmoredDoor = 480,
-    }
-
     public class SQLServerDb : DbContext, IDataSource
     {
         private string _connectionString = null;
@@ -30,12 +20,6 @@ namespace SimoniDoorsInventory.Data.Services
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             /*
-            // -----------------------------------------------------------
-            // Account
-            modelBuilder.Entity<Account>()
-                        .Property(p => p.Balance)
-                        .HasDefaultValue(0);
-
             // -----------------------------------------------------------
             // Armored Door
             modelBuilder.Entity<ArmoredDoor>()
@@ -109,8 +93,6 @@ namespace SimoniDoorsInventory.Data.Services
         public DbSet<DbVersion> DbVersion { get; set; }
 
         public DbSet<Accessory> Accessories { get; set; }
-
-        public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
