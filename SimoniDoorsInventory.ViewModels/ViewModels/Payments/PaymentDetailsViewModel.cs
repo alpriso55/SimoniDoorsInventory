@@ -14,7 +14,7 @@ namespace SimoniDoorsInventory.ViewModels
     {
         static public PaymentDetailsArgs CreateDefault() => new PaymentDetailsArgs();
 
-        public long AccountID { get; set; }
+        public long CustomerID { get; set; }
         public long PaymentID { get; set; }
 
         public bool IsNew => PaymentID <= 0;
@@ -32,18 +32,18 @@ namespace SimoniDoorsInventory.ViewModels
         public IPaymentService PaymentService { get; }
 
         override public string Title => (Item?.IsNew ?? true) ? TitleNew : TitleEdit;
-        public string TitleNew => Item?.Account == null ? "New Payment" : $"New Payment, {Item?.Account?.Customer?.FullName}";
-        public string TitleEdit => Item == null ? "Payment" : $"Payment {Item?.PaymentID}";
+        public string TitleNew => Item?.Customer == null ? "Νέα Πληρωμή" : $"Νέα Πληρωμή, {Item?.Customer?.FullName}";
+        public string TitleEdit => Item == null ? "Πληρωμή" : $"Πληρωμή {Item?.PaymentID}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
-        public bool CanEditAccount => Item?.AccountID <= 0;
+        public bool CanEditCustomer => Item?.CustomerID <= 0;
 
-        public ICommand AccountSelectedCommand => new RelayCommand<AccountModel>(AccountSelected);
-        private void AccountSelected(AccountModel account)
+        public ICommand CustomerSelectedCommand => new RelayCommand<CustomerModel>(CustomerSelected);
+        private void CustomerSelected(CustomerModel customer)
         {
-            EditableItem.AccountID = account.CustomerID;
-            EditableItem.Account = account;
+            EditableItem.CustomerID = customer.CustomerID;
+            EditableItem.Customer = customer;
 
             EditableItem.NotifyChanges();
         }
@@ -99,16 +99,16 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Saving Payment...");
+                StartStatusMessage("Αποθήκευση πληρωμής...");
                 await Task.Delay(100);
                 await PaymentService.UpdatePaymentAsync(model);
-                EndStatusMessage("Payment saved");
+                EndStatusMessage("Πληρωμή αποθηκεύτικε");
                 LogInformation("Payment", "Save", "Payment saved successfully", $"Payment {model.PaymentID} was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error saving Payment: {ex.Message}");
+                StatusError($"Σφάλμα αποθήκευσης πληρωμής: {ex.Message}");
                 LogException("Payment", "Save", ex);
                 return false;
             }
@@ -118,16 +118,16 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Deleting Payment...");
+                StartStatusMessage("Διαγραφή πληρωμής...");
                 await Task.Delay(100);
                 await PaymentService.DeletePaymentAsync(model);
-                EndStatusMessage("Payment deleted");
+                EndStatusMessage("Πληρωμή διεγράφη");
                 LogWarning("Payment", "Delete", "Payment deleted", $"Payment {model.PaymentID} was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error deleting Payment: {ex.Message}");
+                StatusError($"Σφάλμα διαγραφής πληρωμής: {ex.Message}");
                 LogException("Payment", "Delete", ex);
                 return false;
             }
@@ -140,7 +140,7 @@ namespace SimoniDoorsInventory.ViewModels
 
         override protected IEnumerable<IValidationConstraint<PaymentModel>> GetValidationConstraints(PaymentModel model)
         {
-            yield return new RequiredConstraint<PaymentModel>("Account", m => m.AccountID);
+            yield return new RequiredConstraint<PaymentModel>("Customer", m => m.CustomerID);
             yield return new RequiredConstraint<PaymentModel>("Amount", m => m.Amount);
             yield return new RequiredGreaterThanZeroConstraint<PaymentModel>("Amount", m => m.Amount);
         }
@@ -169,7 +169,7 @@ namespace SimoniDoorsInventory.ViewModels
                                     NotifyPropertyChanged(nameof(Title));
                                     if (IsEditMode)
                                     {
-                                        StatusMessage("WARNING: This payment has been modified externally");
+                                        StatusMessage("ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Αυτή η πληρωμή έχει τροποποιηθεί από άλλο τμήμα του προγράμματος.");
                                     }
                                 }
                                 catch (Exception ex)
@@ -226,7 +226,7 @@ namespace SimoniDoorsInventory.ViewModels
             {
                 CancelEdit();
                 IsEnabled = false;
-                StatusMessage("WARNING: This payment has been deleted externally");
+                StatusMessage("ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Αυτή η πληρωμή έχει διαγραφεί από άλλο τμήμα του προγράμματος.");
             });
         }
     }

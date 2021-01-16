@@ -10,12 +10,12 @@ namespace SimoniDoorsInventory.ViewModels
 {
     public class MainShellViewModel : ShellViewModel
     {
-        private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Dashboard", typeof(DashboardViewModel));
-        private readonly NavigationItem CustomersItem = new NavigationItem(0xE716, "Customers", typeof(CustomersViewModel));
-        private readonly NavigationItem OrdersItem = new NavigationItem(0xE8A1, "Orders", typeof(OrdersViewModel));
-        private readonly NavigationItem PaymentsItem = new NavigationItem(0xE781, "Payments", typeof(PaymentsViewModel));
+        private readonly NavigationItem DashboardItem = new NavigationItem(0xE80F, "Αρχική Οθόνη", typeof(DashboardViewModel));
+        private readonly NavigationItem CustomersItem = new NavigationItem(0xE716, "Πελάτες", typeof(CustomersViewModel));
+        private readonly NavigationItem OrdersItem = new NavigationItem(0xE8A1, "Παραγγελίες", typeof(OrdersViewModel));
+        private readonly NavigationItem PaymentsItem = new NavigationItem(0xE8C7, "Πληρωμές", typeof(PaymentsViewModel));
         private readonly NavigationItem AppLogsItem = new NavigationItem(0xE7BA, "Activity Log", typeof(AppLogsViewModel));
-        private readonly NavigationItem SettingsItem = new NavigationItem(0x0000, "Settings", typeof(SettingsViewModel));
+        private readonly NavigationItem SettingsItem = new NavigationItem(0x0000, "Ρυθμίσεις", typeof(SettingsViewModel));
 
         public MainShellViewModel(ILoginService loginService, ICommonServices commonServices) : base(loginService, commonServices)
         {

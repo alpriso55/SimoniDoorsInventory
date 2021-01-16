@@ -23,7 +23,7 @@ namespace SimoniDoorsInventory.ViewModels
 
         public bool IsEmpty { get; set; }
 
-        public long AccountID { get; set; }
+        public long CustomerID { get; set; }
 
         public string Query { get; set; }
 
@@ -49,15 +49,22 @@ namespace SimoniDoorsInventory.ViewModels
             await NavigationService.CreateNewViewAsync<PaymentDetailsViewModel>(new PaymentDetailsArgs { PaymentID = model.PaymentID });
         }
 
-        public async Task LoadAsync(PaymentListArgs args)
+        public async Task LoadAsync(PaymentListArgs args, bool silent = false)
         {
             ViewModelArgs = args ?? PaymentListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading Payments...");
-            if (await RefreshAsync())
+            if (silent)
             {
-                EndStatusMessage("Payments loaded");
+                await RefreshAsync();
+            } 
+            else
+            {
+                StartStatusMessage("Φόρτωση Πληρωμών...");
+                if (await RefreshAsync())
+                {
+                    EndStatusMessage("Πληρωμές φορτώθηκαν");
+                }
             }
         }
         public void Unload()
@@ -100,7 +107,7 @@ namespace SimoniDoorsInventory.ViewModels
             catch (Exception ex)
             {
                 Items = new List<PaymentModel>();
-                StatusError($"Error loading Payments: {ex.Message}");
+                StatusError($"Σφάλμα φόρτωσης Πληρωμών: {ex.Message}");
                 LogException("Payments", "Refresh", ex);
                 isOk = false;
             }
@@ -142,10 +149,10 @@ namespace SimoniDoorsInventory.ViewModels
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading Payments...");
+            StartStatusMessage("Φόρτωση Πληρωμών...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Payments loaded");
+                EndStatusMessage("Πληρωμές φορτώθηκαν");
             }
         }
 
@@ -160,21 +167,21 @@ namespace SimoniDoorsInventory.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} Payments...");
+                        StartStatusMessage($"Διαγράφονται {count} Πληρωμές...");
                         await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} Payments...");
+                        StartStatusMessage($"Διαγράφονται {count} Πληρωμές...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Payments: {ex.Message}");
+                    StatusError($"Σφάλμα διαγραφής {count} Πληρωμών: {ex.Message}");
                     LogException("Payments", "Delete", ex);
                     count = 0;
                 }
@@ -183,7 +190,7 @@ namespace SimoniDoorsInventory.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} Payments deleted");
+                    EndStatusMessage($"{count} Πληρωμές διαγράφηκαν");
                 }
             }
         }

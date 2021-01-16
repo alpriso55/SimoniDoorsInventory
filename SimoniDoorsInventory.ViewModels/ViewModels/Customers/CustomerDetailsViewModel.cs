@@ -31,8 +31,8 @@ namespace SimoniDoorsInventory.ViewModels
         public ICustomerService CustomerService { get; }
         public IFilePickerService FilePickerService { get; }
 
-        public override string Title => (Item?.IsNew ?? true) ? "New Customer" : TitleEdit;
-        public string TitleEdit => Item == null ? "Customer" : $"{Item.FullName}";
+        public override string Title => (Item?.IsNew ?? true) ? "Νέος Πελάτης" : TitleEdit;
+        public string TitleEdit => Item == null ? "Πελάτης" : $"{Item.FullName}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
@@ -119,16 +119,16 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Saving customer...");
+                StartStatusMessage("Αποθήκευση πελάτη...");
                 await Task.Delay(100);
                 await CustomerService.UpdateCustomerAsync(model);
-                EndStatusMessage("Customer saved");
+                EndStatusMessage("Πελάτης Αποθηκεύτηκε");
                 LogInformation("Customer", "Save", "Customer saved successfully", $"Customer {model.CustomerID} '{model.FullName}' was saved successfully.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error saving Customer: {ex.Message}");
+                StatusError($"Σφάλμα στην αποθήκευση του Πελάτη: {ex.Message}");
                 LogException("Customer", "Save", ex);
                 return false;
             }
@@ -138,16 +138,16 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Deleting customer...");
+                StartStatusMessage("Διαγραφή πελάτη...");
                 await Task.Delay(100);
                 await CustomerService.DeleteCustomerAsync(model);
-                EndStatusMessage("Customer deleted");
+                EndStatusMessage("Πελάτης διεγράφη");
                 LogWarning("Customer", "Delete", "Customre deleted", $"Customer {model.CustomerID} '{model.FullName}' was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error deleting Customer: {ex.Message}");
+                StatusError($"Σφάλμα διαγραφής Πελάτη: {ex.Message}");
                 LogException("Customer", "Delete", ex);
                 return false;
             }
@@ -191,7 +191,7 @@ namespace SimoniDoorsInventory.ViewModels
                                     NotifyPropertyChanged(nameof(Title));
                                     if (IsEditMode)
                                     {
-                                        StatusMessage("WARNING: This customer has been modified externally");
+                                        StatusMessage("WARNING: Ο συγκεκριμένος πελάτης έχει επεξεργαστεί εξωτερικά");
                                     }
                                 }
                                 catch (Exception ex)
@@ -248,7 +248,7 @@ namespace SimoniDoorsInventory.ViewModels
             {
                 CancelEdit();
                 IsEnabled = false;
-                StatusMessage("WARNING: This customer has been deleted externally");
+                StatusMessage("WARNING: Ο συγκεκριμένος πελάτης έχει διαγραφτεί εξωτερικά");
             });
         }
     }

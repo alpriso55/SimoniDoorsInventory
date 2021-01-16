@@ -34,7 +34,6 @@ namespace SimoniDoorsInventory.Services
         public IDataServiceFactory DataServiceFactory { get; }
 
         public IList<AccessoryModel> Accessories { get; private set; }
-        public IList<AccountModel> Accounts { get; private set; }
         public IList<CategoryModel> Categories { get; private set; }
         public IList<CrewModel> Crews { get; private set; }
         public IList<InteriorDoorDesignModel> InteriorDoorDesigns { get; private set; }
@@ -47,7 +46,6 @@ namespace SimoniDoorsInventory.Services
         public async Task InitializeAsync()
         {
             Accessories = await GetAccessoriesAsync();
-            Accounts = await GetAccountsAsync();
             Categories = await GetCategoriesAsync();
             Crews = await GetCrewsAsync();
             InteriorDoorDesigns = await GetInteriorDoorDesignsAsync();
@@ -62,19 +60,6 @@ namespace SimoniDoorsInventory.Services
         {
             return Accessories.Where(r => r.AccessoryID == id).Select(r => r.Name).FirstOrDefault();
         }
-        public string GetAccount(long id)
-        {
-            string customerName = Accounts.Where(r => r.CustomerID == id)
-                                          .Select(r => r.Customer.FullName)
-                                          .FirstOrDefault();
-            return $"{customerName} Λογαριασμός #{id}";
-        }
-        public decimal GetAccountBalance(long id)
-        {
-            return Accounts.Where(r => r.CustomerID == id)
-                           .Select(r => r.Balance)
-                           .FirstOrDefault();
-        }
         public string GetCategory(int id)
         {
             return Categories.Where(r => r.CategoryID == id).Select(r => r.Name).FirstOrDefault();
@@ -83,7 +68,7 @@ namespace SimoniDoorsInventory.Services
         {
             string name = Crews.Where(r => r.CrewID == id).Select(r => r.Name).FirstOrDefault();
             string phone = Crews.Where(r => r.CrewID == id).Select(r => r.Phone).FirstOrDefault();
-            return $"{name}: {phone}";
+            return $"{name} ({phone})";
         }
         public string GetInteriorDoorDesign(string id)
         {
@@ -141,29 +126,6 @@ namespace SimoniDoorsInventory.Services
                 LogException("LookupTables", "Load Accessories", ex);
             }
             return new List<AccessoryModel>();
-        }
-
-        private async Task<IList<AccountModel>> GetAccountsAsync()
-        {
-            try
-            {
-                using (var dataService = DataServiceFactory.CreateDataService())
-                {
-                    var items = await dataService.GetAccountsAsync();
-                    return items.OrderBy(r => r.Balance)
-                                .Select(r => new AccountModel
-                    {
-                        AccountID = r.AccountID,
-                        CustomerID = r.CustomerID,
-                        Balance = r.Balance
-                    }).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                LogException("LookupTables", "Load Accounts", ex);
-            }
-            return new List<AccountModel>();
         }
 
         private async Task<IList<CategoryModel>> GetCategoriesAsync()

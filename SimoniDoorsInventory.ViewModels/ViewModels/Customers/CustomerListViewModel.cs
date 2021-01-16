@@ -48,10 +48,10 @@ namespace SimoniDoorsInventory.ViewModels
             ViewModelArgs = args ?? CustomerListArgs.CreateEmpty();
             Query = ViewModelArgs.Query;
 
-            StartStatusMessage("Loading customers...");
+            StartStatusMessage("Φόρτωση πελατών...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Customers loaded");
+                EndStatusMessage("Πελάτες φορτώθηκαν");
             }
         }
         public void Unload()
@@ -94,7 +94,7 @@ namespace SimoniDoorsInventory.ViewModels
             catch (Exception ex)
             {
                 Items = new List<CustomerModel>();
-                StatusError($"Error loading Customers: {ex.Message}");
+                StatusError($"Σφάλμα φόρτωσης Πελατών: {ex.Message}");
                 LogException("Customers", "Refresh", ex);
                 isOk = false;
             }
@@ -144,10 +144,10 @@ namespace SimoniDoorsInventory.ViewModels
 
         protected override async void OnRefresh()
         {
-            StartStatusMessage("Loading customers...");
+            StartStatusMessage("Φόρτωση πελατών...");
             if (await RefreshAsync())
             {
-                EndStatusMessage("Customers loaded");
+                EndStatusMessage("Πελάτες φορτώθηκαν");
             }
         }
 
@@ -162,21 +162,21 @@ namespace SimoniDoorsInventory.ViewModels
                     if (SelectedIndexRanges != null)
                     {
                         count = SelectedIndexRanges.Sum(r => r.Length);
-                        StartStatusMessage($"Deleting {count} customers...");
+                        StartStatusMessage($"Διαγραφή {count} πελατών...");
                         await DeleteRangesAsync(SelectedIndexRanges);
                         MessageService.Send(this, "ItemRangesDeleted", SelectedIndexRanges);
                     }
                     else if (SelectedItems != null)
                     {
                         count = SelectedItems.Count();
-                        StartStatusMessage($"Deleting {count} customers...");
+                        StartStatusMessage($"Διαγραφή {count} πελατών...");
                         await DeleteItemsAsync(SelectedItems);
                         MessageService.Send(this, "ItemsDeleted", SelectedItems);
                     }
                 }
                 catch (Exception ex)
                 {
-                    StatusError($"Error deleting {count} Customers: {ex.Message}");
+                    StatusError($"Σφάλμα διαγραφής {count} Πελατών: {ex.Message}");
                     LogException("Customers", "Delete", ex);
                     count = 0;
                 }
@@ -185,7 +185,7 @@ namespace SimoniDoorsInventory.ViewModels
                 SelectedItems = null;
                 if (count > 0)
                 {
-                    EndStatusMessage($"{count} customers deleted");
+                    EndStatusMessage($"{count} πελάτες διαγράφτηκαν");
                 }
             }
         }

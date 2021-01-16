@@ -29,7 +29,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="1" Margin="12,0" Text="Dashboard" FontSize="22" Foreground="Gray" />
+            <TextBlock Grid.Row="1" Margin="12,0" Text="Αρχική Οθόνη" FontSize="22" Foreground="Gray" />
 
 
             <GridView Grid.Row="2" 
@@ -43,22 +43,22 @@
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <views:CustomersPane Margin="12" 
-                                         Width="600"
-                                         Height="250"
-                                         ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}" 
-                                         Tag="Customers" />
-
-                <views:PaymentsPane Margin="12" 
-                                        Width="400"
-                                        Height="250"
-                                        ItemsSource="{x:Bind ViewModel.Payments, Mode=OneWay}" 
-                                        Tag="Payments" />
+                                     Width="800"
+                                     Height="250"
+                                     ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}" 
+                                     Tag="Customers" />
 
                 <views:OrdersPane Margin="12" 
-                                      Width="400"
+                                      Width="500"
                                       Height="250"
                                       ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}" 
                                       Tag="Orders" />
+
+                <views:PaymentsPane Margin="12" 
+                                    Width="500"
+                                    Height="250"
+                                    ItemsSource="{x:Bind ViewModel.Payments, Mode=OneWay}" 
+                                    Tag="Payments" />
             </GridView>
         </Grid>
     </Grid>

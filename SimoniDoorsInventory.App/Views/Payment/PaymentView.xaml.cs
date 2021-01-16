@@ -26,6 +26,7 @@ namespace SimoniDoorsInventory.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync(e.Parameter as PaymentDetailsArgs);
+            await Task.Delay(100);
 
             if (ViewModel.IsEditMode)
             {

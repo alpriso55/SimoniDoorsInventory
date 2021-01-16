@@ -119,6 +119,7 @@ namespace SimoniDoorsInventory.Services
             var model = new CustomerModel()
             {
                 CustomerID = source.CustomerID,
+                Balance = source.Balance,
                 FirstName = source.FirstName,
                 LastName = source.LastName,
                 Phone1 = source.Phone1,
@@ -144,6 +145,7 @@ namespace SimoniDoorsInventory.Services
 
         private void UpdateCustomerFromModel(Customer target, CustomerModel source)
         {
+            target.Balance = source.Balance;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
             target.Phone1 = source.Phone1;

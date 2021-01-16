@@ -66,7 +66,7 @@ namespace SimoniDoorsInventory.Services
                 var items = await dataService.GetPaymentsAsync(skip, take, request);
                 foreach (var item in items)
                 {
-                    models.Add(await CreatePaymentModelAsync(item, includeAllFields: false));
+                    models.Add(await CreatePaymentModelAsync(item, includeAllFields: true));
                 }
                 return models;
             }
@@ -119,8 +119,7 @@ namespace SimoniDoorsInventory.Services
             var model = new PaymentModel()
             {
                 PaymentID = source.PaymentID,
-                AccountID = source.AccountID,
-                OrderID = source.OrderID,
+                CustomerID = source.CustomerID,
                 Amount = source.Amount,
                 PaymentTypeID = source.PaymentTypeID,
                 PaymentDate = source.PaymentDate,
@@ -129,7 +128,12 @@ namespace SimoniDoorsInventory.Services
 
             if (includeAllFields)
             {
-                model.Order = await OrderService.CreateOrderModelAsync(source.Order, includeAllFields);
+                model.Customer = await CustomerService.CreateCustomerModelAsync(source.Customer, includeAllFields);
+                model.PaymentType = new PaymentTypeModel()
+                {
+                    PaymentTypeID = source.PaymentType.PaymentTypeID,
+                    Name = source.PaymentType.Name
+                };
                 // TODO: implement the same thing for model.Account
             }
             return model;
@@ -138,8 +142,7 @@ namespace SimoniDoorsInventory.Services
         private void UpdatePaymentFromModel(Payment target, PaymentModel source)
         {
             target.PaymentID = source.PaymentID;
-            target.AccountID = source.AccountID;
-            target.OrderID = source.OrderID;
+            target.CustomerID = source.CustomerID;
             target.Amount = source.Amount;
             target.PaymentTypeID = source.PaymentTypeID;
             target.PaymentDate = source.PaymentDate;

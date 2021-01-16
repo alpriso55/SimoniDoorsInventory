@@ -22,7 +22,7 @@
                 </Grid>
 
                 <StackPanel Grid.Column="1" Margin="4">
-                    <TextBlock Text="{x:Bind AccountDesc}" FontSize="14" />
+                    <TextBlock Text="{x:Bind PaymentDesc}" FontSize="14" />
                     <TextBlock Text="{x:Bind PaymentID}" FontSize="13" Foreground="#666" />
                 </StackPanel>
 

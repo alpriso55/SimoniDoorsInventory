@@ -47,11 +47,11 @@ namespace SimoniDoorsInventory.ViewModels
 
         public async Task LoadAsync()
         {
-            StartStatusMessage("Loading dashboard...");
+            StartStatusMessage("Φόρτωση αρχικής οθόνης...");
             await LoadCustomersAsync();
             await LoadOrdersAsync();
             await LoadPaymentsAsync();
-            EndStatusMessage("Dashboard loaded");
+            EndStatusMessage("Αρχική οθόνη φορτώθηκε");
         }
         public void Unload()
         {

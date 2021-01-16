@@ -10,6 +10,7 @@ namespace SimoniDoorsInventory.ViewModels
     {
         public CustomersViewModel(ICustomerService customerService,
                                   IOrderService orderService,
+                                  IPaymentService paymentService,  // NEW LINE
                                   IFilePickerService filePickerService,
                                   ICommonServices commonServices)
             : base(commonServices)
@@ -19,6 +20,7 @@ namespace SimoniDoorsInventory.ViewModels
             CustomerList = new CustomerListViewModel(CustomerService, commonServices);
             CustomerDetails = new CustomerDetailsViewModel(CustomerService, filePickerService, commonServices);
             CustomerOrders = new OrderListViewModel(orderService, commonServices);
+            CustomerPayments = new PaymentListViewModel(paymentService, commonServices);
         }
 
         public ICustomerService CustomerService { get; }
@@ -26,6 +28,7 @@ namespace SimoniDoorsInventory.ViewModels
         public CustomerListViewModel CustomerList { get; set; }
         public CustomerDetailsViewModel CustomerDetails { get; set; }
         public OrderListViewModel CustomerOrders { get; set; }
+        public PaymentListViewModel CustomerPayments { get; set; }  // NEW LINE
 
         public async Task LoadAsync(CustomerListArgs args)
         {
@@ -72,6 +75,7 @@ namespace SimoniDoorsInventory.ViewModels
                 CustomerDetails.CancelEdit();
             }
             CustomerOrders.IsMultipleSelection = false;
+            CustomerPayments.IsMultipleSelection = false;  // NEW LINE
             var selected = CustomerList.SelectedItem;
             if (!CustomerList.IsMultipleSelection)
             {
@@ -79,6 +83,7 @@ namespace SimoniDoorsInventory.ViewModels
                 {
                     await PopulateDetails(selected);
                     await PopulateOrders(selected);
+                    await PopulatePayments(selected);  // NEW LINE
                 }
             }
             CustomerDetails.Item = selected;
@@ -109,6 +114,21 @@ namespace SimoniDoorsInventory.ViewModels
             catch (Exception ex)
             {
                 LogException("Customers", "Load Orders", ex);
+            }
+        }
+
+        private async Task PopulatePayments(CustomerModel selectedItem)  // New LINE
+        {
+            try
+            {
+                if (selectedItem != null)
+                {
+                    await CustomerPayments.LoadAsync(new PaymentListArgs { CustomerID = selectedItem.CustomerID }, silent: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogException("Customers", "Load Payments", ex);
             }
         }
     }

@@ -11,7 +11,6 @@ namespace SimoniDoorsInventory.Services
         Task InitializeAsync();
 
         IList<AccessoryModel> Accessories { get; }
-        IList<AccountModel> Accounts { get; }
         IList<CategoryModel> Categories { get; }
         IList<CrewModel> Crews { get; }
         IList<InteriorDoorDesignModel> InteriorDoorDesigns { get; }
@@ -22,7 +21,6 @@ namespace SimoniDoorsInventory.Services
         IList<PaymentTypeModel> PaymentTypes { get; }
 
         string GetAccessory(int id);
-        string GetAccount(long id);
         string GetCategory(int id);
         string GetCrew(int id);
         string GetInteriorDoorDesign(string id);

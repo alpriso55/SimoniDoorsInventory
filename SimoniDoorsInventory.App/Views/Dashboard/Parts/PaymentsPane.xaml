@@ -33,12 +33,13 @@
                 <Border Grid.Column="0" Padding="1" Height="31">
                     <!-- <Image Source="{x:Bind ThumbnailSource, Mode=OneWay, Converter={StaticResource ObjectToImageConverter}}" 
                            Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
-                    <Image Source="Assets\Images\payment-icon.jpg" 
-                           Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <!-- <Image Source="Assets\Images\payment-icon.jpg" 
+                           Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8C7;"/>
                 </Border>
                 <TextBlock Grid.Column="1" Text="{x:Bind PaymentID}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="2" Text="{x:Bind Account.Customer.FullName}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="3" Text="{x:Bind Amount}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="2" Text="{x:Bind Customer.FullName}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="3" Text="{x:Bind Amount}" Style="{StaticResource ColumnValueStyle}" HorizontalTextAlignment="Right" />
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
