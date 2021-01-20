@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
             <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Orders" FontSize="18" />
+                <TextBlock Text="Παραγγελίες" FontSize="18" />
                 <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
             </StackPanel>
         </DataTemplate>
@@ -20,7 +20,7 @@
     <Grid Background="WhiteSmoke"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
-        <controls:WindowTitle Prefix="Orders" Title="{x:Bind ViewModel.OrderList.Title, Mode=OneWay}" />
+        <controls:WindowTitle Prefix="Παραγγελίες" Title="{x:Bind ViewModel.OrderList.Title, Mode=OneWay}" />
 
         <Grid>
             <Grid.RowDefinitions>
@@ -50,17 +50,17 @@
                                   Visibility="{x:Bind ViewModel.OrderDetails.IsDataAvailable, Mode=OneWay}">
 
                     <Pivot x:Name="pivot">
-                        <PivotItem Header="Order">
+                        <PivotItem Header="Παραγγελία">
                             <views:OrdersDetails Grid.Row="1" ViewModel="{x:Bind ViewModel.OrderDetails}" />
                         </PivotItem>
-                        <PivotItem Header="Order Items">
+                        <PivotItem Header="Μεσόπορτες">
                             <views:OrdersInteriorDoors Grid.Row="1" ViewModel="{x:Bind ViewModel.InteriorDoorList}" />
                         </PivotItem>
                     </Pivot>
                 </controls:Section>
 
                 <!--Empty Details-->
-                <controls:Section Header="No item selected" 
+                <controls:Section Header="Δεν έχετε επιλέξει κάτι." 
                                   Visibility="{x:Bind ViewModel.OrderDetails.IsDataUnavailable, Mode=OneWay}" />
             </Grid>
         </Grid>

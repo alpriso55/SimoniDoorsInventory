@@ -128,6 +128,29 @@ namespace SimoniDoorsInventory.Services
                 Observations = source.Observations,
                 Price = source.Price
             };
+
+            if (includeAllFields)
+            {
+                model.OpeningSide = new OpeningSideModel()
+                {
+                    OpeningSideID = source.OpeningSideID,
+                    Name = source.OpeningSide?.Name ?? LookupTablesProxy.Instance.GetOpeningSide(source.OpeningSideID)
+                };
+
+                model.OpeningType = new OpeningTypeModel()
+                {
+                    OpeningTypeID = source.OpeningTypeID,
+                    Name = source.OpeningType?.Name ?? LookupTablesProxy.Instance.GetOpeningType(source.OpeningTypeID)
+                };
+
+                model.Accessory = new AccessoryModel()
+                {
+                    AccessoryID = (int)source.AccessoryID,
+                    Name = source.Accessory?.Name ?? LookupTablesProxy.Instance.GetAccessory((int)source.AccessoryID),
+                    Description = source.Accessory?.Description ?? LookupTablesProxy.Instance.GetAccessoryDescription((int)source.AccessoryID)
+                };
+            }
+
             return model;
         }
 

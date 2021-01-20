@@ -32,8 +32,8 @@ namespace SimoniDoorsInventory.ViewModels
         public IOrderService OrderService { get; }
 
         public override string Title => (Item?.IsNew ?? true) ? TitleNew : TitleEdit;
-        public string TitleNew => Item?.Customer == null ? "New Order" : $"New Order, {Item?.Customer?.FullName}";
-        public string TitleEdit => Item == null ? "Order" : $"Order #{Item?.OrderID}";
+        public string TitleNew => Item?.Customer == null ? "Νέα Παραγγελία" : $"Νέα Παραγγελία, {Item?.Customer?.FullName}";
+        public string TitleEdit => Item == null ? "Παραγγελία" : $"Παραγγελία #{Item?.OrderID}";
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
@@ -111,17 +111,17 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Saving order...");
+                StartStatusMessage("Αποθήκευση παραγγελίας...");
                 await Task.Delay(100);
                 await OrderService.UpdateOrderAsync(model);
-                EndStatusMessage("Order saved");
+                EndStatusMessage("Παραγγελία αποθηκεύτηκε");
                 LogInformation("Order", "Save", "Order saved successfully", $"Order #{model.OrderID} was saved successfully.");
                 NotifyPropertyChanged(nameof(CanEditCustomer));
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error saving Order: {ex.Message}");
+                StatusError($"Σφάλμα αποθήκευσης παραγγελίας: {ex.Message}");
                 LogException("Order", "Save", ex);
                 return false;
             }
@@ -131,16 +131,16 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Deleting order...");
+                StartStatusMessage("Διαγραφή παραγγελίας...");
                 await Task.Delay(100);
                 await OrderService.DeleteOrderAsync(model);
-                EndStatusMessage("Order deleted");
+                EndStatusMessage("Παραγγελία διεγράφη");
                 LogWarning("Order", "Delete", "Order deleted", $"Order #{model.OrderID} was deleted.");
                 return true;
             }
             catch (Exception ex)
             {
-                StatusError($"Error deleting Order: {ex.Message}");
+                StatusError($"Σφάλμα διαγραφής Παραγγελίας: {ex.Message}");
                 LogException("Order", "Delete", ex);
                 return false;
             }

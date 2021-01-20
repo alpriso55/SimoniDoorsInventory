@@ -42,7 +42,7 @@
 
                 <controls:FormTextBox Header="Κάσα" Text="{x:Bind EditableItem.Lamb, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer" />
 
-                <controls:FormTextBox Header="Τιμή (€)" Text="{x:Bind EditableItem.Price, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
+                <controls:FormTextBox Header="Τιμή (€)" Text="{x:Bind EditableItem.Price, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0,0" />
 
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />

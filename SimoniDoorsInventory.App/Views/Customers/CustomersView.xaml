@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="ListHeaderTemplate">
             <StackPanel Margin="6,4,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Customers" FontSize="18" />
+                <TextBlock Text="Πελάτες" FontSize="18" />
                 <TextBlock Text="{Binding}" FontSize="18" Foreground="Gray" />
             </StackPanel>
         </DataTemplate>
@@ -20,7 +20,7 @@
     <Grid Background="WhiteSmoke"
           BorderBrush="LightGray"
           BorderThickness="1,0,0,0">
-        <controls:WindowTitle Prefix="Customers" Title="{x:Bind ViewModel.CustomerList.Title, Mode=OneWay}" />
+        <controls:WindowTitle Prefix="Πελάτες" Title="{x:Bind ViewModel.CustomerList.Title, Mode=OneWay}" />
 
         <Grid>
             <Grid.RowDefinitions>
@@ -51,17 +51,20 @@
                                   Visibility="{x:Bind ViewModel.CustomerDetails.IsDataAvailable, Mode=OneWay}">
 
                     <Pivot x:Name="pivot">
-                        <PivotItem Header="Customer">
+                        <PivotItem Header="Πελάτης">
                             <views:CustomersDetails ViewModel="{x:Bind ViewModel.CustomerDetails}" />
                         </PivotItem>
-                        <PivotItem Header="Orders">
+                        <PivotItem Header="Παραγγελίες">
                             <views:CustomersOrders ViewModel="{x:Bind ViewModel.CustomerOrders}" />
+                        </PivotItem>
+                        <PivotItem Header="Πληρωμές">
+                            <views:CustomersPayments ViewModel="{x:Bind ViewModel.CustomerPayments}" />
                         </PivotItem>
                     </Pivot>
                 </controls:Section>
 
                 <!--Empty Details-->
-                <controls:Section Header="No item selected" 
+                <controls:Section Header="Δεν έχει επιλαγεί Πελάτης" 
                                   Visibility="{x:Bind ViewModel.CustomerDetails.IsDataUnavailable, Mode=OneWay}" />
             </Grid>
         </Grid>

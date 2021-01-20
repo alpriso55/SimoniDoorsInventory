@@ -47,6 +47,7 @@ namespace SimoniDoorsInventory.ViewModels
             CustomerList.Subscribe();
             CustomerDetails.Subscribe();
             CustomerOrders.Subscribe();
+            CustomerPayments.Subscribe();  // NEW LINE
         }
         public void Unsubscribe()
         {
@@ -54,6 +55,7 @@ namespace SimoniDoorsInventory.ViewModels
             CustomerList.Unsubscribe();
             CustomerDetails.Unsubscribe();
             CustomerOrders.Unsubscribe();
+            CustomerPayments.Unsubscribe();
         }
 
         private async void OnMessage(CustomerListViewModel viewModel, string message, object args)

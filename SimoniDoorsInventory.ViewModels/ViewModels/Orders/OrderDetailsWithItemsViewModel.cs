@@ -60,6 +60,11 @@ namespace SimoniDoorsInventory.ViewModels
             {
                 await InteriorDoorList.LoadAsync(new InteriorDoorListArgs { OrderID = order.OrderID });
             }
+            
+            // if (viewModel == OrderDetails && message == "NewItemSaved")
+            // {
+            //     await this.LoadAsync(viewModel.ViewModelArgs);
+            // }
         }
 
     }

@@ -7,7 +7,7 @@
     xmlns:controls="using:SimoniDoorsInventory.Controls"
     xmlns:views="using:SimoniDoorsInventory.Views"
     xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000">
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:OrderDetailsViewModel">
@@ -42,7 +42,8 @@
 
                 <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Πληροφορίες Παραγγελίας" />
                 <controls:FormTextBox Header="Όνομα Παραγγελίας" Text="{x:Bind EditableItem.OrderName, Mode=TwoWay}" />
-                <controls:FormCalendarDatePicker Header="Ημερομηνία Παραγγελίας" Date="{x:Bind EditableItem.OrderDate, Mode=TwoWay}" />
+                <controls:FormComboBox Header="Συνεργείο" ItemsSource="{x:Bind LookupTables.Crews}"
+                                           SelectedValue="{x:Bind EditableItem.CrewId, Mode=TwoWay, Converter={StaticResource Int32Converter}}" SelectedValuePath="CrewID" DisplayMemberPath="CrewDesc" />
                 <controls:FormComboBox Header="Φάση" ItemsSource="{x:Bind LookupTables.OrderStatus}"
                                        SelectedValue="{x:Bind EditableItem.Status, Mode=TwoWay, Converter={StaticResource Int32Converter}}"
                                        SelectedValuePath="Status" DisplayMemberPath="Name" />
@@ -55,10 +56,9 @@
                 -->
                 
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
-                    <controls:FormComboBox Header="Συνεργείο" ItemsSource="{x:Bind LookupTables.Crews}"
-                                           SelectedValue="{x:Bind EditableItem.CrewId, Mode=TwoWay, Converter={StaticResource Int32Converter}}" SelectedValuePath="CrewID" DisplayMemberPath="CrewDesc" />
-                    <controls:FormCalendarDatePicker Header="Ημερομηνία Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=TwoWay}"
-                                                     MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" />
+                    <controls:FormCalendarDatePicker Header="Ημ. Παραγγελίας" Date="{x:Bind EditableItem.OrderDate, Mode=TwoWay}" />
+                    <controls:FormCalendarDatePicker Header="Ημ. Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=TwoWay}"  />
+                                                     <!-- MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" -->
                 </controls:FluidGrid>
 
                 <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />

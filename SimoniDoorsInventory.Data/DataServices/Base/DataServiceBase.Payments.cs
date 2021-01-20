@@ -106,8 +106,6 @@ namespace SimoniDoorsInventory.Data.Services
             else
             {
                 payment.PaymentID = UIDGenerator.Next(6);
-                payment.PaymentDate = DateTime.UtcNow;
-                payment.Amount = 0.0m;
                 _dataSource.Entry(payment).State = EntityState.Added;
             }
 

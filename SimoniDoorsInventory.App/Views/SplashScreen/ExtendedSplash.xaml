@@ -8,17 +8,17 @@
     mc:Ignorable="d">
     <Canvas Background="Black">
         <!-- The real position of these controls will change during runtime -->
-        <Image Stretch="UniformToFill"
+        <Image Stretch="Fill"
                x:Name="splashImage"
-               Source="ms-appx:///Assets/SplashScreen.png"
-               Canvas.Left="350"
-               Canvas.Top="250" />
+               Source="ms-appx:///Assets/Images/LoginBackground.jpg"
+               Canvas.Left="100"
+               Canvas.Top="100" Width="1301" Height="806" />
         <ProgressRing x:Name="progressRing"
-                      Height="40"
-                      Width="40"
+                      Height="100"
+                      Width="100"
                       IsActive="True"
                       Foreground="White"
-                      Canvas.Left="650"
-                      Canvas.Top="550" />
+                      Canvas.Left="700"
+                      Canvas.Top="650" />
     </Canvas>
 </Page>

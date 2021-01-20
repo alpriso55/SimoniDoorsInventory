@@ -43,19 +43,19 @@
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <views:CustomersPane Margin="12" 
-                                     Width="800"
+                                     Width="550"
                                      Height="250"
                                      ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}" 
                                      Tag="Customers" />
 
                 <views:OrdersPane Margin="12" 
-                                      Width="500"
+                                      Width="480"
                                       Height="250"
                                       ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}" 
                                       Tag="Orders" />
 
                 <views:PaymentsPane Margin="12" 
-                                    Width="500"
+                                    Width="440"
                                     Height="250"
                                     ItemsSource="{x:Bind ViewModel.Payments, Mode=OneWay}" 
                                     Tag="Payments" />

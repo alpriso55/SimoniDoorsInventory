@@ -110,14 +110,13 @@ namespace SimoniDoorsInventory.Data.Services
                 interiorDoor.InteriorDoorID = _dataSource.InteriorDoors.Where(r => r.OrderID == interiorDoor.OrderID)
                                                                        .Select(r => r.InteriorDoorID)
                                                                        .DefaultIfEmpty(0).Max() + 1;
-                interiorDoor.Price = 0.0m;
                 // TODO:
                 // interiorDoor.CreatedOn = DateTime.UtcNow;
                 _dataSource.Entry(interiorDoor).State = EntityState.Added;
             }
             // TODO:
             // interiorDoor.LastModifiedOn = DateTime.UtcNow;
-            // interiorDoor.SearchTerms = interiorDoor.BuildSearchTerms();
+            interiorDoor.SearchTerms = interiorDoor.BuildSearchTerms();
             return await _dataSource.SaveChangesAsync();
         }
 

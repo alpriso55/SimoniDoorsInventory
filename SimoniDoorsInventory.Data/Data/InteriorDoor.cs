@@ -29,6 +29,7 @@ namespace SimoniDoorsInventory.Data
         public virtual OpeningType OpeningType { get; set; }
         [Required(ErrorMessage = "Το άνοιγμα της πόρτας είναι υποχρεωτικό")]
         public int OpeningSideID { get; set; }
+        public virtual OpeningSide OpeningSide { get; set; }
 
         [Required(ErrorMessage = "Η πόρτα πρέπει να έχει ένα πλάτος")]
         public int Width { get; set; }
@@ -40,6 +41,7 @@ namespace SimoniDoorsInventory.Data
         public int Lamb { get; set; }
 
         public int? AccessoryID { get; set; }
+        public virtual Accessory Accessory { get; set; }
 
         [MaxLength(400)]
         public string Observations { get; set; }

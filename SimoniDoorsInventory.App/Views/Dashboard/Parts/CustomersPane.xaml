@@ -12,13 +12,14 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="1" Text="Πελάτης #" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="Όνομα" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Τηλέφωνο" Style="{StaticResource ColumnHeaderStyle}" />
+                <!-- <TextBlock Grid.Column="0" Text="Πελάτης #" Style="{StaticResource ColumnHeaderStyle}" /> -->
+                <TextBlock Grid.Column="1" Text="Όνομα" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Τηλέφωνο" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text=" Διεύθυνση" Style="{StaticResource ColumnHeaderStyle}" />
             </Grid>
         </DataTemplate>
 
@@ -26,17 +27,18 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="1" Padding="1">
                     <PersonPicture ProfilePicture="{x:Bind ThumbnailSource, Mode=OneWay, Converter={StaticResource ObjectToImageConverter}}" 
                                    Width="28" Height="28" />
                 </Border>
-                <TextBlock Grid.Column="1" Text="{x:Bind CustomerID}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="2" Text="{x:Bind FullName}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="3" Text="{x:Bind Phone1}" Style="{StaticResource ColumnValueStyle}" />
+                <!-- <TextBlock Grid.Column="0" Text="{x:Bind CustomerID}" Style="{StaticResource ColumnValueStyle}" /> -->
+                <TextBlock Grid.Column="1" Text="{x:Bind FullName}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="2" Text="{x:Bind Phone1}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="3" Text="{x:Bind FullAddress}" Style="{StaticResource ColumnValueStyle}" />
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

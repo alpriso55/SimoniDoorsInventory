@@ -45,9 +45,13 @@ namespace SimoniDoorsInventory.Views
             {
                 await NavigationService.CreateNewViewAsync<CustomerDetailsViewModel>(ViewModel.CustomerDetails.CreateArgs());
             }
-            else
+            else if (pivot.SelectedIndex == 1)
             {
                 await NavigationService.CreateNewViewAsync<OrdersViewModel>(ViewModel.CustomerOrders.CreateArgs());
+            }
+            else
+            {
+                await NavigationService.CreateNewViewAsync<PaymentsViewModel>(ViewModel.CustomerPayments.CreateArgs());
             }
         }
 

@@ -21,6 +21,7 @@ namespace SimoniDoorsInventory.Services
         IList<PaymentTypeModel> PaymentTypes { get; }
 
         string GetAccessory(int id);
+        string GetAccessoryDescription(int id);
         string GetCategory(int id);
         string GetCrew(int id);
         string GetInteriorDoorDesign(string id);

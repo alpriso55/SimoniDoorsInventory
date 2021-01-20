@@ -11,7 +11,7 @@ using SimoniDoorsInventory.Services;
 
 namespace SimoniDoorsInventory.ViewModels
 {
-    #region ProductListArgs
+    #region PaymentListArgs
     public class PaymentListArgs
     {
         static public PaymentListArgs CreateEmpty() => new PaymentListArgs { IsEmpty = true };
@@ -137,11 +137,11 @@ namespace SimoniDoorsInventory.ViewModels
 
             if (IsMainView)
             {
-                await NavigationService.CreateNewViewAsync<PaymentDetailsViewModel>(new PaymentDetailsArgs());
+                await NavigationService.CreateNewViewAsync<PaymentDetailsViewModel>(new PaymentDetailsArgs { CustomerID = ViewModelArgs.CustomerID });
             }
             else
             {
-                NavigationService.Navigate<PaymentDetailsViewModel>(new PaymentDetailsArgs());
+                NavigationService.Navigate<PaymentDetailsViewModel>(new PaymentDetailsArgs { CustomerID = ViewModelArgs.CustomerID });
             }
 
             StatusReady();
@@ -214,12 +214,17 @@ namespace SimoniDoorsInventory.ViewModels
 
         private DataRequest<Payment> BuildDataRequest()
         {
-            return new DataRequest<Payment>()
+            var request = new DataRequest<Payment>()
             {
                 Query = Query,
                 OrderBy = ViewModelArgs.OrderBy,
                 OrderByDesc = ViewModelArgs.OrderByDesc
             };
+            if (ViewModelArgs.CustomerID > 0)
+            {
+                request.Where = (r) => r.CustomerID == ViewModelArgs.CustomerID;
+            }
+            return request;
         }
 
         private async void OnMessage(ViewModelBase sender, string message, object args)

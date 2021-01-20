@@ -49,14 +49,11 @@
                        Style="{StaticResource CardText}"/>
             </Grid>
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Τηλέφωνο" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Phone1, Mode=OneWay}" />
-
             <TextBlock Style="{StaticResource CardHeader}" Text="Πελάτης #" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.CustomerID, Mode=OneWay}" />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Email" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Email, Mode=OneWay}" />
+            <TextBlock Style="{StaticResource CardHeader}" Text="Υπόλοιπο (€)" />
+            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Balance, Mode=OneWay, Converter={StaticResource DecimalConverter}}" />
 
             <TextBlock Style="{StaticResource CardHeader}" Text="Δημιουργήθηκε" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.CreatedOn, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" />

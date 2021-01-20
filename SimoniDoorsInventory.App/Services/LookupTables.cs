@@ -60,6 +60,10 @@ namespace SimoniDoorsInventory.Services
         {
             return Accessories.Where(r => r.AccessoryID == id).Select(r => r.Name).FirstOrDefault();
         }
+        public string GetAccessoryDescription(int id)
+        {
+            return Accessories.Where(r => r.AccessoryID == id).Select(r => r.Description).FirstOrDefault();
+        }
         public string GetCategory(int id)
         {
             return Categories.Where(r => r.CategoryID == id).Select(r => r.Name).FirstOrDefault();

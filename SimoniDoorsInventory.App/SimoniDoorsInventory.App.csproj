@@ -237,6 +237,9 @@
     <Compile Include="Views\Customers\Details\CustomersOrders.xaml.cs">
       <DependentUpon>CustomersOrders.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Customers\Details\CustomersPayments.xaml.cs">
+      <DependentUpon>CustomersPayments.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Customers\List\CustomersList.xaml.cs">
       <DependentUpon>CustomersList.xaml</DependentUpon>
     </Compile>
@@ -541,6 +544,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Customers\Details\CustomersOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Customers\Details\CustomersPayments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -56,7 +56,8 @@ namespace SimoniDoorsInventory.ViewModels
 
             if (ViewModelArgs.IsNew)
             {
-                Item = new PaymentModel();
+                // Item = new PaymentModel();
+                Item = await PaymentService.CreateNewPaymentAsync(ViewModelArgs.CustomerID);
                 IsEditMode = true;
             }
             else

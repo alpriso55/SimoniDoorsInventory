@@ -80,6 +80,28 @@ namespace SimoniDoorsInventory.Services
             }
         }
 
+        public async Task<PaymentModel> CreateNewPaymentAsync(long customerID)
+        {
+            var model = new PaymentModel
+            {
+                CustomerID = customerID,
+                PaymentDate = DateTime.UtcNow
+            };
+            if (customerID > 0)
+            {
+                using (var dataService = DataServiceFactory.CreateDataService())
+                {
+                    var parent = await dataService.GetCustomerAsync(customerID);
+                    if (parent != null)
+                    {
+                        model.CustomerID = customerID;
+                        model.Customer = await CustomerService.CreateCustomerModelAsync(parent, includeAllFields: true);
+                    }
+                }
+            }
+            return model;
+        }
+
         public async Task<int> UpdatePaymentAsync(PaymentModel model)
         {
             long id = model.PaymentID;
@@ -128,13 +150,12 @@ namespace SimoniDoorsInventory.Services
 
             if (includeAllFields)
             {
-                model.Customer = await CustomerService.CreateCustomerModelAsync(source.Customer, includeAllFields);
                 model.PaymentType = new PaymentTypeModel()
                 {
-                    PaymentTypeID = source.PaymentType.PaymentTypeID,
+                    PaymentTypeID = (int)source.PaymentTypeID,
                     Name = source.PaymentType.Name
                 };
-                // TODO: implement the same thing for model.Account
+                model.Customer = await CustomerService.CreateCustomerModelAsync(source.Customer, includeAllFields);
             }
             return model;
         }

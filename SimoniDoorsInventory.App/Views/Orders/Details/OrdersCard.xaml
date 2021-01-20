@@ -41,18 +41,6 @@
             <TextBlock Style="{StaticResource CardHeader}" Text="Ημ. Παραγγελίας" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Φάση" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.StatusDesc, Mode=OneWay}" />
-
-            <Rectangle Style="{StaticResource CardSeparator}"/>
-            <TextBlock Style="{StaticResource CardSection}" Text="Τοποθέτηση / Παράδοση"  />
-
-            <TextBlock Style="{StaticResource CardHeader}" Text="Συνεργείο" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Crew.CrewDesc, Mode=OneWay}" />
-
-            <TextBlock Style="{StaticResource CardHeader}" Text="Διεύθυνση" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.FullAddress, Mode=OneWay}" />
-
             <Rectangle Style="{StaticResource CardSeparator}"/>
             <TextBlock Style="{StaticResource CardSection}" Text="Συνολικό Κόστος (€)" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.TotalCost, Mode=OneWay, Converter={StaticResource DecimalConverter}}" />

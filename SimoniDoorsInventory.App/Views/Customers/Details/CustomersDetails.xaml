@@ -7,25 +7,24 @@
     xmlns:controls="using:SimoniDoorsInventory.Controls"
     xmlns:views="using:SimoniDoorsInventory.Views"
     xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="400">
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CustomerDetailsViewModel">
             <controls:FluidGrid Margin="0,12,0,0" Columns="2" ColumnSpacing="12" RowSpacing="12">
                 <controls:FormTextBox Header="Όνομα" Text="{x:Bind EditableItem.FirstName, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Επώνυμο" Text="{x:Bind EditableItem.LastName, Mode=TwoWay}" />
-                
-                
-                <controls:FormTextBox Header="Τηλέφωνο 1" Text="{x:Bind EditableItem.Phone1, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Τηλέφωνο 2" Text="{x:Bind EditableItem.Phone2, Mode=TwoWay}" />
-                <controls:FormTextBox Header="EMail" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
 
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="Διεύθυνση" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="Πόλη" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="Ταχ. Κώδικας" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Τηλέφωνο 1" Text="{x:Bind EditableItem.Phone1, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Τηλέφωνο 2" Text="{x:Bind EditableItem.Phone2, Mode=TwoWay}" />
                 </controls:FluidGrid>
+                <controls:FormTextBox Header="Email" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
+                
+                <controls:FormTextBox Header="Διεύθυνση" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Πόλη" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Ταχ. Κώδικας" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
                 <!--
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
                     <controls:FormTextBox Header="Region" Text="{x:Bind EditableItem.Region, Mode=TwoWay}" />
@@ -34,8 +33,8 @@
                                            SelectedValuePath="CountryCodeID" DisplayMemberPath="Name" />
                 </controls:FluidGrid>
                 -->
-
-                <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
+                <controls:FormTextBox Header="Υπόλοιπο (€)" Text="{x:Bind EditableItem.Balance, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="{}0.0 €" />
+                <controls:FormTextBox Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
             </controls:FluidGrid>
         </DataTemplate>

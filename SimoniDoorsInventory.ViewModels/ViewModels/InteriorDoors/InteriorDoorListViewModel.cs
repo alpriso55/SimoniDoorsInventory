@@ -68,6 +68,7 @@ namespace SimoniDoorsInventory.ViewModels
         {
             MessageService.Subscribe<InteriorDoorListViewModel>(this, OnMessage);
             MessageService.Subscribe<InteriorDoorDetailsViewModel>(this, OnMessage);
+            MessageService.Subscribe<GenericDetailsViewModel<OrderModel>, OrderModel>(this, OnOrderDetailsMessage);
         }
         public void Unsubscribe()
         {
@@ -232,7 +233,7 @@ namespace SimoniDoorsInventory.ViewModels
         {
             switch (message)
             {
-                case "NewItemSaved":
+                // case "NewItemSaved":
                 case "ItemDeleted":
                 case "ItemsDeleted":
                 case "ItemRangesDeleted":
@@ -244,6 +245,19 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        private async void OnOrderDetailsMessage(GenericDetailsViewModel<OrderModel> sender, string message, OrderModel model)
+        {
+            switch (message)
+            {
+                case "NewItemSaved":
+                    ViewModelArgs.OrderID = model.OrderID;
+                    await ContextService.RunAsync(async () =>
+                    {
+                        await RefreshAsync();
+                    });
+                    break;
+            }
+        }
     }
 }
 

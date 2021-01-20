@@ -14,6 +14,7 @@ namespace SimoniDoorsInventory.Services
         Task<IList<PaymentModel>> GetPaymentsAsync(int skip, int take, DataRequest<Payment> request);
         Task<int> GetPaymentsCountAsync(DataRequest<Payment> request);
 
+        Task<PaymentModel> CreateNewPaymentAsync(long customerID);
         Task<int> UpdatePaymentAsync(PaymentModel model);
 
         Task<int> DeletePaymentAsync(PaymentModel model);
