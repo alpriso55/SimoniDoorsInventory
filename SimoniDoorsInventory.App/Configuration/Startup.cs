@@ -54,10 +54,13 @@ namespace SimoniDoorsInventory
             NavigationService.Register<CustomerDetailsViewModel, CustomerView>();
 
             NavigationService.Register<OrdersViewModel, OrdersView>();
-            NavigationService.Register<OrderDetailsViewModel, OrderView>();
+            NavigationService.Register<OrderDetailsWithItemsViewModel, OrderView>();
 
             NavigationService.Register<InteriorDoorsViewModel, InteriorDoorsView>();
             NavigationService.Register<InteriorDoorDetailsViewModel, InteriorDoorView>();
+
+            NavigationService.Register<InteriorDoorSkinsViewModel, InteriorDoorSkinsView>();
+            NavigationService.Register<InteriorDoorSkinDetailsViewModel, InteriorDoorSkinView>();
 
             NavigationService.Register<PaymentsViewModel, PaymentsView>();
             NavigationService.Register<PaymentDetailsViewModel, PaymentView>();
@@ -73,12 +76,7 @@ namespace SimoniDoorsInventory
             var appLogFolder = await localFolder.CreateFolderAsync(AppSettings.AppLogPath, CreationCollisionOption.OpenIfExists);
             if (await appLogFolder.TryGetItemAsync(AppSettings.AppLogName) == null)
             {
-                // var currentDirectory = Directory.GetCurrentDirectory();
-                // var uriBuilder = new UriBuilder(new Uri("ms-appx:///Assets/AppLog/AppLog.db"));
-                // var uriPath = uriBuilder.Path;
-
                 var sourceLogFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/AppLog/AppLog.db"));
-                // var sourceLogFile = await StorageFile.GetFileFromPathAsync(@"C:\Users\porto\GitHub\SimoniDoorsInventory\SimoniDoorsInventory.App\Assets\AppLog\AppLog.db");
                 var targetLogFile = await appLogFolder.CreateFileAsync(AppSettings.AppLogName, CreationCollisionOption.ReplaceExisting);
                 await sourceLogFile.CopyAndReplaceAsync(targetLogFile);
             }

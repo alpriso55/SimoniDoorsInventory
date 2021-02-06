@@ -9,7 +9,7 @@ using SimoniDoorsInventory.Services;
 
 namespace SimoniDoorsInventory.ViewModels
 {
-    #region ProductDetailsArgs
+    #region PaymentDetailsArgs
     public class PaymentDetailsArgs
     {
         static public PaymentDetailsArgs CreateDefault() => new PaymentDetailsArgs();

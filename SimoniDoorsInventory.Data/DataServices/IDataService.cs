@@ -34,6 +34,13 @@ namespace SimoniDoorsInventory.Data.Services
         Task<int> UpdateInteriorDoorAsync(InteriorDoor interiorDoor);
         Task<int> DeleteInteriorDoorsAsync(params InteriorDoor[] interiorDoors);
 
+        Task<InteriorDoorSkin> GetInteriorDoorSkinAsync(string id);
+        Task<IList<InteriorDoorSkin>> GetInteriorDoorSkinsAsync(int skip, int take, DataRequest<InteriorDoorSkin> request);
+        Task<IList<InteriorDoorSkin>> GetInteriorDoorSkinKeysAsync(int skip, int take, DataRequest<InteriorDoorSkin> request);
+        Task<int> GetInteriorDoorSkinsCountAsync(DataRequest<InteriorDoorSkin> request);
+        Task<int> UpdateInteriorDoorSkinAsync(InteriorDoorSkin interiorDoorSkin);
+        Task<int> DeleteInteriorDoorSkinsAsync(params InteriorDoorSkin[] interiorDoorSkins);
+
         Task<Payment> GetPaymentAsync(long id);
         Task<IList<Payment>> GetPaymentsAsync(int skip, int take, DataRequest<Payment> request);
         Task<IList<Payment>> GetPaymentKeysAsync(int skip, int take, DataRequest<Payment> request);

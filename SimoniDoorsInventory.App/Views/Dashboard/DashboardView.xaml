@@ -31,7 +31,6 @@
 
             <TextBlock Grid.Row="1" Margin="12,0" Text="Αρχική Οθόνη" FontSize="22" Foreground="Gray" />
 
-
             <GridView Grid.Row="2" 
                       Margin="6" 
                       ItemContainerStyle="{StaticResource GridItemStyle}"
@@ -46,19 +45,26 @@
                                      Width="550"
                                      Height="250"
                                      ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}" 
-                                     Tag="Customers" />
+                                     Tag="Πελάτες" />
 
                 <views:OrdersPane Margin="12" 
                                       Width="480"
                                       Height="250"
                                       ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}" 
-                                      Tag="Orders" />
+                                      Tag="Παραγγελίες" />
 
                 <views:PaymentsPane Margin="12" 
                                     Width="440"
                                     Height="250"
                                     ItemsSource="{x:Bind ViewModel.Payments, Mode=OneWay}" 
-                                    Tag="Payments" />
+                                    Tag="Πληρωμές" />
+                
+                <views:InteriorDoorSkinsPane 
+                                    Margin="12" 
+                                    Width="650" 
+                                    Height="400" 
+                                    ItemsSource="{x:Bind ViewModel.InteriorDoorSkins, Mode=OneWay}"
+                                    Tag="Επενδύσεις" />
             </GridView>
         </Grid>
     </Grid>

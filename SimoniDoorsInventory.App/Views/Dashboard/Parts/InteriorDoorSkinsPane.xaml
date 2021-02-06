@@ -1,0 +1,94 @@
+﻿<UserControl
+    x:Class="SimoniDoorsInventory.Views.InteriorDoorSkinsPane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimoniDoorsInventory.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:SimoniDoorsInventory.Models"
+    xmlns:syncfusion="using:Syncfusion.UI.Xaml.Charts"
+    mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1000">
+
+    <!--
+    <UserControl.Resources>
+        <DataTemplate x:Key="HeaderTemplate" x:DataType="models:InteriorDoorSkinModel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Text="Κωδ. Επένδυσης" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Αποθέματα" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text="Ασφαλές Όριο Αποθεμάτων" Style="{StaticResource ColumnHeaderStyle}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ItemTemplate" x:DataType="models:InteriorDoorSkinModel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="1" Padding="1">
+                    <Image Source="/Assets/Images/Door-04.svg" Width="28" Height="28" />
+                </Border>
+                <TextBlock Grid.Column="1" Text="{x:Bind InteriorDoorSkinID}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="2" Text="{x:Bind StockUnits, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="3" Text="{x:Bind SafetyStockLevel, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    -->
+    <!--
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="6,0" Text="Επενδύσεις Μεσόπορτας" FontSize="18" />
+        <Grid Grid.Row="1">
+            <ContentControl ContentTemplate="{StaticResource HeaderTemplate}" HorizontalContentAlignment="Stretch" />
+            <Border Margin="4" BorderBrush="LightGray" BorderThickness="0,0,0,1" />
+        </Grid>
+        <ListView Grid.Row="2" 
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" 
+                  ItemTemplate="{StaticResource ItemTemplate}"
+                  ItemContainerStyle="{StaticResource RowItemStyle}"
+                  IsHitTestVisible="False" />
+    </Grid>
+    -->
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <syncfusion:SfChart Header="Επενδύσεις Εσωτερικών Πορτών" Height="400" Width="800">
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis Header="Κωδικός" FontSize="11"/>
+            </syncfusion:SfChart.PrimaryAxis>
+
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Header="Τεμάχια" FontSize="11"/>
+            </syncfusion:SfChart.SecondaryAxis>
+
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend/>
+            </syncfusion:SfChart.Legend>
+
+            <syncfusion:ColumnSeries Label="Heights" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+                                     XBindingPath="InteriorDoorSkinID" YBindingPath="StockUnits" 
+                                     ShowTooltip="True" >
+                <syncfusion:ColumnSeries.AdornmentsInfo>
+                    <syncfusion:ChartAdornmentInfo ShowLabel="True" >
+                    </syncfusion:ChartAdornmentInfo>
+                </syncfusion:ColumnSeries.AdornmentsInfo>
+            </syncfusion:ColumnSeries>
+
+        </syncfusion:SfChart>
+
+    </Grid>
+</UserControl>

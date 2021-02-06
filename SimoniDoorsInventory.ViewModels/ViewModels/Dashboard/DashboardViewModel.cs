@@ -13,16 +13,19 @@ namespace SimoniDoorsInventory.ViewModels
         public DashboardViewModel(ICustomerService customerService, 
                                   IOrderService orderService,
                                   IPaymentService paymentService,
+                                  IInteriorDoorSkinService interiorDoorSkinService,
                                   ICommonServices commonServices) : base(commonServices)
         {
             CustomerService = customerService;
             OrderService = orderService;
             PaymentService = paymentService;
+            InteriorDoorSkinService = interiorDoorSkinService;
         }
 
         public ICustomerService CustomerService { get; }
         public IOrderService OrderService { get; }
         public IPaymentService PaymentService { get; }
+        public IInteriorDoorSkinService InteriorDoorSkinService { get; }
 
         private IList<CustomerModel> _customers = null;
         public IList<CustomerModel> Customers
@@ -45,12 +48,20 @@ namespace SimoniDoorsInventory.ViewModels
             set => Set(ref _orders, value);
         }
 
+        private IList<InteriorDoorSkinModel> _interiorDoorSkins = null;
+        public IList<InteriorDoorSkinModel> InteriorDoorSkins
+        {
+            get => _interiorDoorSkins;
+            set => Set(ref _interiorDoorSkins, value);
+        }
+
         public async Task LoadAsync()
         {
             StartStatusMessage("Φόρτωση αρχικής οθόνης...");
             await LoadCustomersAsync();
             await LoadOrdersAsync();
             await LoadPaymentsAsync();
+            await LoadInteriorDoorSkinsAsync();
             EndStatusMessage("Αρχική οθόνη φορτώθηκε");
         }
         public void Unload()
@@ -58,6 +69,7 @@ namespace SimoniDoorsInventory.ViewModels
             Customers = null;
             Payments = null;
             Orders = null;
+            InteriorDoorSkins = null;
         }
 
         private async Task LoadCustomersAsync()
@@ -108,18 +120,38 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        private async Task LoadInteriorDoorSkinsAsync()
+        {
+            try
+            {
+                var request = new DataRequest<InteriorDoorSkin>
+                {
+                    OrderBy = r => r.StockUnits
+                };
+                var totalSkins = await InteriorDoorSkinService.GetInteriorDoorSkinsCountAsync(request);
+                InteriorDoorSkins = await InteriorDoorSkinService.GetInteriorDoorSkinsAsync(0, totalSkins, request);
+            }
+            catch (Exception ex)
+            {
+                LogException("Dashoard", "Load Interior Door Skins", ex);
+            }
+        }
+
         public void ItemSelected(string item)
         {
             switch (item)
             {
-                case "Customers":
+                case "Πελάτες":
                     NavigationService.Navigate<CustomersViewModel>(new CustomerListArgs { OrderByDesc = r => r.CreatedOn });
                     break;
-                case "Orders":
+                case "Παραγγελίες":
                     NavigationService.Navigate<OrdersViewModel>(new OrderListArgs { OrderByDesc = r => r.OrderDate });
                     break;
-                case "Payments":
+                case "Πληρωμές":
                     NavigationService.Navigate<PaymentsViewModel>(new PaymentListArgs { OrderByDesc = r => r.PaymentDate });
+                    break;
+                case "Επενδύσεις":
+                    NavigationService.Navigate<InteriorDoorSkinsViewModel>(new InteriorDoorSkinListArgs { OrderBy = r => r.InteriorDoorSkinID });
                     break;
                 default:
                     break;

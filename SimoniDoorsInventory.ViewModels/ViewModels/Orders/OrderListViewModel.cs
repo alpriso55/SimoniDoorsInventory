@@ -127,12 +127,21 @@ namespace SimoniDoorsInventory.ViewModels
             return new List<OrderModel>();
         }
 
+        public async Task<decimal> GetTotalCosts()
+        {
+            if (Items == null)
+            {
+                return 0.0m;
+            }
+            return await Task.Run(() => Items.Select(r => r.TotalCost).Sum());    
+        }
+
         public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
         private async void OnOpenInNewView()
         {
             if (SelectedItem != null)
             {
-                await NavigationService.CreateNewViewAsync<OrderDetailsViewModel>(new OrderDetailsArgs { OrderID = SelectedItem.OrderID });
+                await NavigationService.CreateNewViewAsync<OrderDetailsWithItemsViewModel>(new OrderDetailsArgs { OrderID = SelectedItem.OrderID });
             }
         }
 
@@ -235,6 +244,15 @@ namespace SimoniDoorsInventory.ViewModels
             switch (message)
             {
                 case "NewItemSaved":
+                case "ItemChanged":
+                    OrderModel selectedItem = new OrderModel();
+                    selectedItem.Merge(args as OrderModel);
+                    await ContextService.RunAsync(async () =>
+                    {
+                        await RefreshAsync();
+                    });
+                    SelectedItem = selectedItem;
+                    break;
                 case "ItemDeleted":
                 case "ItemsDeleted":
                 case "ItemRangesDeleted":

@@ -11,7 +11,8 @@ namespace SimoniDoorsInventory.Controls
         Cancel,
         Save,
         Select,
-        Refresh
+        Refresh,
+        Print
     }
 
     public enum ListToolbarMode

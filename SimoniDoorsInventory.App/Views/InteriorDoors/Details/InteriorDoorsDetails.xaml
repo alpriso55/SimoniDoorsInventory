@@ -18,7 +18,8 @@
 
                 <controls:FormComboBox Header="Επένδυση" ItemsSource="{x:Bind LookupTables.InteriorDoorSkins}"
                                        SelectedValue="{x:Bind EditableItem.InteriorDoorSkinID, Mode=TwoWay}"
-                                       SelectedValuePath="InteriorDoorSkinID" DisplayMemberPath="InteriorDoorSkinDesc" />
+                                       SelectedValuePath="InteriorDoorSkinID" DisplayMemberPath="InteriorDoorSkinDesc" 
+                                       IsEditable="{x:Bind CanEditInteriorDoorSkin, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"/>
 
                 <controls:FormComboBox Header="Σχέδιο" ItemsSource="{x:Bind LookupTables.InteriorDoorDesigns}"
                                        SelectedValue="{x:Bind EditableItem.InteriorDoorDesignID, Mode=TwoWay}"
@@ -38,7 +39,8 @@
 
                 <controls:FormTextBox Header="Κάσα" Text="{x:Bind EditableItem.Lamb, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer" />
 
-                <controls:FormTextBox Header="Τιμή (€)" Text="{x:Bind EditableItem.Price, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
+                <!-- <controls:FormTextBox Header="Τιμή (€)" Text="{x:Bind EditableItem.Price, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" /> -->
+                <controls:FormTextBox Header="Τιμή (€)" Text="{x:Bind EditableItem.Price, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
 
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />

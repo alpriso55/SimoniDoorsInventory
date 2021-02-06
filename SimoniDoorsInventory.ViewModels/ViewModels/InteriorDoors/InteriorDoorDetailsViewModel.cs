@@ -37,6 +37,8 @@ namespace SimoniDoorsInventory.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
+        public bool CanEditInteriorDoorSkin => Item?.InteriorDoorID <= 0;
+
         public InteriorDoorDetailsArgs ViewModelArgs { get; private set; }
 
         public long OrderID { get; set; }

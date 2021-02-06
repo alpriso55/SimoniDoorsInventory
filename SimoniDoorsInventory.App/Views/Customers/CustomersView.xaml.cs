@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Navigation;
 
 using SimoniDoorsInventory.ViewModels;
 using SimoniDoorsInventory.Services;
+using System.Threading.Tasks;
 
 namespace SimoniDoorsInventory.Views
 {
@@ -53,6 +54,12 @@ namespace SimoniDoorsInventory.Views
             {
                 await NavigationService.CreateNewViewAsync<PaymentsViewModel>(ViewModel.CustomerPayments.CreateArgs());
             }
+        }
+
+        private async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var pivot = sender as Pivot;
+            await ViewModel.SelectedPivotItemChanged(pivot.SelectedIndex);
         }
 
         public int GetRowSpan(bool isMultipleSelection)

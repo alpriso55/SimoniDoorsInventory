@@ -194,11 +194,13 @@
     <Compile Include="Services\Infrastructure\MessageService.cs" />
     <Compile Include="Services\Infrastructure\NavigationService.cs" />
     <Compile Include="Services\Infrastructure\SettingsService.cs" />
+    <Compile Include="Services\InteriorDoorSkinService.cs" />
     <Compile Include="Services\LookupTables.cs" />
     <Compile Include="Services\InteriorDoorService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\VirtualCollections\CustomerCollection.cs" />
+    <Compile Include="Services\VirtualCollections\InteriorDoorSkinCollection.cs" />
     <Compile Include="Services\VirtualCollections\OrderCollection.cs" />
     <Compile Include="Services\VirtualCollections\PaymentCollection.cs" />
     <Compile Include="Tools\BitmapTools.cs" />
@@ -221,6 +223,9 @@
     </Compile>
     <Compile Include="Views\Controls\CustomerSuggestBox.xaml.cs">
       <DependentUpon>CustomerSuggestBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\InteriorDoorSkinSuggestBox.xaml.cs">
+      <DependentUpon>InteriorDoorSkinSuggestBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\PaymentSuggestBox.xaml.cs">
       <DependentUpon>PaymentSuggestBox.xaml</DependentUpon>
@@ -261,11 +266,35 @@
     <Compile Include="Views\Dashboard\Parts\CustomersPane.xaml.cs">
       <DependentUpon>CustomersPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dashboard\Parts\InteriorDoorSkinsPane.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dashboard\Parts\OrdersPane.xaml.cs">
       <DependentUpon>OrdersPane.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dashboard\Parts\PaymentsPane.xaml.cs">
       <DependentUpon>PaymentsPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsCard.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsDetails.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\InteriorDoorSkinsView.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\List\InteriorDoorSkinsList.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinCard.xaml.cs">
+      <DependentUpon>InteriorDoorSkinCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinDetails.xaml.cs">
+      <DependentUpon>InteriorDoorSkinDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkin\InteriorDoorSkinView.xaml.cs">
+      <DependentUpon>InteriorDoorSkinView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InteriorDoors\Details\InteriorDoorsCard.xaml.cs">
       <DependentUpon>InteriorDoorsCard.xaml</DependentUpon>
@@ -363,6 +392,7 @@
   <ItemGroup>
     <Content Include="Assets\AppLogo.png" />
     <Content Include="Assets\Html\ChartHtmlControl.html" />
+    <Content Include="Assets\Images\Door-04.svg" />
     <Content Include="Assets\Images\LoginBackground.jpg" />
     <Content Include="Assets\Images\payment-icon.jpg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
@@ -527,6 +557,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Controls\InteriorDoorSkinSuggestBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controls\PaymentSuggestBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -579,11 +613,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Dashboard\Parts\InteriorDoorSkinsPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dashboard\Parts\OrdersPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dashboard\Parts\PaymentsPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\InteriorDoorSkinsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\List\InteriorDoorSkinsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkin\InteriorDoorSkinView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -728,6 +794,9 @@
     </PackageReference>
     <PackageReference Include="Remotion.Linq">
       <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.SfChart.UWP">
+      <Version>18.4.0.41</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

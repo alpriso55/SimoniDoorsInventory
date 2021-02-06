@@ -55,7 +55,7 @@
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Customer.FullAddress, Mode=OneWay}" />
 
             <TextBlock Style="{StaticResource CardHeader}" Text="Υπόλοιπο (€)" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Customer.Balance, Mode=OneWay}" />
+            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Customer.Balance, Mode=OneWay, Converter={StaticResource DecimalConverter}}" />
             
             <TextBlock Style="{StaticResource CardHeader}" Text="Πρώτη Παραγγελία" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Customer.CreatedOn, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" />

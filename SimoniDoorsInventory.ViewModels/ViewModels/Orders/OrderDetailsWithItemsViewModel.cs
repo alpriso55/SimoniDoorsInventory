@@ -43,6 +43,8 @@ namespace SimoniDoorsInventory.ViewModels
         public void Subscribe()
         {
             MessageService.Subscribe<OrderDetailsViewModel, OrderModel>(this, OnMessage);
+            MessageService.Subscribe<InteriorDoorListViewModel>(this, OnInteriorDoorMessage);
+            MessageService.Subscribe<InteriorDoorDetailsViewModel>(this, OnInteriorDoorMessage);
             OrderDetails.Subscribe();
             InteriorDoorList.Subscribe();
         }
@@ -65,6 +67,75 @@ namespace SimoniDoorsInventory.ViewModels
             // {
             //     await this.LoadAsync(viewModel.ViewModelArgs);
             // }
+        }
+
+        private async void OnInteriorDoorMessage(ViewModelBase sender, string message, object args)
+        {
+            if (sender == InteriorDoorList)
+            {
+                switch (message)
+                {
+                    case "ItemsDeleted":
+                    case "ItemRangesDeleted":
+                        await ContextService.RunAsync(() =>
+                        {
+                            OnInteriorDoorUpdated();
+                        });
+                        break;
+
+                }
+            }
+
+            if (sender is InteriorDoorDetailsViewModel s && s != null && s.OrderID == OrderDetails.Item.OrderID)
+            {
+                switch (message)
+                {
+                    case "NewItemSaved":
+                    case "ItemChanged":
+                    case "ItemDeleted":
+                        await ContextService.RunAsync(() =>
+                        {
+                            OnInteriorDoorUpdated();
+                        });
+                        break;
+                }
+            }
+        }
+
+        private async void OnInteriorDoorUpdated()
+        {
+            if (OrderDetails.IsEditMode)
+            {
+                StatusReady();
+                OrderDetails.CancelEdit();
+            }
+            InteriorDoorList.IsMultipleSelection = false;
+
+            var item = new OrderModel();
+            item.Merge(OrderDetails.Item);
+            if (item != null && !item.IsEmpty)
+            {
+                await PopulateInteriorDoors(item);
+            }
+            item.TotalCost = await InteriorDoorList.GetSumOfPrices();
+
+            OrderDetails.Item = item;
+            await OrderDetails.OrderService.UpdateOrderAsync(item);
+        }
+
+        private async Task PopulateInteriorDoors(OrderModel selectedItem)
+        {
+            try
+            {
+                if (selectedItem != null)
+                {
+                    await InteriorDoorList.LoadAsync(new InteriorDoorListArgs { OrderID = selectedItem.OrderID }, silent: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogException("Orders", "Load Interior Doors", ex);
+            }
         }
 
     }

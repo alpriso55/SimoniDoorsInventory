@@ -167,7 +167,7 @@
                         AlwaysShowHeader="False"
                         IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=OneWay}">
 
-            <Grid>
+            <Grid MinWidth="1250">
                 <Frame x:Name="frame">
                     <Frame.ContentTransitions>
                         <TransitionCollection>

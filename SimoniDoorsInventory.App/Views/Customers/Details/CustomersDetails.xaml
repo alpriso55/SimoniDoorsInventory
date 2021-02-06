@@ -33,7 +33,8 @@
                                            SelectedValuePath="CountryCodeID" DisplayMemberPath="Name" />
                 </controls:FluidGrid>
                 -->
-                <controls:FormTextBox Header="Υπόλοιπο (€)" Text="{x:Bind EditableItem.Balance, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="{}0.0 €" />
+                <!-- <controls:FormTextBox Header="Υπόλοιπο (€)" Text="{x:Bind EditableItem.Balance, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="{}0.0 €" /> -->
+                <controls:FormTextBox Header="Υπόλοιπο (€)" Text="{x:Bind EditableItem.Balance, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
                 <controls:FormTextBox Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
             </controls:FluidGrid>

@@ -132,6 +132,16 @@ namespace SimoniDoorsInventory.ViewModels
             return new List<PaymentModel>();
         }
 
+        public async Task<decimal> GetTotalPayments()
+        {
+            if (Items == null)
+            {
+                return 0.0m;
+            }
+
+            return await Task.Run(() => Items.Select(r => r.Amount).Sum());
+        }
+
         protected override async void OnNew()
         {
 
@@ -232,6 +242,7 @@ namespace SimoniDoorsInventory.ViewModels
             switch (message)
             {
                 case "NewItemSaved":
+                case "ItemChanged":
                 case "ItemDeleted":
                 case "ItemsDeleted":
                 case "ItemRangesDeleted":

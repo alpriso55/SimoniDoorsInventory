@@ -26,14 +26,14 @@
                                              CustomerSelectedCommand="{x:Bind CustomerSelectedCommand}"
                                              IsReadOnly="{x:Bind CanEditCustomer, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 
-                <controls:FormTextBox Header="Ποσό (€)" Text="{x:Bind EditableItem.Amount, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
+                <controls:FormTextBox Header="Ποσό (€)" Text="{x:Bind EditableItem.Amount, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0 €" />
 
                 <controls:FormComboBox Header="Τρόπος Πληρωμής" ItemsSource="{x:Bind LookupTables.PaymentTypes}" 
                                        SelectedValue="{x:Bind EditableItem.PaymentTypeID, Mode=TwoWay, Converter={StaticResource Int32Converter}}" 
                                        SelectedValuePath="PaymentTypeID" DisplayMemberPath="Name" />
 
                 <controls:FormCalendarDatePicker Header="Ημερομηνία Πληρωμής" Date="{x:Bind EditableItem.PaymentDate, Mode=TwoWay}" />
-                <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
+                <controls:FormTextBox x:Name="observations" controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
             </controls:FluidGrid>
         </DataTemplate>

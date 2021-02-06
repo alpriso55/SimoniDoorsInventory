@@ -61,7 +61,8 @@
                                                      <!-- MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" -->
                 </controls:FluidGrid>
 
-                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
+                <!-- <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" /> -->
+                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
 
@@ -96,7 +97,8 @@
                           EditCommand="{x:Bind ViewModel.OrderDetails.EditCommand}"
                           DeleteCommand="{x:Bind ViewModel.OrderDetails.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.OrderDetails.SaveCommand}"
-                          CancelCommand="{x:Bind ViewModel.OrderDetails.CancelCommand}" />
+                          CancelCommand="{x:Bind ViewModel.OrderDetails.CancelCommand}"
+                          PrintCommand="{x:Bind ViewModel.OrderDetails.PrintCommand}" />
 
             <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0,1,0,0" Visibility="{x:Bind ViewModel.OrderDetails.ItemIsNew, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                 <controls:Section Header="Εσωτερικές Πόρτες" Background="{StaticResource DetailsViewBackgroundColor}">

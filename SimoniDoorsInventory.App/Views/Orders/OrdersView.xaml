@@ -54,7 +54,7 @@
                             <views:OrdersDetails Grid.Row="1" ViewModel="{x:Bind ViewModel.OrderDetails}" />
                         </PivotItem>
                         <PivotItem Header="Μεσόπορτες">
-                            <views:OrdersInteriorDoors Grid.Row="1" ViewModel="{x:Bind ViewModel.InteriorDoorList}" />
+                            <views:OrdersInteriorDoors Grid.Row="1" ViewModel="{x:Bind ViewModel.OrderInteriorDoors}" />
                         </PivotItem>
                     </Pivot>
                 </controls:Section>

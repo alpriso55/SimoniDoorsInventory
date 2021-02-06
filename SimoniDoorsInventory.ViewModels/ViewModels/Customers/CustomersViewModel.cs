@@ -28,7 +28,7 @@ namespace SimoniDoorsInventory.ViewModels
         public CustomerListViewModel CustomerList { get; set; }
         public CustomerDetailsViewModel CustomerDetails { get; set; }
         public OrderListViewModel CustomerOrders { get; set; }
-        public PaymentListViewModel CustomerPayments { get; set; }  // NEW LINE
+        public PaymentListViewModel CustomerPayments { get; set; }
 
         public async Task LoadAsync(CustomerListArgs args)
         {
@@ -43,7 +43,9 @@ namespace SimoniDoorsInventory.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<CustomerListViewModel>(this, OnMessage);
+            MessageService.Subscribe<CustomerListViewModel>(this, OnCustomerListMessage);
+            // MessageService.Subscribe<OrderListViewModel>(this, OnOrdersMessage);
+            // MessageService.Subscribe<PaymentListViewModel>(this, OnPaymentsMessage);
             CustomerList.Subscribe();
             CustomerDetails.Subscribe();
             CustomerOrders.Subscribe();
@@ -58,7 +60,7 @@ namespace SimoniDoorsInventory.ViewModels
             CustomerPayments.Unsubscribe();
         }
 
-        private async void OnMessage(CustomerListViewModel viewModel, string message, object args)
+        private async void OnCustomerListMessage(CustomerListViewModel viewModel, string message, object args)
         {
             if (viewModel == CustomerList && message == "ItemSelected")
             {
@@ -69,7 +71,21 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
-        private async void OnItemSelected()
+        public async Task SelectedPivotItemChanged(int selectedIndex)
+        {
+            // Memorize selected item so as you can use it again
+            var selectedItem = new CustomerModel();
+            selectedItem.Merge(CustomerList.SelectedItem);
+
+            if (selectedIndex == 0)
+            {
+                await CustomerList.LoadAsync(CustomerList.CreateArgs());
+            }
+            
+            CustomerList.SelectedItem.Merge(selectedItem);
+        }
+
+        public async void OnItemSelected()
         {
             if (CustomerDetails.IsEditMode)
             {
@@ -88,6 +104,9 @@ namespace SimoniDoorsInventory.ViewModels
                     await PopulatePayments(selected);  // NEW LINE
                 }
             }
+            var totalPayments = await CustomerPayments.GetTotalPayments();
+            var totalCosts = await CustomerOrders.GetTotalCosts();
+            selected.Balance = totalPayments - totalCosts;
             CustomerDetails.Item = selected;
         }
 

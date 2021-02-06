@@ -86,7 +86,8 @@ namespace SimoniDoorsInventory.Services
             {
                 CustomerID = customerID,
                 OrderDate = DateTime.UtcNow,
-                Status = 0
+                Status = 0,
+                TotalCost = 0.0m
             };
             if (customerID > 0)
             {

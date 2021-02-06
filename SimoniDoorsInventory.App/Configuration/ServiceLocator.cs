@@ -25,6 +25,7 @@ namespace SimoniDoorsInventory
             serviceCollection.AddSingleton<IOrderService, OrderService>();
             serviceCollection.AddSingleton<IInteriorDoorService, InteriorDoorService>();
             serviceCollection.AddSingleton<IPaymentService, PaymentService>();
+            serviceCollection.AddSingleton<IInteriorDoorSkinService, InteriorDoorSkinService>();
 
             serviceCollection.AddSingleton<IMessageService, MessageService>();
             serviceCollection.AddSingleton<ILogService, LogService>();
@@ -52,6 +53,10 @@ namespace SimoniDoorsInventory
 
             serviceCollection.AddTransient<InteriorDoorsViewModel>();
             serviceCollection.AddTransient<InteriorDoorDetailsViewModel>();
+
+            serviceCollection.AddTransient<InteriorDoorSkinsViewModel>();
+            serviceCollection.AddTransient<InteriorDoorSkinDetailsViewModel>();
+            serviceCollection.AddTransient<InteriorDoorSkinsPaneViewModel>();
 
             serviceCollection.AddTransient<PaymentsViewModel>();
             serviceCollection.AddTransient<PaymentDetailsViewModel>();

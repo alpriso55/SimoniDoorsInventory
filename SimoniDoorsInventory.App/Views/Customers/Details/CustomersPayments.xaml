@@ -15,15 +15,15 @@
                     <ColumnDefinition Width="7*" />
                     <ColumnDefinition Width="10*" />
                     <ColumnDefinition Width="7*" />
-                    <ColumnDefinition Width="10*" />
-                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="5*" />
                     <ColumnDefinition Width="12*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Πληρωμή #" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="1" Text="Πελάτης" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="2" Text="Ποσό (€)" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="3" Text="Τρόπος Πληρωμής" Style="{StaticResource ColumnHeaderStyle}" />
-                <TextBlock Grid.Column="4" Text="Ημερομηνία" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="2" Text="Τρόπος Πληρωμής" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="3" Text="Ημερομηνία" Style="{StaticResource ColumnHeaderStyle}" />
+                <TextBlock Grid.Column="4" Text="Ποσό (€)" Style="{StaticResource ColumnHeaderStyle}" />
                 <TextBlock Grid.Column="5" Text="Παρατηρήσεις" Style="{StaticResource ColumnHeaderStyle}" />
             </Grid>
         </DataTemplate>
@@ -34,16 +34,16 @@
                     <ColumnDefinition Width="7*" />
                     <ColumnDefinition Width="10*" />
                     <ColumnDefinition Width="7*" />
-                    <ColumnDefinition Width="7*" />
-                    <ColumnDefinition Width="7*" />
-                    <ColumnDefinition Width="12*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="12*" />                    
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="{x:Bind PaymentID, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
                 <TextBlock Grid.Column="1" Text="{x:Bind Customer.FullName, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="2" Text="{x:Bind Amount, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="3" Text="{x:Bind PaymentType.Name, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
-                <TextBlock Grid.Column="4" Text="{x:Bind PaymentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="2" Text="{x:Bind PaymentType.Name, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="3" Text="{x:Bind PaymentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" Style="{StaticResource ColumnValueStyle}" />
+                <TextBlock Grid.Column="4" Text="{x:Bind Amount, Mode=OneWay, Converter={StaticResource DecimalConverter}}" Style="{StaticResource ColumnValueStyle}" />
                 <TextBlock Grid.Column="5" Text="{x:Bind Observations, Mode=OneWay}" Style="{StaticResource ColumnValueStyle}" />
             </Grid>
         </DataTemplate>

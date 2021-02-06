@@ -35,7 +35,7 @@
                                  ItemsSource="{x:Bind Items, Mode=OneWay}"
                                  ItemTemplate="{StaticResource ItemTemplate}"
                                  ItemContainerStyle="{StaticResource RowItemStyle}"
-                                 Header="Payment"
+                                 Header="Πληρωμή"
                                  DisplayText="{x:Bind DisplayText, Mode=OneWay}"
                                  PlaceholderText="Αναζήτηση Πληρωμής"
                                  TextMemberPath="PaymentDesc"

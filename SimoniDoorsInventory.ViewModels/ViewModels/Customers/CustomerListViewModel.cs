@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using SimoniDoorsInventory.Data;
 using SimoniDoorsInventory.Models;
 using SimoniDoorsInventory.Services;
-using System.Data;
 
 namespace SimoniDoorsInventory.ViewModels
 {

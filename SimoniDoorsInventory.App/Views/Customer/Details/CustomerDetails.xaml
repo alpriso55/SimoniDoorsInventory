@@ -27,7 +27,7 @@
                 <controls:FormTextBox Header="Διεύθυνση" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Πόλη" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
                 <controls:FormTextBox Header="Ταχυδρομικός Κώδικας" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay, Converter={StaticResource Int32Converter}}" />
 
                 <TextBlock  Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Επιπλέον Πληροφορίες" />
                 <controls:FormTextBox Header="Υπόλοιπο (€)" Text="{x:Bind EditableItem.Balance, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="{}0.0 €" />

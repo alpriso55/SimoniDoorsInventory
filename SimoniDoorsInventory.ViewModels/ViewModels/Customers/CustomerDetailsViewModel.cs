@@ -142,7 +142,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await Task.Delay(100);
                 await CustomerService.DeleteCustomerAsync(model);
                 EndStatusMessage("Πελάτης διεγράφη");
-                LogWarning("Customer", "Delete", "Customre deleted", $"Customer {model.CustomerID} '{model.FullName}' was deleted.");
+                LogWarning("Customer", "Delete", "Customer deleted", $"Customer {model.CustomerID} '{model.FullName}' was deleted.");
                 return true;
             }
             catch (Exception ex)

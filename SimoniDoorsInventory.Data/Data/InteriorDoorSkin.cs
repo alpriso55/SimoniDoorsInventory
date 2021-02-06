@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimoniDoorsInventory.Data
@@ -17,5 +18,12 @@ namespace SimoniDoorsInventory.Data
 
         [MaxLength(100)]
         public string Description { get; set; }
+
+        // Collections
+        public string SearchTerms { get; set; }
+        public string BuildSearchTerms() =>
+            $"{InteriorDoorSkinID}".ToLower();
+
+        public virtual ICollection<InteriorDoor> InteriorDoors { get; set; }
     }
 }

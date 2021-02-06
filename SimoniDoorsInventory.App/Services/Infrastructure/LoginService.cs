@@ -38,7 +38,7 @@ namespace SimoniDoorsInventory.Services
 
         public bool IsWindowsHelloEnabled(string userName)
         {
-            if (!String.IsNullOrEmpty(userName))
+            if (!string.IsNullOrEmpty(userName))
             {
                 if (userName.Equals(AppSettings.Current.UserName, StringComparison.OrdinalIgnoreCase))
                 {

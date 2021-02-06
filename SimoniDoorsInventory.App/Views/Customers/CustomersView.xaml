@@ -50,7 +50,7 @@
                                   Background="{StaticResource DetailsViewBackgroundColor}"
                                   Visibility="{x:Bind ViewModel.CustomerDetails.IsDataAvailable, Mode=OneWay}">
 
-                    <Pivot x:Name="pivot">
+                    <Pivot x:Name="pivot" SelectionChanged="OnSelectionChanged">
                         <PivotItem Header="Πελάτης">
                             <views:CustomersDetails ViewModel="{x:Bind ViewModel.CustomerDetails}" />
                         </PivotItem>

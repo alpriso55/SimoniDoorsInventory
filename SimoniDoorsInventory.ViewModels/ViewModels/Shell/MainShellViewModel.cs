@@ -14,6 +14,7 @@ namespace SimoniDoorsInventory.ViewModels
         private readonly NavigationItem CustomersItem = new NavigationItem(0xE716, "Πελάτες", typeof(CustomersViewModel));
         private readonly NavigationItem OrdersItem = new NavigationItem(0xE8A1, "Παραγγελίες", typeof(OrdersViewModel));
         private readonly NavigationItem PaymentsItem = new NavigationItem(0xE8C7, "Πληρωμές", typeof(PaymentsViewModel));
+        private readonly NavigationItem InteriorDoorSkinsItem = new NavigationItem(0xE799, "Επενδύσεις", typeof(InteriorDoorSkinsViewModel));
         private readonly NavigationItem AppLogsItem = new NavigationItem(0xE7BA, "Activity Log", typeof(AppLogsViewModel));
         private readonly NavigationItem SettingsItem = new NavigationItem(0x0000, "Ρυθμίσεις", typeof(SettingsViewModel));
 
@@ -81,6 +82,9 @@ namespace SimoniDoorsInventory.ViewModels
                 case "PaymentsViewModel":
                     NavigationService.Navigate(viewModel, new PaymentListArgs());
                     break;
+                case "InteriorDoorSkinsViewModel":
+                    NavigationService.Navigate(viewModel, new InteriorDoorSkinListArgs());
+                    break;
                 case "AppLogsViewModel":
                     NavigationService.Navigate(viewModel, new AppLogListArgs());
                     await LogService.MarkAllAsReadAsync();
@@ -100,6 +104,7 @@ namespace SimoniDoorsInventory.ViewModels
             yield return CustomersItem;
             yield return OrdersItem;
             yield return PaymentsItem;
+            yield return InteriorDoorSkinsItem;
             yield return AppLogsItem;
         }
 
