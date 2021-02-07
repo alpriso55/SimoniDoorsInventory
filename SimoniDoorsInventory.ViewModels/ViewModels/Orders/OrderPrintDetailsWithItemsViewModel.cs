@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
+
 using SimoniDoorsInventory.Models;
 using SimoniDoorsInventory.Services;
 
 namespace SimoniDoorsInventory.ViewModels
 {
-    public class OrderDetailsWithItemsViewModel : ViewModelBase
+    public class OrderPrintDetailsWithItemsViewModel : ViewModelBase
     {
-        public OrderDetailsWithItemsViewModel(IOrderService orderService, 
-                                              IInteriorDoorService interiorDoorService, 
+        public OrderPrintDetailsWithItemsViewModel(IOrderService orderService,
+                                              IInteriorDoorService interiorDoorService,
                                               ICommonServices commonServices) : base(commonServices)
         {
             OrderDetails = new OrderDetailsViewModel(orderService, commonServices);
@@ -62,7 +62,7 @@ namespace SimoniDoorsInventory.ViewModels
             {
                 await InteriorDoorList.LoadAsync(new InteriorDoorListArgs { OrderID = order.OrderID });
             }
-            
+
             // if (viewModel == OrderDetails && message == "NewItemSaved")
             // {
             //     await this.LoadAsync(viewModel.ViewModelArgs);
@@ -136,12 +136,6 @@ namespace SimoniDoorsInventory.ViewModels
             {
                 LogException("Orders", "Load Interior Doors", ex);
             }
-        }
-
-        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
-        private async void OnPrintInNewView()
-        {
-            await NavigationService.CreateNewViewAsync<OrderPrintDetailsWithItemsViewModel>(new OrderDetailsArgs { OrderID = OrderDetails.Item.OrderID });
         }
 
     }

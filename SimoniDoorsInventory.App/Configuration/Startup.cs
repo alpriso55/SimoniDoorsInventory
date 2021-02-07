@@ -55,6 +55,7 @@ namespace SimoniDoorsInventory
 
             NavigationService.Register<OrdersViewModel, OrdersView>();
             NavigationService.Register<OrderDetailsWithItemsViewModel, OrderView>();
+            NavigationService.Register<OrderPrintDetailsWithItemsViewModel, OrderPrintView>();
 
             NavigationService.Register<InteriorDoorsViewModel, InteriorDoorsView>();
             NavigationService.Register<InteriorDoorDetailsViewModel, InteriorDoorView>();

@@ -114,5 +114,11 @@ namespace SimoniDoorsInventory.Controls
         {
             ButtonClick?.Invoke(this, new ToolbarButtonClickEventArgs(toolbarButton));
         }
+
+        public AppBarButton GetPrintButton()
+        {
+            return this.buttonPrint;
+        }
+
     }
 }

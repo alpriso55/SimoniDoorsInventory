@@ -140,8 +140,14 @@
     <Compile Include="Controls\DataList\DataList.xaml.cs">
       <DependentUpon>DataList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataList\DataListPrint.xaml.cs">
+      <DependentUpon>DataListPrint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Details\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Details\DetailsPrint.xaml.cs">
+      <DependentUpon>DetailsPrint.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\FluidGrid\FluidGrid.cs" />
     <Compile Include="Controls\Forms\FormAutoSuggestBox.cs" />
@@ -332,6 +338,9 @@
     <Compile Include="Views\Orders\Details\OrdersDetails.xaml.cs">
       <DependentUpon>OrdersDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Orders\Details\OrdersInteriorDoorsPrint.xaml.cs">
+      <DependentUpon>OrdersInteriorDoorsPrint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Orders\List\OrdersList.xaml.cs">
       <DependentUpon>OrdersList.xaml</DependentUpon>
     </Compile>
@@ -346,6 +355,12 @@
     </Compile>
     <Compile Include="Views\Orders\Details\OrdersInteriorDoors.xaml.cs">
       <DependentUpon>OrdersInteriorDoors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\Details\OrderPrint.xaml.cs">
+      <DependentUpon>OrderPrint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\OrderPrintView.xaml.cs">
+      <DependentUpon>OrderPrintView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Order\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
@@ -461,7 +476,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DataList\DataListPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Details\Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Details\DetailsPrint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -701,6 +724,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Orders\Details\OrdersInteriorDoorsPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Orders\List\OrdersList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -718,6 +745,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Orders\Details\OrdersInteriorDoors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Order\Details\OrderPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Order\OrderPrintView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -242,6 +242,5 @@ namespace SimoniDoorsInventory.ViewModels
                 StatusMessage("WARNING: This order has been deleted externally");
             });
         }
-
     }
 }

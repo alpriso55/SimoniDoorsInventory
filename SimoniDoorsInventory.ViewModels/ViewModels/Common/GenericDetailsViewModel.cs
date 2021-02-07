@@ -92,7 +92,7 @@ namespace SimoniDoorsInventory.ViewModels
             StatusReady();
             BeginPrint();
         }
-        virtual public void BeginPrint()
+        virtual protected void BeginPrint()
         {
             if (IsEditMode)
             {
@@ -102,8 +102,8 @@ namespace SimoniDoorsInventory.ViewModels
 
             try
             {
-                this.IsEnabled = false;
-                // PrintItemAsync();
+                IsEnabled = false;
+                // await PrintItemAsync(Item);
             }
             finally
             {

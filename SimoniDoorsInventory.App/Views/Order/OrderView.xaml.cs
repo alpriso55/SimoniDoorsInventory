@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Navigation;
 
 using SimoniDoorsInventory.ViewModels;
 using SimoniDoorsInventory.Services;
+using SimoniDoorsInventory.Views;
+using SimoniDoorsInventory.Controls;
 
 namespace SimoniDoorsInventory.Views
 {
@@ -17,7 +19,12 @@ namespace SimoniDoorsInventory.Views
             ViewModel = ServiceLocator.Current.GetService<OrderDetailsWithItemsViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             InitializeComponent();
+
+            // Toolbar = details.GetToolBar();
+            // Toolbar.ButtonClick += OnPrintButtonClicked;
         }
+
+        public DetailToolbar Toolbar { get; set; }
 
         public OrderDetailsWithItemsViewModel ViewModel { get; }
         public INavigationService NavigationService { get; }
@@ -39,5 +46,14 @@ namespace SimoniDoorsInventory.Views
             ViewModel.Unload();
             ViewModel.Unsubscribe();
         }
+
+        // private async void OnPrintButtonClicked(object sender, ToolbarButtonClickEventArgs e)
+        // {
+        //     if (e.ClickedButton == ToolbarButton.Print)
+        //     {
+        //         await NavigationService.CreateNewViewAsync<OrderPrintDetailsWithItemsViewModel>(ViewModel.OrderDetails.CreateArgs());
+        //     }
+        // }
+
     }
 }

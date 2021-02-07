@@ -248,5 +248,16 @@ namespace SimoniDoorsInventory.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public AppBarButton GetPrintButton()
+        {
+            return this.toolbar.GetPrintButton();
+        }
+
+        public DetailToolbar GetDetailToolbar()
+        {
+            return toolbar;
+        }
+
     }
 }
