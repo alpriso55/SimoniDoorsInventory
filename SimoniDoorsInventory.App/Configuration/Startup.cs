@@ -97,15 +97,19 @@ namespace SimoniDoorsInventory
             {
                 if (await databaseFolder.TryGetItemAsync(AppSettings.DatabasePattern) == null)
                 {
-                    using (var cli = new WebClient())
-                    {
-                        var bytes = await Task.Run(() => cli.DownloadData(AppSettings.DatabaseUrl));
-                        var file = await databaseFolder.CreateFileAsync(AppSettings.DatabasePattern, CreationCollisionOption.ReplaceExisting);
-                        using (var stream = await file.OpenStreamForWriteAsync())
-                        {
-                            await stream.WriteAsync(bytes, 0, bytes.Length);
-                        }
-                    }
+                    StorageFile templateDbFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/DatabaseTemplate/Template.db"));
+                    StorageFile patternFile = await databaseFolder.CreateFileAsync(AppSettings.DatabasePattern, CreationCollisionOption.ReplaceExisting);
+                    await templateDbFile.CopyAndReplaceAsync(patternFile);
+
+                    // using (var cli = new WebClient())
+                    // {
+                    //     var bytes = await Task.Run(() => cli.DownloadData(AppSettings.DatabaseUrl));
+                    //     var file = await databaseFolder.CreateFileAsync(AppSettings.DatabasePattern, CreationCollisionOption.ReplaceExisting);
+                    //     using (var stream = await file.OpenStreamForWriteAsync())
+                    //     {
+                    //         await stream.WriteAsync(bytes, 0, bytes.Length);
+                    //     }
+                    // }
                 }
                 var sourceFile = await databaseFolder.GetFileAsync(AppSettings.DatabasePattern);
                 var targetFile = await databaseFolder.CreateFileAsync(AppSettings.DatabaseName, CreationCollisionOption.ReplaceExisting);

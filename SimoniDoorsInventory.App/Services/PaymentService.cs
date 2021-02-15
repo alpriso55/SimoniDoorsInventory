@@ -184,8 +184,7 @@ namespace SimoniDoorsInventory.Services
         {
             Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΠΛΗΡΩΜΕΣ_ΛΙΣΤΑ.xlsx");
 
-            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/PaymentListTemplate.xlsx");
-            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            StorageFile templateStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/ExcelTemplates/PaymentListTemplate.xlsx"));
             Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
 
             if (newFileStream != Stream.Null && templateFileStream != Stream.Null)

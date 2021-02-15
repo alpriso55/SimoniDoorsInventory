@@ -12,7 +12,8 @@ namespace SimoniDoorsInventory
     {
         const string DB_NAME = "SimoniDoors";
         const string DB_VERSION = "1.01";
-        const string DB_BASEURL = "https://vanarsdelinventory.blob.core.windows.net/database";
+        // const string DB_BASEURL = "https://vanarsdelinventory.blob.core.windows.net/database";
+        const string DB_BASEURL = "ms-appx:///Assets/DatabasePattern/SimoniDoors.1.01.pattern.db";
 
         static AppSettings()
         {

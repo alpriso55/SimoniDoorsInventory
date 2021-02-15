@@ -858,7 +858,14 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Assets\AppLog\AppLog.db" />
+    <None Include="Assets\DatabaseTemplate\Template.db" />
+    <None Include="Assets\ExcelTemplates\CutomerDetailsTemplate.xlsx" />
+    <None Include="Assets\ExcelTemplates\CutomerListTemplate.xlsx" />
+    <None Include="Assets\ExcelTemplates\InteriorDoorListTemplate.xlsx" />
+    <None Include="Assets\ExcelTemplates\InteriorDoorSkinListTemplate.xlsx" />
     <None Include="Assets\ExcelTemplates\OrderDetailsTemplate.xlsx" />
+    <None Include="Assets\ExcelTemplates\OrderListTemplate.xlsx" />
+    <None Include="Assets\ExcelTemplates\PaymentListTemplate.xlsx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

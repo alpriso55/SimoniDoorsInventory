@@ -138,8 +138,7 @@ namespace SimoniDoorsInventory.Services
         {
             Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΕΠΕΝΔΫΣΕΙΣ_ΕΣΩΤΕΡΙΚΩΝ_ΠΟΡΤΩΝ_ΛΙΣΤΑ.xlsx");
 
-            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/ΙnteriorDoorSkinListTemplate.xlsx");
-            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            StorageFile templateStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/ExcelTemplates/ΙnteriorDoorSkinListTemplate.xlsx"));
             Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
 
             if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
