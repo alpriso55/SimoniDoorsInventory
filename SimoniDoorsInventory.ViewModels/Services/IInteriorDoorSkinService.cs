@@ -17,5 +17,7 @@ namespace SimoniDoorsInventory.Services
 
         Task<int> DeleteInteriorDoorSkinAsync(InteriorDoorSkinModel model);
         Task<int> DeleteInteriorDoorSkinRangeAsync(int index, int length, DataRequest<InteriorDoorSkin> request);
+
+        Task SaveInteriorDoorSkinListToExcelFileAsync(IList<InteriorDoorSkinModel> interiorDoorSkinList);
     }
 }

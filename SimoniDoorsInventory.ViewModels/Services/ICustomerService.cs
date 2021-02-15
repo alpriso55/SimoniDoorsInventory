@@ -17,5 +17,8 @@ namespace SimoniDoorsInventory.Services
 
         Task<int> DeleteCustomerAsync(CustomerModel model);
         Task<int> DeleteCustomerRangeAsync(int index, int length, DataRequest<Customer> request);
+
+        Task SaveCustomerDetailsToExcelFileAsync(CustomerModel customerModel, IList<OrderModel> customerOrders, IList<PaymentModel> customerPayments);
+        Task SaveCustomerListToExcelFileAsync(IList<CustomerModel> customerList);
     }
 }

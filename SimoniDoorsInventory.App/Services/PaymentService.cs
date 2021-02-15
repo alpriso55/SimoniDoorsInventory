@@ -20,19 +20,29 @@ using System.Threading.Tasks;
 using SimoniDoorsInventory.Data;
 using SimoniDoorsInventory.Data.Services;
 using SimoniDoorsInventory.Models;
+using System.IO;
+using Windows.Storage;
+using OfficeOpenXml;
 
 namespace SimoniDoorsInventory.Services
 {
     public class PaymentService : IPaymentService
     {
-        public PaymentService(IDataServiceFactory dataServiceFactory, ILogService logService)
+        public PaymentService(IDataServiceFactory dataServiceFactory, 
+                              ILogService logService, 
+                              IFilePickerService filePickerService,
+                              IDialogService dialogService)
         {
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
+            FilePickerService = filePickerService;
+            DialogService = dialogService;
         }
 
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
+        public IFilePickerService FilePickerService { get; }
+        public IDialogService DialogService { get; }
 
         public async Task<PaymentModel> GetPaymentAsync(long id)
         {
@@ -169,5 +179,56 @@ namespace SimoniDoorsInventory.Services
             target.PaymentDate = source.PaymentDate;
             target.Observations = source.Observations;
         }
+
+        public async Task SavePaymentListToExcelFileAsync(IList<PaymentModel> paymentList)
+        {
+            Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΠΛΗΡΩΜΕΣ_ΛΙΣΤΑ.xlsx");
+
+            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/PaymentListTemplate.xlsx");
+            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                try
+                {
+                    using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                    {
+                        //Open the first worksheet
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        int cellIndex = 3;
+                        int paymentCount = paymentList.Count;
+                        worksheet.InsertRow(cellIndex, paymentCount);
+
+                        for (int i = 0; i < paymentCount; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = paymentList[i].PaymentID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = paymentList[i].Customer?.FullName;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = paymentList[i].Amount;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = paymentList[i].PaymentType?.Name;
+                            worksheet.Cells[$"E{cellIndex + i}"].Value = paymentList[i].PaymentDate;
+                            worksheet.Cells[$"F{cellIndex + i}"].Value = paymentList[i].Observations;
+                        }
+
+                        //Switch the PageLayoutView back to normal
+                        worksheet.View.PageLayoutView = false;
+                        // save our new workbook and we are done!
+
+                        await package.SaveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                    await LogService.WriteAsync(LogType.Error, "PaymentService", "SavePaymentListToExcelFileAsync", ex);
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
     }
 }

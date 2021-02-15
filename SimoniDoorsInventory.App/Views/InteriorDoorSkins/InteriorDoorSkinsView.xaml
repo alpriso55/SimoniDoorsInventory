@@ -23,13 +23,13 @@
           BorderThickness="1,0,0,0">
         <controls:WindowTitle Prefix="Επενδύσεις Μεσόπορτας" Title="{x:Bind ViewModel.InteriorDoorSkinList.Title, Mode=OneWay}" />
 
+        <!-- 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--Customers-->
             <Grid Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.InteriorDoorSkinList.IsMultipleSelection), Mode=OneWay}">
                 <controls:Section Header="{x:Bind ViewModel.InteriorDoorSkinList.Title, Mode=OneWay}" 
                                   HeaderTemplate="{StaticResource ListHeaderTemplate}"
@@ -40,7 +40,6 @@
                 </controls:Section>
             </Grid>
 
-            <!--Details-->
             <Grid Grid.Row="1" 
                   BorderBrush="LightGray"
                   BorderThickness="0,1,0,0"
@@ -51,14 +50,25 @@
                                   Background="{StaticResource DetailsViewBackgroundColor}"
                                   Visibility="{x:Bind ViewModel.InteriorDoorSkinDetails.IsDataAvailable, Mode=OneWay}">
 
-                    <views:InteriorDoorSkinsDetails Grid.Row="1" ViewModel="{x:Bind ViewModel.InteriorDoorSkinDetails}" />
+                    <views:InteriorDoorSkinsDetails x:Name="details" Grid.Row="1" ViewModel="{x:Bind ViewModel.InteriorDoorSkinDetails}" />
                 </controls:Section>
 
-                <!--Empty Details-->
                 <controls:Section Header="Δεν έχει επιλαγεί Επένδυση" 
                                   Visibility="{x:Bind ViewModel.InteriorDoorSkinDetails.IsDataUnavailable, Mode=OneWay}" />
             </Grid>
         </Grid>
+        -->
+
+        <Grid 
+              Grid.RowSpan="{x:Bind GetRowSpan(ViewModel.InteriorDoorSkinList.IsMultipleSelection), Mode=OneWay}">
+            <controls:Section Header="{x:Bind ViewModel.InteriorDoorSkinList.Title, Mode=OneWay}" 
+                              HeaderTemplate="{StaticResource ListHeaderTemplate}" 
+                              HeaderButtonGlyph="&#xE2B4;" HeaderButtonClick="OpenInNewView" 
+                              IsButtonVisible="{x:Bind ViewModel.IsMainView}">
+                <views:InteriorDoorSkinCardList ViewModel="{x:Bind ViewModel.InteriorDoorSkinList}" />
+            </controls:Section>
+        </Grid>
+
     </Grid>
     
 </Page>

@@ -251,5 +251,11 @@ namespace SimoniDoorsInventory.ViewModels
                 StatusMessage("WARNING: Ο συγκεκριμένος πελάτης έχει διαγραφτεί εξωτερικά");
             });
         }
+
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private void OnPrintInNewView()
+        {
+            MessageService.Send(this, "PrintButtonPressed", Item);
+        }
     }
 }

@@ -14,6 +14,8 @@ namespace SimoniDoorsInventory
     {
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzk3NTQ3QDMxMzgyZTM0MmUzMFVwblUrZ21EdGZmK3l2dTJkNjVBMU45NjcxNXVFc3NNdlJhL2phRkRGSXc9");
+
             InitializeComponent();
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;

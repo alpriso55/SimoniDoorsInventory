@@ -149,11 +149,11 @@ namespace SimoniDoorsInventory.ViewModels
         {
             if (IsMainView)
             {
-                await NavigationService.CreateNewViewAsync<OrderDetailsViewModel>(new OrderDetailsArgs { CustomerID = ViewModelArgs.CustomerID });
+                await NavigationService.CreateNewViewAsync<OrderDetailsWithItemsViewModel>(new OrderDetailsArgs { CustomerID = ViewModelArgs.CustomerID });
             }
             else
             {
-                NavigationService.Navigate<OrderDetailsViewModel>(new OrderDetailsArgs { CustomerID = ViewModelArgs.CustomerID });
+                NavigationService.Navigate<OrderDetailsWithItemsViewModel>(new OrderDetailsArgs { CustomerID = ViewModelArgs.CustomerID });
             }
 
             StatusReady();
@@ -263,5 +263,12 @@ namespace SimoniDoorsInventory.ViewModels
                     break;
             }
         }
+
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private async void OnPrintInNewView()
+        {
+            await OrderService.SaveOrderListToExcelFileAsync(Items);
+        }
+
     }
 }

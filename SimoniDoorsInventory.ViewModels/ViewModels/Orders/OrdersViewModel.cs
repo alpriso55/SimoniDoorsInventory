@@ -37,7 +37,8 @@ namespace SimoniDoorsInventory.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<OrderListViewModel>(this, OnMessage);
+            MessageService.Subscribe<OrderListViewModel>(this, OnOrderListMessage);
+            MessageService.Subscribe<OrderDetailsViewModel>(this, OnOrderDetailsMessage);
             MessageService.Subscribe<InteriorDoorListViewModel>(this, OnInteriorDoorMessage);
             MessageService.Subscribe<InteriorDoorDetailsViewModel>(this, OnInteriorDoorMessage);
 
@@ -53,7 +54,7 @@ namespace SimoniDoorsInventory.ViewModels
             OrderInteriorDoors.Unsubscribe();
         }
 
-        private async void OnMessage(OrderListViewModel viewModel, string message, object args)
+        private async void OnOrderListMessage(OrderListViewModel viewModel, string message, object args)
         {
             if (viewModel == OrderList && message == "ItemSelected")
             {
@@ -61,6 +62,14 @@ namespace SimoniDoorsInventory.ViewModels
                 {
                     OnItemSelected();
                 });
+            }
+        }
+
+        private async void OnOrderDetailsMessage(OrderDetailsViewModel viewModel, string message, object args)
+        {
+            if (viewModel == OrderDetails && message == "PrintButtonPressed")
+            {
+                await OrderService.SaveOrderDetailsWithItemsToExcelFileAsync(OrderDetails.Item, OrderInteriorDoors.Items);
             }
         }
 

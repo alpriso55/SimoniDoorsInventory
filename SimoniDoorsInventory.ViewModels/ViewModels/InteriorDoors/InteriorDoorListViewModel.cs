@@ -256,19 +256,11 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
-        // private async void OnOrderDetailsMessage(GenericDetailsViewModel<OrderModel> sender, string message, OrderModel model)
-        // {
-        //     switch (message)
-        //     {
-        //         case "NewItemSaved":
-        //             ViewModelArgs.OrderID = model.OrderID;
-        //             await ContextService.RunAsync(async () =>
-        //             {
-        //                 await RefreshAsync();
-        //             });
-        //             break;
-        //     }
-        // }
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private async void OnPrintInNewView()
+        {
+            await InteriorDoorService.SaveInteriorDoorListToExcelFileAsync(Items);
+        }
     }
 }
 

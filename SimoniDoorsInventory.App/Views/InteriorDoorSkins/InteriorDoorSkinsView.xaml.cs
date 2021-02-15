@@ -31,6 +31,12 @@ namespace SimoniDoorsInventory.Views
         {
             ViewModel.Subscribe();
             await ViewModel.LoadAsync(e.Parameter as InteriorDoorSkinListArgs);
+
+            // var childDetails = details.GetDetails();
+            // var detailToolBar = childDetails.GetDetailToolbar();
+            // // detailToolBar.DefaultCommands = "edit,delete";
+            // var printButton = detailToolBar.GetPrintButton();
+            // printButton.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

@@ -43,26 +43,26 @@
                 </GridView.ItemsPanel>
                 <views:CustomersPane Margin="12" 
                                      Width="550"
-                                     Height="250"
+                                     Height="320"
                                      ItemsSource="{x:Bind ViewModel.Customers, Mode=OneWay}" 
                                      Tag="Πελάτες" />
 
                 <views:OrdersPane Margin="12" 
                                       Width="480"
-                                      Height="250"
+                                      Height="320"
                                       ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}" 
                                       Tag="Παραγγελίες" />
 
                 <views:PaymentsPane Margin="12" 
                                     Width="440"
-                                    Height="250"
+                                    Height="320"
                                     ItemsSource="{x:Bind ViewModel.Payments, Mode=OneWay}" 
                                     Tag="Πληρωμές" />
                 
                 <views:InteriorDoorSkinsPane 
                                     Margin="12" 
                                     Width="650" 
-                                    Height="400" 
+                                    Height="320" 
                                     ItemsSource="{x:Bind ViewModel.InteriorDoorSkins, Mode=OneWay}"
                                     Tag="Επενδύσεις" />
             </GridView>

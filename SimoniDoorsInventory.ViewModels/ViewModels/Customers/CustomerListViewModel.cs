@@ -231,5 +231,12 @@ namespace SimoniDoorsInventory.ViewModels
                     break;
             }
         }
+
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private async void OnPrintInNewView()
+        {
+            await CustomerService.SaveCustomerListToExcelFileAsync(Items);
+        }
+
     }
 }

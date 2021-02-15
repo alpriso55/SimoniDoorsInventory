@@ -20,19 +20,29 @@ using System.Threading.Tasks;
 using SimoniDoorsInventory.Data;
 using SimoniDoorsInventory.Data.Services;
 using SimoniDoorsInventory.Models;
+using System.IO;
+using Windows.Storage;
+using OfficeOpenXml;
 
 namespace SimoniDoorsInventory.Services
 {
     public class CustomerService : ICustomerService
     {
-        public CustomerService(IDataServiceFactory dataServiceFactory, ILogService logService)
+        public CustomerService(IDataServiceFactory dataServiceFactory, 
+                               ILogService logService, 
+                               IFilePickerService filePickerService, 
+                               IDialogService dialogService)
         {
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
+            FilePickerService = filePickerService;
+            DialogService = dialogService;
         }
 
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
+        public IFilePickerService FilePickerService { get; }
+        public IDialogService DialogService { get; }
 
         public async Task<CustomerModel> GetCustomerAsync(long id)
         {
@@ -162,5 +172,137 @@ namespace SimoniDoorsInventory.Services
             target.Picture = source.Picture;
             target.Thumbnail = source.Thumbnail;
         }
+
+        public async Task SaveCustomerDetailsToExcelFileAsync(CustomerModel customerModel, IList<OrderModel> customerOrders, IList<PaymentModel> customerPayments)
+        {
+            Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{customerModel.CustomerID}_ΠΕΛΑΤΗΣ_ΛΕΠΤΟΜΕΡΕΙΕΣ.xlsx");
+
+            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/CutomerDetailsTemplate.xlsx");
+            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                try
+                {
+                    using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                    {
+                        //Open the first worksheet
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        worksheet.Cells["C1"].Value = customerModel.CustomerID.ToString();
+                        worksheet.Cells["A3"].Value = customerModel.FullName;
+                        worksheet.Cells["A5"].Value = customerModel.FullAddress;
+                        worksheet.Cells["D5"].Value = customerModel.Email;
+                        worksheet.Cells["A7"].Value = customerModel.Phone1;
+                        worksheet.Cells["D7"].Value = customerModel?.Phone2 ?? "";
+                        worksheet.Cells["A9"].Value = customerModel.Observations;
+                        worksheet.Cells["D9"].Value = customerModel.Balance;
+
+                        int cellIndex = 12;
+                        worksheet.InsertRow(cellIndex, customerOrders.Count);
+
+                        for (int i = 0; i < customerOrders.Count; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = customerOrders[i].OrderID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = customerOrders[i].OrderName;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = customerOrders[i].FullAddress;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = customerOrders[i].OrderDate;
+                            worksheet.Cells[$"E{cellIndex + i}"].Value = customerOrders[i].StatusDesc;
+                            worksheet.Cells[$"F{cellIndex + i}"].Value = customerOrders[i].Crew.CrewDesc;
+                            worksheet.Cells[$"G{cellIndex + i}"].Value = customerOrders[i].TotalCost;
+                            worksheet.Cells[$"H{cellIndex + i}"].Value = customerOrders[i].DeliveryDateTime;
+                            worksheet.Cells[$"I{cellIndex + i}"].Value = customerOrders[i].Observations;
+                        }
+
+                        cellIndex += customerOrders.Count;
+                        cellIndex += 6;
+                        worksheet.InsertRow(cellIndex, customerOrders.Count);
+
+                        for (int i = 0; i < customerPayments.Count; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = customerPayments[i].PaymentID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = customerPayments[i].PaymentDate;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = customerPayments[i].PaymentType.Name;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = customerPayments[i].Amount;
+                            worksheet.Cells[$"I{cellIndex + i}"].Value = customerPayments[i].Observations;
+                        }
+
+                        //Switch the PageLayoutView back to normal
+                        worksheet.View.PageLayoutView = false;
+                        // save our new workbook and we are done!
+
+                        await package.SaveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                    await LogService.WriteAsync(LogType.Error, "CustomerService", "SaveCustomerDetailsToExcelFileAsync", ex);
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
+        public async Task SaveCustomerListToExcelFileAsync(IList<CustomerModel> customerList)
+        {
+            Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΠΕΛΑΤΕΣ_ΛΙΣΤΑ.xlsx");
+
+            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/CutomerListTemplate.xlsx");
+            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                try
+                {
+                    using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                    {
+                        //Open the first worksheet
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        int cellIndex = 3;
+                        int customerCount = customerList.Count;
+                        worksheet.InsertRow(cellIndex, customerCount);
+
+                        for (int i = 0; i < customerCount; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = customerList[i].CustomerID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = customerList[i].Balance;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = customerList[i].FirstName;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = customerList[i].LastName;
+                            worksheet.Cells[$"E{cellIndex + i}"].Value = customerList[i].Phone1;
+                            worksheet.Cells[$"F{cellIndex + i}"].Value = customerList[i].Phone2;
+                            worksheet.Cells[$"G{cellIndex + i}"].Value = customerList[i].Email;
+                            worksheet.Cells[$"H{cellIndex + i}"].Value = customerList[i].AddressLine;
+                            worksheet.Cells[$"I{cellIndex + i}"].Value = customerList[i].City;
+                            worksheet.Cells[$"J{cellIndex + i}"].Value = customerList[i].PostalCode;
+                            worksheet.Cells[$"K{cellIndex + i}"].Value = customerList[i].Floor;
+                            worksheet.Cells[$"L{cellIndex + i}"].Value = customerList[i].CreatedOn;
+                            worksheet.Cells[$"M{cellIndex + i}"].Value = customerList[i].Observations;
+                        }
+
+                        //Switch the PageLayoutView back to normal
+                        worksheet.View.PageLayoutView = false;
+                        // save our new workbook and we are done!
+
+                        await package.SaveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                    await LogService.WriteAsync(LogType.Error, "CustomerService", "SaveCustomerListToExcelFileAsync", ex);
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
     }
 }

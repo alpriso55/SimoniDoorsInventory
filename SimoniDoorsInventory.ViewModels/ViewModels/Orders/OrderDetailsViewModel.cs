@@ -242,5 +242,12 @@ namespace SimoniDoorsInventory.ViewModels
                 StatusMessage("WARNING: This order has been deleted externally");
             });
         }
+
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private void OnPrintInNewView()
+        {
+            MessageService.Send(this, "PrintButtonPressed", Item);
+        }
+
     }
 }

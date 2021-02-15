@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using SimoniDoorsInventory.Models;
 using SimoniDoorsInventory.Services;
 
@@ -44,6 +44,7 @@ namespace SimoniDoorsInventory.ViewModels
         public void Subscribe()
         {
             MessageService.Subscribe<CustomerListViewModel>(this, OnCustomerListMessage);
+            MessageService.Subscribe<CustomerDetailsViewModel>(this, OnCustomerDetailsMessage);
             // MessageService.Subscribe<OrderListViewModel>(this, OnOrdersMessage);
             // MessageService.Subscribe<PaymentListViewModel>(this, OnPaymentsMessage);
             CustomerList.Subscribe();
@@ -68,6 +69,14 @@ namespace SimoniDoorsInventory.ViewModels
                 {
                     OnItemSelected();
                 });
+            }
+        }
+
+        private async void OnCustomerDetailsMessage(CustomerDetailsViewModel viewModel, string message, object args)
+        {
+            if (viewModel == CustomerDetails && message == "PrintButtonPressed")
+            {
+                await CustomerService.SaveCustomerDetailsToExcelFileAsync(CustomerDetails.Item, CustomerOrders.Items, CustomerPayments.Items);
             }
         }
 
@@ -152,5 +161,6 @@ namespace SimoniDoorsInventory.ViewModels
                 LogException("Customers", "Load Payments", ex);
             }
         }
+
     }
 }

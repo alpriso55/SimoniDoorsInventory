@@ -19,5 +19,7 @@ namespace SimoniDoorsInventory.Services
 
         Task<int> DeletePaymentAsync(PaymentModel model);
         Task<int> DeletePaymentRangeAsync(int index, int length, DataRequest<Payment> request);
+
+        Task SavePaymentListToExcelFileAsync(IList<PaymentModel> paymentList);
     }
 }

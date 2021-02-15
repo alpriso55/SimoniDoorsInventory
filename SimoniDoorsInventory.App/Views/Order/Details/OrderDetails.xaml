@@ -97,7 +97,7 @@
                           EditCommand="{x:Bind ViewModel.OrderDetails.EditCommand}"
                           DeleteCommand="{x:Bind ViewModel.OrderDetails.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.OrderDetails.SaveCommand}"
-                          CancelCommand="{x:Bind ViewModel.OrderDetails.CancelCommand}"
+                          CancelCommand="{x:Bind ViewModel.OrderDetails.CancelCommand}" 
                           PrintCommand="{x:Bind ViewModel.PrintInNewViewCommand}" />
 
             <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0,1,0,0" Visibility="{x:Bind ViewModel.OrderDetails.ItemIsNew, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">

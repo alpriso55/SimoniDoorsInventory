@@ -232,5 +232,11 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private async void OnPrintInNewView()
+        {
+            await InteriorDoorSkinService.SaveInteriorDoorSkinListToExcelFileAsync(Items);
+        }
+
     }
 }

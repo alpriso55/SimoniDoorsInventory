@@ -28,6 +28,8 @@ namespace SimoniDoorsInventory.Models
         // --------------------------------------------------------
         public bool IsNew => string.IsNullOrWhiteSpace(InteriorDoorSkinID);
         public string InteriorDoorSkinDesc => $"{InteriorDoorSkinID} ({StockUnits} Τμχ.)";
+        public string StockUnitsDesc => $"Αποθέματα: {StockUnits}";
+        public string SafetyStockLevelDesc => $"Όριο: {SafetyStockLevel}";
 
         public override string ToString()
         {

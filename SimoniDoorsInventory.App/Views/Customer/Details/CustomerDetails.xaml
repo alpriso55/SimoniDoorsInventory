@@ -57,6 +57,7 @@
                           EditCommand="{x:Bind ViewModel.EditCommand}"
                           DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
-                          CancelCommand="{x:Bind ViewModel.CancelCommand}" />
+                          CancelCommand="{x:Bind ViewModel.CancelCommand}"
+                          PrintCommand="{x:Bind ViewModel.PrintInNewViewCommand}" />
     </Grid>
 </UserControl>

@@ -49,7 +49,7 @@ namespace SimoniDoorsInventory
         static public string GetParameter(this Uri uri, string name)
         {
             string query = uri.Query;
-            if (!String.IsNullOrEmpty(query))
+            if (!string.IsNullOrEmpty(query))
             {
                 try
                 {

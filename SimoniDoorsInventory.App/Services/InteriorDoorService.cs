@@ -20,17 +20,29 @@ using System.Threading.Tasks;
 using SimoniDoorsInventory.Data;
 using SimoniDoorsInventory.Data.Services;
 using SimoniDoorsInventory.Models;
+using System.IO;
+using Windows.Storage;
+using OfficeOpenXml;
 
 namespace SimoniDoorsInventory.Services
 {
     public class InteriorDoorService : IInteriorDoorService
     {
-        public InteriorDoorService(IDataServiceFactory dataServiceFactory)
+        public InteriorDoorService(IDataServiceFactory dataServiceFactory,
+                                   ILogService logService,
+                                   IFilePickerService filePickerService,
+                                   IDialogService dialogService)
         {
             DataServiceFactory = dataServiceFactory;
+            LogService = logService;
+            FilePickerService = filePickerService;
+            DialogService = dialogService;
         }
 
         public IDataServiceFactory DataServiceFactory { get; }
+        public ILogService LogService { get; }
+        public IFilePickerService FilePickerService { get; }
+        public IDialogService DialogService { get; }
 
         public async Task<InteriorDoorModel> GetInteriorDoorAsync(long orderID, int interiorDoorID)
         {
@@ -169,5 +181,62 @@ namespace SimoniDoorsInventory.Services
             target.Observations = source.Observations;
             target.Price = source.Price;
         }
+
+        public async Task SaveInteriorDoorListToExcelFileAsync(IList<InteriorDoorModel> interiorDoorList)
+        {
+            Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΜΕΣΟΠΟΡΤΕΣ_ΛΙΣΤΑ.xlsx");
+
+            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/ΙnteriorDoorListTemplate.xlsx");
+            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                try
+                {
+                    using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                    {
+                        //Open the first worksheet
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        int cellIndex = 3;
+                        int interiorDoorCount = interiorDoorList.Count;
+                        worksheet.InsertRow(cellIndex, interiorDoorCount);
+
+                        for (int i = 0; i < interiorDoorCount; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = interiorDoorList[i].OrderID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = interiorDoorList[i].InteriorDoorID;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = interiorDoorList[i].OpeningTypeDesc;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = interiorDoorList[i].InteriorDoorSkinID;
+                            worksheet.Cells[$"E{cellIndex + i}"].Value = interiorDoorList[i].InteriorDoorDesignID;
+                            worksheet.Cells[$"F{cellIndex + i}"].Value = interiorDoorList[i].OpeningSideDesc;
+                            worksheet.Cells[$"G{cellIndex + i}"].Value = interiorDoorList[i].Width;
+                            worksheet.Cells[$"H{cellIndex + i}"].Value = interiorDoorList[i].Height;
+                            worksheet.Cells[$"I{cellIndex + i}"].Value = interiorDoorList[i].Lamb;
+                            worksheet.Cells[$"J{cellIndex + i}"].Value = interiorDoorList[i].AccessoryDesc;
+                            worksheet.Cells[$"K{cellIndex + i}"].Value = interiorDoorList[i].Price;
+                            worksheet.Cells[$"L{cellIndex + i}"].Value = interiorDoorList[i].Observations;
+                        }
+
+                        //Switch the PageLayoutView back to normal
+                        worksheet.View.PageLayoutView = false;
+                        // save our new workbook and we are done!
+
+                        await package.SaveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                    await LogService.WriteAsync(LogType.Error, "InteriorDoorService", "SaveInteriorDoorListToExcelFileAsync", ex);
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
     }
 }

@@ -125,6 +125,7 @@
     <Compile Include="Common\VirtualCollection\VirtualCollection.IList.cs" />
     <Compile Include="Common\VirtualCollection\VirtualCollection.Selection.cs" />
     <Compile Include="Configuration\AppSettings.cs" />
+    <Compile Include="Configuration\FileOutputUtil.cs" />
     <Compile Include="Configuration\ServiceLocator.cs" />
     <Compile Include="Configuration\Startup.cs" />
     <Compile Include="Controls\AdaptiveGridView\AdaptiveGridView.cs" />
@@ -289,6 +290,9 @@
     </Compile>
     <Compile Include="Views\InteriorDoorSkins\InteriorDoorSkinsView.xaml.cs">
       <DependentUpon>InteriorDoorSkinsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\List\InteriorDoorSkinCardList.xaml.cs">
+      <DependentUpon>InteriorDoorSkinCardList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InteriorDoorSkins\List\InteriorDoorSkinsList.xaml.cs">
       <DependentUpon>InteriorDoorSkinsList.xaml</DependentUpon>
@@ -660,6 +664,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\InteriorDoorSkins\List\InteriorDoorSkinCardList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InteriorDoorSkins\List\InteriorDoorSkinsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -850,6 +858,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Assets\AppLog\AppLog.db" />
+    <None Include="Assets\ExcelTemplates\OrderDetailsTemplate.xlsx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

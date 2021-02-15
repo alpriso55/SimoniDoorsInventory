@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 using SimoniDoorsInventory.Models;
 using SimoniDoorsInventory.Services;
 
@@ -10,14 +16,19 @@ namespace SimoniDoorsInventory.ViewModels
     {
         public OrderDetailsWithItemsViewModel(IOrderService orderService, 
                                               IInteriorDoorService interiorDoorService, 
+                                              IFilePickerService filePickerService,
                                               ICommonServices commonServices) : base(commonServices)
         {
             OrderDetails = new OrderDetailsViewModel(orderService, commonServices);
             InteriorDoorList = new InteriorDoorListViewModel(interiorDoorService, commonServices);
+
+            OrderService = orderService;
         }
 
         public OrderDetailsViewModel OrderDetails { get; set; }
         public InteriorDoorListViewModel InteriorDoorList { get; set; }
+
+        IOrderService OrderService { get; set; }
 
         public async Task LoadAsync(OrderDetailsArgs args)
         {
@@ -141,7 +152,9 @@ namespace SimoniDoorsInventory.ViewModels
         public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
         private async void OnPrintInNewView()
         {
-            await NavigationService.CreateNewViewAsync<OrderPrintDetailsWithItemsViewModel>(new OrderDetailsArgs { OrderID = OrderDetails.Item.OrderID });
+            // await NavigationService.CreateNewViewAsync<OrderPrintDetailsWithItemsViewModel>(new OrderDetailsArgs { OrderID = OrderDetails.Item.OrderID });
+
+            await OrderService.SaveOrderDetailsWithItemsToExcelFileAsync(OrderDetails.Item, InteriorDoorList.Items);
         }
 
     }

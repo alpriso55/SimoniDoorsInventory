@@ -20,19 +20,29 @@ using System.Threading.Tasks;
 using SimoniDoorsInventory.Data;
 using SimoniDoorsInventory.Data.Services;
 using SimoniDoorsInventory.Models;
+using System.IO;
+using OfficeOpenXml;
+using Windows.Storage;
 
 namespace SimoniDoorsInventory.Services
 {
     public class OrderService : IOrderService
     {
-        public OrderService(IDataServiceFactory dataServiceFactory, ILogService logService)
+        public OrderService(IDataServiceFactory dataServiceFactory, 
+                            ILogService logService, 
+                            IFilePickerService filePickerService, 
+                            IDialogService dialogService)
         {
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
+            FilePickerService = filePickerService;
+            DialogService = dialogService;
         }
 
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
+        public IFilePickerService FilePickerService { get; }
+        public IDialogService DialogService { get; }
 
         public async Task<OrderModel> GetOrderAsync(long id)
         {
@@ -192,5 +202,122 @@ namespace SimoniDoorsInventory.Services
             target.TotalCost = source.TotalCost;
             target.Observations = source.Observations;
         }
+
+        public async Task SaveOrderDetailsWithItemsToExcelFileAsync(OrderModel orderModel, IList<InteriorDoorModel> orderItems)
+        {
+            // await NavigationService.CreateNewViewAsync<OrderPrintDetailsWithItemsViewModel>(ViewModel.OrderDetails.CreateArgs());
+
+            Stream newFileStream =  await FilePickerService.GetExcelFileStreamAsync($"{orderModel.OrderID}_ΠΑΡΑΓΓΕΛΙΑ_ΛΕΠΤΟΜΕΡΕΙΕΣ.xlsx");
+
+            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/OrderDetailsTemplate.xlsx");
+            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                {
+                    //Open the first worksheet
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                    worksheet.Cells["C1"].Value = orderModel.OrderID.ToString();
+                    worksheet.Cells["A6"].Value = orderModel.FullName;
+                    worksheet.Cells["A8"].Value = orderModel.FullAddress;
+                    worksheet.Cells["A10"].Value = $"{orderModel.Customer?.Phone1} - {orderModel.Customer?.Phone2}";
+
+                    int cellIndex = 14;
+                    worksheet.InsertRow(cellIndex, orderItems.Count);
+
+                    for (int i = 0; i < orderItems.Count; i++)
+                    {
+                        worksheet.Cells[$"A{cellIndex + i}"].Value = orderItems[i].InteriorDoorID;
+                        worksheet.Cells[$"B{cellIndex + i}"].Value = orderItems[i].OpeningTypeDesc;
+                        worksheet.Cells[$"C{cellIndex + i}"].Value = orderItems[i].InteriorDoorSkinID;
+                        worksheet.Cells[$"D{cellIndex + i}"].Value = orderItems[i].InteriorDoorDesignID;
+                        worksheet.Cells[$"E{cellIndex + i}"].Value = orderItems[i].AccessoryDesc;
+                        worksheet.Cells[$"F{cellIndex + i}"].Value = orderItems[i].OpeningSideDesc;
+                        worksheet.Cells[$"G{cellIndex + i}"].Value = orderItems[i].ManufacturingWidth;
+                        worksheet.Cells[$"H{cellIndex + i}"].Value = orderItems[i].ManufacturingHeight;
+                        worksheet.Cells[$"I{cellIndex + i}"].Value = orderItems[i].Lamb;
+                        worksheet.Cells[$"J{cellIndex + i}"].Value = orderItems[i].Observations;
+                    }
+
+                    //Switch the PageLayoutView back to normal
+                    worksheet.View.PageLayoutView = false;
+                    // save our new workbook and we are done!
+                    try
+                    {
+                        await package.SaveAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                        await LogService.WriteAsync(LogType.Error, "CustomerService", "SaveCustomerDetailsToExcelFileAsync", ex);
+                    }
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
+        public async Task SaveOrderListToExcelFileAsync(IList<OrderModel> orderList)
+        {
+            Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΠΑΡΑΓΓΕΛΙΑ_ΛΙΣΤΑ.xlsx");
+
+            FileInfo templateFileInfo = new FileInfo("Assets/ExcelTemplates/OrderListTemplate.xlsx");
+            StorageFile templateStorageFile = await StorageFile.GetFileFromPathAsync(templateFileInfo.FullName);
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                try
+                {
+                    using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                    {
+                        //Open the first worksheet
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        int cellIndex = 3;
+                        int orderCount = orderList.Count;
+                        worksheet.InsertRow(cellIndex, orderCount);
+
+                        for (int i = 0; i < orderCount; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = orderList[i].OrderID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = orderList[i].OrderName;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = orderList[i].Customer.FullName;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = orderList[i].Crew.CrewDesc;
+                            worksheet.Cells[$"E{cellIndex + i}"].Value = orderList[i].AddressLine;
+                            worksheet.Cells[$"F{cellIndex + i}"].Value = orderList[i].City;
+                            worksheet.Cells[$"G{cellIndex + i}"].Value = orderList[i].PostalCode;
+                            worksheet.Cells[$"H{cellIndex + i}"].Value = orderList[i].Floor;
+                            worksheet.Cells[$"I{cellIndex + i}"].Value = orderList[i].OrderDate;
+                            worksheet.Cells[$"J{cellIndex + i}"].Value = orderList[i].DeliveryDateTime;
+                            worksheet.Cells[$"K{cellIndex + i}"].Value = orderList[i].StatusDesc;
+                            worksheet.Cells[$"L{cellIndex + i}"].Value = orderList[i].TotalCost;
+                            worksheet.Cells[$"M{cellIndex + i}"].Value = orderList[i].Observations;
+                        }
+
+                        //Switch the PageLayoutView back to normal
+                        worksheet.View.PageLayoutView = false;
+                        // save our new workbook and we are done!
+
+                        await package.SaveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                    await LogService.WriteAsync(LogType.Error, "OrderService", "SaveOrderListToExcelFileAsync", ex);
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
     }
 }
