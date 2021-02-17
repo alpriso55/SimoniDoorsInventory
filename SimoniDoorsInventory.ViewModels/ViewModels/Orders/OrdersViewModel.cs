@@ -16,14 +16,14 @@ namespace SimoniDoorsInventory.ViewModels
 
             OrderList = new OrderListViewModel(OrderService, commonServices);
             OrderDetails = new OrderDetailsViewModel(OrderService, commonServices);
-            InteriorDoorList = new InteriorDoorListViewModel(interiorDoorService, commonServices);
+            OrderInteriorDoors = new InteriorDoorListViewModel(interiorDoorService, commonServices);
         }
 
         public IOrderService OrderService { get; }
 
         public OrderListViewModel OrderList { get; set; }
         public OrderDetailsViewModel OrderDetails { get; set; }
-        public InteriorDoorListViewModel InteriorDoorList { get; set; }
+        public InteriorDoorListViewModel OrderInteriorDoors { get; set; }
 
         public async Task LoadAsync(OrderListArgs args)
         {
@@ -37,20 +37,24 @@ namespace SimoniDoorsInventory.ViewModels
 
         public void Subscribe()
         {
-            MessageService.Subscribe<OrderListViewModel>(this, OnMessage);
+            MessageService.Subscribe<OrderListViewModel>(this, OnOrderListMessage);
+            MessageService.Subscribe<OrderDetailsViewModel>(this, OnOrderDetailsMessage);
+            MessageService.Subscribe<InteriorDoorListViewModel>(this, OnInteriorDoorMessage);
+            MessageService.Subscribe<InteriorDoorDetailsViewModel>(this, OnInteriorDoorMessage);
+
             OrderList.Subscribe();
             OrderDetails.Subscribe();
-            InteriorDoorList.Subscribe();
+            OrderInteriorDoors.Subscribe();
         }
         public void Unsubscribe()
         {
             MessageService.Unsubscribe(this);
             OrderList.Unsubscribe();
             OrderDetails.Unsubscribe();
-            InteriorDoorList.Unsubscribe();
+            OrderInteriorDoors.Unsubscribe();
         }
 
-        private async void OnMessage(OrderListViewModel viewModel, string message, object args)
+        private async void OnOrderListMessage(OrderListViewModel viewModel, string message, object args)
         {
             if (viewModel == OrderList && message == "ItemSelected")
             {
@@ -61,6 +65,65 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        private async void OnOrderDetailsMessage(OrderDetailsViewModel viewModel, string message, object args)
+        {
+            if (viewModel == OrderDetails && message == "PrintButtonPressed")
+            {
+                await OrderService.SaveOrderDetailsWithItemsToExcelFileAsync(OrderDetails.Item, OrderInteriorDoors.Items);
+            }
+        }
+
+        private async void OnInteriorDoorMessage(ViewModelBase sender, string message, object args)
+        {
+            if (sender == OrderInteriorDoors)
+            {
+                switch (message)
+                {
+                    case "ItemsDeleted":
+                    case "ItemRangesDeleted":
+                        await ContextService.RunAsync( () =>
+                        {
+                            OnInteriorDoorUpdated();
+                        });
+                        break;
+                        
+                }
+            }
+
+            if (sender is InteriorDoorDetailsViewModel s && s != null && s.OrderID == OrderDetails.Item.OrderID)
+            {
+                switch (message)
+                {
+                    case "NewItemSaved":
+                    case "ItemChanged":
+                    case "ItemDeleted":
+                        await ContextService.RunAsync(() =>
+                        {
+                            OnInteriorDoorUpdated();
+                        });
+                        break;
+                }
+            }
+        }
+
+        private async void OnInteriorDoorUpdated()
+        {
+            var selected = new OrderModel();
+            selected.Merge(OrderList.SelectedItem);
+            if (!OrderList.IsMultipleSelection)
+            {
+                if (selected != null && !selected.IsEmpty)
+                {
+                    await PopulateDetails(selected);
+                    await PopulateInteriorDoors(selected);
+                }
+            }
+            selected.TotalCost = await OrderInteriorDoors.GetSumOfPrices();
+            OrderList.SelectedItem = selected;
+            OrderDetails.Item = selected;
+            await OrderService.UpdateOrderAsync(selected);
+        }
+
         private async void OnItemSelected()
         {
             if (OrderDetails.IsEditMode)
@@ -68,7 +131,7 @@ namespace SimoniDoorsInventory.ViewModels
                 StatusReady();
                 OrderDetails.CancelEdit();
             }
-            InteriorDoorList.IsMultipleSelection = false;
+            OrderInteriorDoors.IsMultipleSelection = false;
             var selected = OrderList.SelectedItem;
             if (!OrderList.IsMultipleSelection)
             {
@@ -78,7 +141,9 @@ namespace SimoniDoorsInventory.ViewModels
                     await PopulateInteriorDoors(selected);
                 }
             }
+            // selected.TotalCost = await OrderInteriorDoors.GetSumOfPrices();
             OrderDetails.Item = selected;
+            // OrderDetails.SaveCommand.Execute(null);  // NEW LINE
         }
 
         private async Task PopulateDetails(OrderModel selected)
@@ -100,12 +165,12 @@ namespace SimoniDoorsInventory.ViewModels
             {
                 if (selectedItem != null)
                 {
-                    await InteriorDoorList.LoadAsync(new InteriorDoorListArgs { OrderID = selectedItem.OrderID }, silent: true);
+                    await OrderInteriorDoors.LoadAsync(new InteriorDoorListArgs { OrderID = selectedItem.OrderID }, silent: true);
                 }
             }
             catch (Exception ex)
             {
-                LogException("Orders", "Load OrderItems", ex);
+                LogException("Orders", "Load Interior Doors", ex);
             }
         }
     }

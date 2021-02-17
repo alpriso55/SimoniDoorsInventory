@@ -12,12 +12,21 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>7E32C090E4A67F4FF44605C8A3DC43D8702F4450</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile />
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +50,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <Use64BitCompiler>true</Use64BitCompiler>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -100,6 +110,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -111,7 +122,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -125,6 +136,7 @@
     <Compile Include="Common\VirtualCollection\VirtualCollection.IList.cs" />
     <Compile Include="Common\VirtualCollection\VirtualCollection.Selection.cs" />
     <Compile Include="Configuration\AppSettings.cs" />
+    <Compile Include="Configuration\FileOutputUtil.cs" />
     <Compile Include="Configuration\ServiceLocator.cs" />
     <Compile Include="Configuration\Startup.cs" />
     <Compile Include="Controls\AdaptiveGridView\AdaptiveGridView.cs" />
@@ -140,8 +152,14 @@
     <Compile Include="Controls\DataList\DataList.xaml.cs">
       <DependentUpon>DataList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataList\DataListPrint.xaml.cs">
+      <DependentUpon>DataListPrint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Details\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Details\DetailsPrint.xaml.cs">
+      <DependentUpon>DetailsPrint.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\FluidGrid\FluidGrid.cs" />
     <Compile Include="Controls\Forms\FormAutoSuggestBox.cs" />
@@ -194,11 +212,13 @@
     <Compile Include="Services\Infrastructure\MessageService.cs" />
     <Compile Include="Services\Infrastructure\NavigationService.cs" />
     <Compile Include="Services\Infrastructure\SettingsService.cs" />
+    <Compile Include="Services\InteriorDoorSkinService.cs" />
     <Compile Include="Services\LookupTables.cs" />
     <Compile Include="Services\InteriorDoorService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\VirtualCollections\CustomerCollection.cs" />
+    <Compile Include="Services\VirtualCollections\InteriorDoorSkinCollection.cs" />
     <Compile Include="Services\VirtualCollections\OrderCollection.cs" />
     <Compile Include="Services\VirtualCollections\PaymentCollection.cs" />
     <Compile Include="Tools\BitmapTools.cs" />
@@ -222,6 +242,9 @@
     <Compile Include="Views\Controls\CustomerSuggestBox.xaml.cs">
       <DependentUpon>CustomerSuggestBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\InteriorDoorSkinSuggestBox.xaml.cs">
+      <DependentUpon>InteriorDoorSkinSuggestBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\PaymentSuggestBox.xaml.cs">
       <DependentUpon>PaymentSuggestBox.xaml</DependentUpon>
     </Compile>
@@ -236,6 +259,9 @@
     </Compile>
     <Compile Include="Views\Customers\Details\CustomersOrders.xaml.cs">
       <DependentUpon>CustomersOrders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Customers\Details\CustomersPayments.xaml.cs">
+      <DependentUpon>CustomersPayments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Customers\List\CustomersList.xaml.cs">
       <DependentUpon>CustomersList.xaml</DependentUpon>
@@ -258,11 +284,38 @@
     <Compile Include="Views\Dashboard\Parts\CustomersPane.xaml.cs">
       <DependentUpon>CustomersPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dashboard\Parts\InteriorDoorSkinsPane.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dashboard\Parts\OrdersPane.xaml.cs">
       <DependentUpon>OrdersPane.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dashboard\Parts\PaymentsPane.xaml.cs">
       <DependentUpon>PaymentsPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsCard.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsDetails.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\InteriorDoorSkinsView.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\List\InteriorDoorSkinCardList.xaml.cs">
+      <DependentUpon>InteriorDoorSkinCardList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkins\List\InteriorDoorSkinsList.xaml.cs">
+      <DependentUpon>InteriorDoorSkinsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinCard.xaml.cs">
+      <DependentUpon>InteriorDoorSkinCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinDetails.xaml.cs">
+      <DependentUpon>InteriorDoorSkinDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InteriorDoorSkin\InteriorDoorSkinView.xaml.cs">
+      <DependentUpon>InteriorDoorSkinView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InteriorDoors\Details\InteriorDoorsCard.xaml.cs">
       <DependentUpon>InteriorDoorsCard.xaml</DependentUpon>
@@ -300,6 +353,9 @@
     <Compile Include="Views\Orders\Details\OrdersDetails.xaml.cs">
       <DependentUpon>OrdersDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Orders\Details\OrdersInteriorDoorsPrint.xaml.cs">
+      <DependentUpon>OrdersInteriorDoorsPrint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Orders\List\OrdersList.xaml.cs">
       <DependentUpon>OrdersList.xaml</DependentUpon>
     </Compile>
@@ -314,6 +370,12 @@
     </Compile>
     <Compile Include="Views\Orders\Details\OrdersInteriorDoors.xaml.cs">
       <DependentUpon>OrdersInteriorDoors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\Details\OrderPrint.xaml.cs">
+      <DependentUpon>OrderPrint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Order\OrderPrintView.xaml.cs">
+      <DependentUpon>OrderPrintView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Order\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
@@ -360,15 +422,60 @@
   <ItemGroup>
     <Content Include="Assets\AppLogo.png" />
     <Content Include="Assets\Html\ChartHtmlControl.html" />
+    <Content Include="Assets\Images\Door-04.svg" />
     <Content Include="Assets\Images\LoginBackground.jpg" />
     <Content Include="Assets\Images\payment-icon.jpg" />
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-125.png" />
+    <Content Include="Assets\LargeTile.scale-150.png" />
+    <Content Include="Assets\LargeTile.scale-200.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-125.png" />
+    <Content Include="Assets\SmallTile.scale-150.png" />
+    <Content Include="Assets\SmallTile.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -384,7 +491,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DataList\DataListPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Details\Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Details\DetailsPrint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -480,6 +595,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Controls\InteriorDoorSkinSuggestBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controls\PaymentSuggestBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -497,6 +616,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Customers\Details\CustomersOrders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Customers\Details\CustomersPayments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -528,11 +651,47 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Dashboard\Parts\InteriorDoorSkinsPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dashboard\Parts\OrdersPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dashboard\Parts\PaymentsPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\Details\InteriorDoorSkinsDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\InteriorDoorSkinsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\List\InteriorDoorSkinCardList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkins\List\InteriorDoorSkinsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkin\Details\InteriorDoorSkinDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InteriorDoorSkin\InteriorDoorSkinView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -584,6 +743,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Orders\Details\OrdersInteriorDoorsPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Orders\List\OrdersList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -601,6 +764,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Orders\Details\OrdersInteriorDoors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Order\Details\OrderPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Order\OrderPrintView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -678,6 +849,9 @@
     <PackageReference Include="Remotion.Linq">
       <Version>2.2.0</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.SfChart.UWP">
+      <Version>18.4.0.41</Version>
+    </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
     </PackageReference>
@@ -694,7 +868,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Assets\AppLog\AppLog.db" />
+    <Content Include="Assets\AppLog\AppLog.db" />
+    <Content Include="Assets\DatabaseTemplate\Template.db" />
+    <Content Include="Assets\ExcelTemplates\CutomerDetailsTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\CutomerListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\InteriorDoorListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\InteriorDoorSkinListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\OrderDetailsTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\OrderListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\PaymentListTemplate.xlsx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

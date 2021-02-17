@@ -46,6 +46,7 @@ namespace SimoniDoorsInventory.Data
 
         [Required]
         public int Status { get; set; }
+        public virtual OrderStatus OrderStatus { get; set; }
 
         public decimal? TotalCost { get; set; }
 
@@ -59,9 +60,8 @@ namespace SimoniDoorsInventory.Data
         // Collections
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() =>
-            $"{OrderID} {CustomerID} {CrewID} {AddressLine} {City} {Status}".ToLower();
+            $"{OrderID} {CustomerID} {Customer?.FirstName} {Customer?.LastName} {CrewID} {AddressLine} {City} {Status} {OrderStatus?.Name}".ToLower();
 
         public virtual ICollection<InteriorDoor> InteriorDoors { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

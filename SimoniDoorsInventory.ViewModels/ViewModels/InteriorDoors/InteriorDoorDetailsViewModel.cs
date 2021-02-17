@@ -37,6 +37,8 @@ namespace SimoniDoorsInventory.ViewModels
 
         public override bool ItemIsNew => Item?.IsNew ?? true;
 
+        public bool CanEditInteriorDoorSkin => Item?.InteriorDoorID <= 0;
+
         public InteriorDoorDetailsArgs ViewModelArgs { get; private set; }
 
         public long OrderID { get; set; }
@@ -153,10 +155,10 @@ namespace SimoniDoorsInventory.ViewModels
         {
             try
             {
-                StartStatusMessage("Saving Interior Door...");
+                StartStatusMessage("Saving Interior door...");
                 await Task.Delay(100);
                 await InteriorDoorService.UpdateInteriorDoorAsync(model);
-                EndStatusMessage("Order item saved");
+                EndStatusMessage("Interior door saved");
                 LogInformation("OrderItem", "Save", "Interior Door saved successfully", $"Interior Door #{model.OrderID}, {model.InteriorDoorID} was saved successfully.");
                 return true;
             }

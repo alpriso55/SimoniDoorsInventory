@@ -10,9 +10,7 @@ namespace SimoniDoorsInventory.Data.Services
     public interface IDataSource : IDisposable
     {
         DbSet<DbVersion> DbVersion { get; }
-
         DbSet<Accessory> Accessories { get; }
-        DbSet<Account> Accounts { get; }
         DbSet<Category> Categories { get; }
         DbSet<Crew> Crews { get; }
         DbSet<Customer> Customers { get; }

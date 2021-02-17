@@ -46,7 +46,7 @@ namespace SimoniDoorsInventory.Controls
             control.UpdateControl();
         }
 
-        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(DetailToolbar), new PropertyMetadata("edit,delete", DefaultCommandsChanged));
+        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(DetailToolbar), new PropertyMetadata("edit,delete,print", DefaultCommandsChanged));
         #endregion
 
         private void UpdateControl()
@@ -58,7 +58,7 @@ namespace SimoniDoorsInventory.Controls
                     ShowCategory(DefaultCommands.Split(','));
                     break;
                 case DetailToolbarMode.BackEditdDelete:
-                    ShowCategory("back", "edit", "delete");
+                    ShowCategory("back", "edit", "delete", "print");
                     break;
                 case DetailToolbarMode.CancelSave:
                     ShowCategory("cancel", "save");
@@ -103,6 +103,9 @@ namespace SimoniDoorsInventory.Controls
                     case "buttonSave":
                         RaiseButtonClick(ToolbarButton.Save);
                         break;
+                    case "buttonPrint":
+                        RaiseButtonClick(ToolbarButton.Print);
+                        break;
                 }
             }
         }
@@ -111,5 +114,11 @@ namespace SimoniDoorsInventory.Controls
         {
             ButtonClick?.Invoke(this, new ToolbarButtonClickEventArgs(toolbarButton));
         }
+
+        public AppBarButton GetPrintButton()
+        {
+            return this.buttonPrint;
+        }
+
     }
 }

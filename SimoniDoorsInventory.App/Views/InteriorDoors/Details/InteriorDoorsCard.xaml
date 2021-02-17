@@ -31,7 +31,7 @@
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.InteriorDoorDesignID, Mode=OneWay}" />
 
             <TextBlock Style="{StaticResource CardHeader}" Text="Τιμή (€)" />
-            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Price, Mode=OneWay}" />
+            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Price, Mode=OneWay, Converter={StaticResource DecimalConverter}}" />
 
         </StackPanel>
     </ScrollViewer>

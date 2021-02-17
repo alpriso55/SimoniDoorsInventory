@@ -8,33 +8,32 @@
     xmlns:views="using:SimoniDoorsInventory.Views"
     xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
     xmlns:converters="using:SimoniDoorsInventory.Converters"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000">
 
     <UserControl.Resources>
         <converters:BindingTypeConverter x:Key="BindingTypeConverter"/>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:CustomerDetailsViewModel">
             <controls:FluidGrid Columns="2" ColumnSpacing="12" Margin="12,18,6,6" RowSpacing="12">
-                <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Personal Information"/>
-                <controls:FormTextBox Header="First Name" Text="{x:Bind EditableItem.FirstName, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Last Name" Text="{x:Bind EditableItem.LastName, Mode=TwoWay}" />
+                <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Στοιχεία Επικοινωνίας"/>
+                <controls:FormTextBox Header="Όνομα" Text="{x:Bind EditableItem.FirstName, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Επώνυμο" Text="{x:Bind EditableItem.LastName, Mode=TwoWay}" />
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="60">
-                    <controls:FormTextBox Header="Phone 1" Text="{x:Bind EditableItem.Phone1, Mode=TwoWay}" />
-                    <controls:FormTextBox Header="Phone 2" Text="{x:Bind EditableItem.Phone2, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Τηλέφωνο 1" Text="{x:Bind EditableItem.Phone1, Mode=TwoWay}" />
+                    <controls:FormTextBox Header="Τηλέφωνο 2" Text="{x:Bind EditableItem.Phone2, Mode=TwoWay}" />
                 </controls:FluidGrid>
-                <controls:FormTextBox Header="Email Address" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Email" Text="{x:Bind EditableItem.Email, Mode=TwoWay}" />
 
-                <TextBlock  Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Customer Address" />
-                <controls:FormTextBox Header="Address Line" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
-                <controls:FormTextBox Header="City" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Postal Code" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
-                <controls:FormTextBox Header="Floor" Text="{x:Bind EditableItem.Floor, Mode=TwoWay}" />
+                <TextBlock  Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Διεύθυνση Πελάτη" />
+                <controls:FormTextBox Header="Διεύθυνση" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Πόλη" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Ταχυδρομικός Κώδικας" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay, Converter={StaticResource Int32Converter}}" />
 
-                <TextBlock  Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Extra Information" />
+                <TextBlock  Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Επιπλέον Πληροφορίες" />
+                <controls:FormTextBox Header="Υπόλοιπο (€)" Text="{x:Bind EditableItem.Balance, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="{}0.0 €" />
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
-
                 <!-- <controls:FormComboBox Header="Country" ItemsSource="{x:Bind LookupTables.CountryCodes}" SelectedValue="{x:Bind EditableItem.CountryCode, Mode=TwoWay}" SelectedValuePath="CountryCodeID" DisplayMemberPath="Name" /> -->         
-                
             </controls:FluidGrid>
         </DataTemplate>
     </UserControl.Resources>
@@ -58,6 +57,7 @@
                           EditCommand="{x:Bind ViewModel.EditCommand}"
                           DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
-                          CancelCommand="{x:Bind ViewModel.CancelCommand}" />
+                          CancelCommand="{x:Bind ViewModel.CancelCommand}"
+                          PrintCommand="{x:Bind ViewModel.PrintInNewViewCommand}" />
     </Grid>
 </UserControl>

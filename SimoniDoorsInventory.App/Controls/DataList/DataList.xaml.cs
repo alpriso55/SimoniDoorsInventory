@@ -99,7 +99,7 @@ namespace SimoniDoorsInventory.Controls
             set { SetValue(DefaultCommandsProperty, value); }
         }
 
-        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(DataList), new PropertyMetadata("new,select,refresh,search"));
+        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(DataList), new PropertyMetadata("new,print,select,refresh,search"));
         #endregion
 
         #region SelectedItem
@@ -257,6 +257,15 @@ namespace SimoniDoorsInventory.Controls
         public static readonly DependencyProperty SelectRangesCommandProperty = DependencyProperty.Register(nameof(SelectRangesCommand), typeof(ICommand), typeof(DataList), new PropertyMetadata(null));
         #endregion
 
+        #region PrintCommand
+        public ICommand PrintCommand
+        {
+            get { return (ICommand)GetValue(PrintCommandProperty); }
+            set { SetValue(PrintCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty PrintCommandProperty = DependencyProperty.Register(nameof(PrintCommand), typeof(ICommand), typeof(DataList), new PropertyMetadata(null));
+        #endregion
 
         public ListToolbarMode ToolbarMode => IsMultipleSelection ? (SelectedItemsCount > 0 ? ListToolbarMode.CancelDelete : ListToolbarMode.Cancel) : ListToolbarMode.Default;
         static DependencyExpression ToolbarModeExpression = DependencyExpressions.Register(nameof(ToolbarMode), nameof(IsMultipleSelection), nameof(SelectedItemsCount));
@@ -354,6 +363,9 @@ namespace SimoniDoorsInventory.Controls
                     break;
                 case ToolbarButton.Cancel:
                     CancelSelectionCommand?.TryExecute();
+                    break;
+                case ToolbarButton.Print:
+                    PrintCommand?.TryExecute();
                     break;
             }
         }

@@ -13,6 +13,7 @@
         <AppBarButton x:Name="buttonDelete" Icon="Delete" Label="Delete" LabelPosition="Default" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Tag="delete" />
         <AppBarButton x:Name="buttonCancel" Icon="Cancel" Label="Cancel" LabelPosition="Default" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Tag="cancel" />
         <AppBarButton x:Name="buttonSave" Icon="Save" Label="Save" LabelPosition="Default" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Tag="save" />
+        <AppBarButton x:Name="buttonPrint" Icon="Print" Label="Print" LabelPosition="Default" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Tag="print" />
     </CommandBar>
 </UserControl>
     

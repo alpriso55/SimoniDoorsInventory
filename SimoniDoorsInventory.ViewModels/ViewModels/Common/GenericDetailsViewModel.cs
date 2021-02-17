@@ -86,6 +86,31 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        public ICommand PrintCommand => new RelayCommand(OnPrint);
+        virtual protected void OnPrint()
+        {
+            StatusReady();
+            BeginPrint();
+        }
+        virtual protected void BeginPrint()
+        {
+            if (IsEditMode)
+            {
+                EditableItem = Item;
+            }
+            IsEditMode = false;
+
+            try
+            {
+                IsEnabled = false;
+                // await PrintItemAsync(Item);
+            }
+            finally
+            {
+                this.IsEnabled = true;
+            }
+        }
+
         public ICommand CancelCommand => new RelayCommand(OnCancel);
         virtual protected void OnCancel()
         {

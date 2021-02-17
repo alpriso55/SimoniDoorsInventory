@@ -7,7 +7,7 @@
     xmlns:controls="using:SimoniDoorsInventory.Controls"
     xmlns:views="using:SimoniDoorsInventory.Views"
     xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
-    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800">
 
     <UserControl.Resources>
         <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:OrderDetailsViewModel">
@@ -42,7 +42,8 @@
 
                 <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Πληροφορίες Παραγγελίας" />
                 <controls:FormTextBox Header="Όνομα Παραγγελίας" Text="{x:Bind EditableItem.OrderName, Mode=TwoWay}" />
-                <controls:FormCalendarDatePicker Header="Ημερομηνία Παραγγελίας" Date="{x:Bind EditableItem.OrderDate, Mode=TwoWay}" />
+                <controls:FormComboBox Header="Συνεργείο" ItemsSource="{x:Bind LookupTables.Crews}"
+                                           SelectedValue="{x:Bind EditableItem.CrewId, Mode=TwoWay, Converter={StaticResource Int32Converter}}" SelectedValuePath="CrewID" DisplayMemberPath="CrewDesc" />
                 <controls:FormComboBox Header="Φάση" ItemsSource="{x:Bind LookupTables.OrderStatus}"
                                        SelectedValue="{x:Bind EditableItem.Status, Mode=TwoWay, Converter={StaticResource Int32Converter}}"
                                        SelectedValuePath="Status" DisplayMemberPath="Name" />
@@ -55,13 +56,13 @@
                 -->
                 
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
-                    <controls:FormComboBox Header="Συνεργείο" ItemsSource="{x:Bind LookupTables.Crews}"
-                                           SelectedValue="{x:Bind EditableItem.CrewId, Mode=TwoWay, Converter={StaticResource Int32Converter}}" SelectedValuePath="CrewID" DisplayMemberPath="CrewDesc" />
-                    <controls:FormCalendarDatePicker Header="Ημερομηνία Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=TwoWay}"
-                                                     MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" />
+                    <controls:FormCalendarDatePicker Header="Ημ. Παραγγελίας" Date="{x:Bind EditableItem.OrderDate, Mode=TwoWay}" />
+                    <controls:FormCalendarDatePicker Header="Ημ. Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=TwoWay}"  />
+                                                     <!-- MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" -->
                 </controls:FluidGrid>
 
-                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" />
+                <!-- <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0" /> -->
+                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
 
@@ -96,7 +97,8 @@
                           EditCommand="{x:Bind ViewModel.OrderDetails.EditCommand}"
                           DeleteCommand="{x:Bind ViewModel.OrderDetails.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.OrderDetails.SaveCommand}"
-                          CancelCommand="{x:Bind ViewModel.OrderDetails.CancelCommand}" />
+                          CancelCommand="{x:Bind ViewModel.OrderDetails.CancelCommand}" 
+                          PrintCommand="{x:Bind ViewModel.PrintInNewViewCommand}" />
 
             <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0,1,0,0" Visibility="{x:Bind ViewModel.OrderDetails.ItemIsNew, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                 <controls:Section Header="Εσωτερικές Πόρτες" Background="{StaticResource DetailsViewBackgroundColor}">

@@ -1,0 +1,71 @@
+﻿<UserControl
+    x:Class="SimoniDoorsInventory.Views.OrderPrint"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:SimoniDoorsInventory.Controls"
+    xmlns:views="using:SimoniDoorsInventory.Views"
+    xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:OrderDetailsViewModel">
+            <controls:FluidGrid Margin="12" Columns="2" ColumnSpacing="12" RowSpacing="12">
+                <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Πληροφορίες Πελάτη" />
+                <controls:CustomerSuggestBox DisplayText="{x:Bind EditableItem.Customer.FullName, Mode=OneWay}"
+                                             CustomerSelectedCommand="{x:Bind CustomerSelectedCommand}"
+                                             IsReadOnly="{x:Bind CanEditCustomer, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+
+                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
+                    <controls:FormTextBox Header="Τηλέφωνο 1" Text="{x:Bind EditableItem.Customer.Phone1, Mode=OneWay}" />
+                    <controls:FormTextBox Header="Τηλέφωνο 2" Text="{x:Bind EditableItem.Customer.Phone2, Mode=OneWay}" />
+                </controls:FluidGrid>
+
+                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
+                    <controls:FormTextBox Header="Διεύθυνση Αποστολής" Text="{x:Bind EditableItem.AddressLine, Mode=OneWay}" />
+                    <controls:FormTextBox Header="Πόλη Αποστολής" Text="{x:Bind EditableItem.City, Mode=OneWay}" />
+                </controls:FluidGrid>
+
+                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
+                    <controls:FormTextBox Header="Ταχ. Κώδικας Αποστολής" Text="{x:Bind EditableItem.PostalCode, Mode=OneWay}" />
+                    <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=OneWay, Converter={StaticResource Int32Converter}}" DataType="Integer"/>
+                </controls:FluidGrid>
+
+                <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Πληροφορίες Παραγγελίας" />
+                <controls:FormTextBox Header="Όνομα Παραγγελίας" Text="{x:Bind EditableItem.OrderName, Mode=OneWay}" />
+                <controls:FormComboBox Header="Συνεργείο" ItemsSource="{x:Bind LookupTables.Crews}"
+                                           SelectedValue="{x:Bind EditableItem.CrewId, Mode=OneWay, Converter={StaticResource Int32Converter}}" SelectedValuePath="CrewID" DisplayMemberPath="CrewDesc" />
+
+                <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
+                    <controls:FormCalendarDatePicker Header="Ημ. Παραγγελίας" Date="{x:Bind EditableItem.OrderDate, Mode=OneWay}" />
+                    <controls:FormCalendarDatePicker Header="Ημ. Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=OneWay}"  />
+                </controls:FluidGrid>
+
+                <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
+                                      TextWrapping="Wrap" AcceptsReturn="True" />
+
+            </controls:FluidGrid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:DetailsPrint x:Name="details" Margin="6"
+                          DetailsContent="{x:Bind ViewModel.OrderDetails}"
+                          DetailsTemplate="{StaticResource DetailsTemplate}"
+                          IsEditMode="{x:Bind ViewModel.OrderDetails.IsEditMode, Mode=OneWay}"
+                          EditCommand="{x:Bind ViewModel.OrderDetails.EditCommand}"/>
+
+        <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="0,1,0,0" Visibility="{x:Bind ViewModel.OrderDetails.ItemIsNew, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+            <controls:Section Header="Εσωτερικές Πόρτες" Background="{StaticResource DetailsViewBackgroundColor}">
+                <views:OrdersInteriorDoorsPrint ViewModel="{x:Bind ViewModel.InteriorDoorList}" />
+            </controls:Section>
+        </Border>
+    </Grid>
+
+</UserControl>

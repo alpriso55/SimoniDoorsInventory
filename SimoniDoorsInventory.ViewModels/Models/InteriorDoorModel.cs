@@ -17,8 +17,21 @@ namespace SimoniDoorsInventory.Models
         public OpeningSideModel OpeningSide { get; set; }
         public int OpeningTypeID { get; set; }
         public OpeningTypeModel OpeningType { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+
+        private int _width;
+        public int Width 
+        { 
+            get => _width; 
+            set { if (Set(ref _width, value)) NotifyPropertyChanged(nameof(ManufacturingWidth)); } 
+        }
+
+        private int _height;
+        public int Height 
+        { 
+            get => _height; 
+            set { if (Set(ref _height, value)) NotifyPropertyChanged(nameof(ManufacturingHeight)); } 
+        }
+
         public int Lamb { get; set; }
         public int? AccessoryID { get; set; }
         public AccessoryModel Accessory { get; set; }
@@ -26,6 +39,9 @@ namespace SimoniDoorsInventory.Models
         public decimal Price { get; set; }
 
         public bool IsNew => InteriorDoorID <= 0;
+
+        public int ManufacturingWidth => Width - 3;
+        public int ManufacturingHeight => Height - 3;
 
         public string OpeningSideDesc => LookupTablesProxy.Instance.GetOpeningSide(OpeningSideID);
         public string OpeningTypeDesc => LookupTablesProxy.Instance.GetOpeningType(OpeningTypeID);

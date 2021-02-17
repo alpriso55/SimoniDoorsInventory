@@ -13,6 +13,9 @@ namespace SimoniDoorsInventory.Data
         public long CustomerID { get; set; }
 
         [Required]
+        public decimal Balance { get; set; }
+
+        [Required]
         [MaxLength(50)]
         public string FirstName { get; set; }
 
@@ -70,5 +73,6 @@ namespace SimoniDoorsInventory.Data
             $"{CustomerID} {FirstName} {LastName} {Phone1} {Phone2} {Email} {AddressLine} {City}".ToLower();
         
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

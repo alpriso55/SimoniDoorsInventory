@@ -54,6 +54,7 @@ namespace SimoniDoorsInventory.Data.Services
                                      .Select(r => new Customer
                                      {
                                          CustomerID = r.CustomerID,
+                                         Balance = r.Balance,
                                          FirstName = r.FirstName,
                                          LastName = r.LastName,
                                          Phone1 = r.Phone1,
@@ -119,6 +120,7 @@ namespace SimoniDoorsInventory.Data.Services
             else
             {
                 customer.CustomerID = UIDGenerator.Next();
+                customer.Balance = 0.0m;
                 customer.CreatedOn = DateTime.UtcNow;
                 _dataSource.Entry(customer).State = EntityState.Added;
             }

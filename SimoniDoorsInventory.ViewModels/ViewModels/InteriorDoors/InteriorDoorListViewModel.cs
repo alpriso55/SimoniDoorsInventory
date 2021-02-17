@@ -68,6 +68,7 @@ namespace SimoniDoorsInventory.ViewModels
         {
             MessageService.Subscribe<InteriorDoorListViewModel>(this, OnMessage);
             MessageService.Subscribe<InteriorDoorDetailsViewModel>(this, OnMessage);
+            // MessageService.Subscribe<GenericDetailsViewModel<OrderModel>, OrderModel>(this, OnOrderDetailsMessage);
         }
         public void Unsubscribe()
         {
@@ -123,6 +124,16 @@ namespace SimoniDoorsInventory.ViewModels
                 return await InteriorDoorService.GetInteriorDoorsAsync(request);
             }
             return new List<InteriorDoorModel>();
+        }
+
+        public async Task<decimal> GetSumOfPrices()
+        {
+            if (Items == null)
+            {
+                return 0.0m;
+            }
+
+            return await Task.Run(() => Items.Select(r => r.Price).Sum());
         }
 
         public ICommand OpenInNewViewCommand => new RelayCommand(OnOpenInNewView);
@@ -233,6 +244,7 @@ namespace SimoniDoorsInventory.ViewModels
             switch (message)
             {
                 case "NewItemSaved":
+                case "ItemChanged":   // Maybe you should not use this line
                 case "ItemDeleted":
                 case "ItemsDeleted":
                 case "ItemRangesDeleted":
@@ -244,6 +256,11 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        public ICommand PrintInNewViewCommand => new RelayCommand(OnPrintInNewView);
+        private async void OnPrintInNewView()
+        {
+            await InteriorDoorService.SaveInteriorDoorListToExcelFileAsync(Items);
+        }
     }
 }
 

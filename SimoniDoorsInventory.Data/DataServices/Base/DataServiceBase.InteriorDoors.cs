@@ -46,6 +46,13 @@ namespace SimoniDoorsInventory.Data.Services
                                                   .FirstOrDefaultAsync();
         }
 
+        public async Task<InteriorDoorSkin> GetInteriorDoorSkinAsync(long orderID, int interiorDoorID)
+        {
+            return await _dataSource.InteriorDoors.Where(r => r.OrderID == orderID && r.InteriorDoorID == interiorDoorID)
+                                                  .Select(r => r.InteriorDoorSkin)
+                                                  .FirstOrDefaultAsync();
+        }
+
         public async Task<IList<InteriorDoor>> GetInteriorDoorsAsync(int skip, int take, DataRequest<InteriorDoor> request)
         {
             IQueryable<InteriorDoor> items = GetInteriorDoors(request);
@@ -113,15 +120,29 @@ namespace SimoniDoorsInventory.Data.Services
                 // TODO:
                 // interiorDoor.CreatedOn = DateTime.UtcNow;
                 _dataSource.Entry(interiorDoor).State = EntityState.Added;
+
+                // Remove 1 InteriorDoorSkin from stock
+                var interiorDoorSkin = await _dataSource.InteriorDoorSkins.Where(r => r.InteriorDoorSkinID == interiorDoor.InteriorDoorSkinID)
+                                                                          .FirstOrDefaultAsync();
+                interiorDoorSkin.StockUnits -= 1;
             }
             // TODO:
             // interiorDoor.LastModifiedOn = DateTime.UtcNow;
-            // interiorDoor.SearchTerms = interiorDoor.BuildSearchTerms();
+            interiorDoor.SearchTerms = interiorDoor.BuildSearchTerms();
             return await _dataSource.SaveChangesAsync();
         }
 
         public async Task<int> DeleteInteriorDoorsAsync(params InteriorDoor[] interiorDoors)
         {
+            foreach (var door in interiorDoors)
+            {
+                var skin = await GetInteriorDoorSkinAsync(door.OrderID, door.InteriorDoorID);
+                // Add 1 InteriorDoorSkin back to the stock
+                // var interiorDoorSkin = await _dataSource.InteriorDoorSkins.Where(r => r.InteriorDoorSkinID == d.InteriorDoorSkinID)
+                //                                                           .FirstOrDefaultAsync();
+                skin.StockUnits += 1;
+            }
+
             _dataSource.InteriorDoors.RemoveRange(interiorDoors);
             return await _dataSource.SaveChangesAsync();
         }

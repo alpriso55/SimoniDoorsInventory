@@ -13,10 +13,8 @@ namespace SimoniDoorsInventory.Models
         };
 
         public long PaymentID { get; set; }
-        public long AccountID { get; set; }
-        public AccountModel Account { get; set; }
-        public long OrderID { get; set; }
-        public OrderModel Order { get; set; }
+        public long CustomerID { get; set; }
+        public CustomerModel Customer { get; set; }
         public decimal Amount { get; set; }
         public int? PaymentTypeID { get; set; }
         public PaymentTypeModel PaymentType { get; set; }
@@ -25,8 +23,7 @@ namespace SimoniDoorsInventory.Models
 
         public bool IsNew => PaymentID <= 0;
 
-        public string AccountDesc => LookupTablesProxy.Instance.GetAccount(AccountID);
-        public string PaymentDesc => $"{AccountDesc} <=> {Amount} €";
+        public string PaymentDesc => $"{Customer?.FullName}: +{Amount} €";
 
         public override void Merge(ObservableObject source)
         {
@@ -40,10 +37,8 @@ namespace SimoniDoorsInventory.Models
             if (source != null)
             {
                 PaymentID = source.PaymentID;
-                AccountID = source.AccountID;
-                Account = source.Account;
-                OrderID = source.OrderID;
-                Order = source.Order;
+                CustomerID = source.CustomerID;
+                Customer = source.Customer;
                 Amount = source.Amount;
                 PaymentTypeID = source.PaymentTypeID;
                 PaymentType = source.PaymentType;

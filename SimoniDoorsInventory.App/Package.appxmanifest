@@ -8,8 +8,8 @@
 
   <Identity
     Name="ABCukaSimoniDoorsInventory"
-    Publisher="CN=porto"
-    Version="1.0.0.0" />
+    Publisher="CN=abcuka"
+    Version="1.0.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="73e86066-ee3a-4217-9a1d-ca89acd49581" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -37,7 +37,7 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="SimoniDoors Inventory Application for door sales."
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
@@ -45,6 +45,20 @@
           <uap:Protocol Name="simonidoorsinventory">
             <uap:DisplayName>SimoniDoors Inventory</uap:DisplayName>
           </uap:Protocol>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileOpenPicker">
+          <uap:FileOpenPicker>
+            <uap:SupportedFileTypes>
+              <uap:SupportsAnyFileType/>
+            </uap:SupportedFileTypes>
+          </uap:FileOpenPicker>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileSavePicker">
+          <uap:FileSavePicker>
+            <uap:SupportedFileTypes>
+              <uap:SupportsAnyFileType/>
+            </uap:SupportedFileTypes>
+          </uap:FileSavePicker>
         </uap:Extension>
       </Extensions>
     </Application>
@@ -54,5 +68,6 @@
     <Capability Name="internetClient" />
     <uap:Capability Name="enterpriseAuthentication"/>
     <uap:Capability Name="userAccountInformation"/>
+    <uap:Capability Name="documentsLibrary"/>
   </Capabilities>
 </Package>

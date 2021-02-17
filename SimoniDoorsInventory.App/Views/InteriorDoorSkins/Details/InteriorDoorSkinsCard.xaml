@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="SimoniDoorsInventory.Views.InteriorDoorSkinsCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:SimoniDoorsInventory.Controls"
+    mc:Ignorable="d" d:DesignHeight="260" d:DesignWidth="400">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="12,6">
+            <Rectangle Style="{StaticResource CardSeparator}"/>
+            <TextBlock Style="{StaticResource CardSection}" Text="Επένδυση Μεσόπορτας"  />
+            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.InteriorDoorSkinDesc, Mode=OneWay}" />
+            <Image Source="/Assets/Images/Door-04.svg" 
+                   Stretch="UniformToFill" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"/>
+        </StackPanel>
+    </ScrollViewer>
+    
+</UserControl>

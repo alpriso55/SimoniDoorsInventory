@@ -24,7 +24,7 @@ namespace SimoniDoorsInventory.Converters
         {
             if (value is decimal m)
             {
-                return m == 0 ? "" : m.ToString();
+                return m == 0 ? "0.0 €" : m.ToString() + " €";
             }
             return "";
         }

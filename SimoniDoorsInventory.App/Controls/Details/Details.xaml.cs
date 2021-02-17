@@ -91,7 +91,7 @@ namespace SimoniDoorsInventory.Controls
             set { SetValue(DefaultCommandsProperty, value); }
         }
 
-        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(Details), new PropertyMetadata("edit,delete"));
+        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(Details), new PropertyMetadata("edit,delete,print"));
         #endregion
 
 
@@ -145,6 +145,16 @@ namespace SimoniDoorsInventory.Controls
         public static readonly DependencyProperty CancelCommandProperty = DependencyProperty.Register(nameof(CancelCommand), typeof(ICommand), typeof(Details), new PropertyMetadata(null));
         #endregion
 
+        #region PrintCommand
+        public ICommand PrintCommand
+        {
+            get { return (ICommand)GetValue(PrintCommandProperty); }
+            set { SetValue(PrintCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty PrintCommandProperty = DependencyProperty.Register(nameof(PrintCommand), typeof(ICommand), typeof(Details), new PropertyMetadata(null));
+        #endregion
+
         public DetailToolbarMode ToolbarMode
         {
             get
@@ -176,6 +186,9 @@ namespace SimoniDoorsInventory.Controls
                     break;
                 case ToolbarButton.Cancel:
                     CancelCommand?.TryExecute();
+                    break;
+                case ToolbarButton.Print:
+                    PrintCommand?.TryExecute();
                     break;
             }
         }
@@ -235,5 +248,16 @@ namespace SimoniDoorsInventory.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public AppBarButton GetPrintButton()
+        {
+            return this.toolbar.GetPrintButton();
+        }
+
+        public DetailToolbar GetDetailToolbar()
+        {
+            return toolbar;
+        }
+
     }
 }

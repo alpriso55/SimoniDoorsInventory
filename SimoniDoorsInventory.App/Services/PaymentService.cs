@@ -20,19 +20,29 @@ using System.Threading.Tasks;
 using SimoniDoorsInventory.Data;
 using SimoniDoorsInventory.Data.Services;
 using SimoniDoorsInventory.Models;
+using System.IO;
+using Windows.Storage;
+using OfficeOpenXml;
 
 namespace SimoniDoorsInventory.Services
 {
     public class PaymentService : IPaymentService
     {
-        public PaymentService(IDataServiceFactory dataServiceFactory, ILogService logService)
+        public PaymentService(IDataServiceFactory dataServiceFactory, 
+                              ILogService logService, 
+                              IFilePickerService filePickerService,
+                              IDialogService dialogService)
         {
             DataServiceFactory = dataServiceFactory;
             LogService = logService;
+            FilePickerService = filePickerService;
+            DialogService = dialogService;
         }
 
         public IDataServiceFactory DataServiceFactory { get; }
         public ILogService LogService { get; }
+        public IFilePickerService FilePickerService { get; }
+        public IDialogService DialogService { get; }
 
         public async Task<PaymentModel> GetPaymentAsync(long id)
         {
@@ -66,7 +76,7 @@ namespace SimoniDoorsInventory.Services
                 var items = await dataService.GetPaymentsAsync(skip, take, request);
                 foreach (var item in items)
                 {
-                    models.Add(await CreatePaymentModelAsync(item, includeAllFields: false));
+                    models.Add(await CreatePaymentModelAsync(item, includeAllFields: true));
                 }
                 return models;
             }
@@ -78,6 +88,28 @@ namespace SimoniDoorsInventory.Services
             {
                 return await dataService.GetPaymentsCountAsync(request);
             }
+        }
+
+        public async Task<PaymentModel> CreateNewPaymentAsync(long customerID)
+        {
+            var model = new PaymentModel
+            {
+                CustomerID = customerID,
+                PaymentDate = DateTime.UtcNow
+            };
+            if (customerID > 0)
+            {
+                using (var dataService = DataServiceFactory.CreateDataService())
+                {
+                    var parent = await dataService.GetCustomerAsync(customerID);
+                    if (parent != null)
+                    {
+                        model.CustomerID = customerID;
+                        model.Customer = await CustomerService.CreateCustomerModelAsync(parent, includeAllFields: true);
+                    }
+                }
+            }
+            return model;
         }
 
         public async Task<int> UpdatePaymentAsync(PaymentModel model)
@@ -119,8 +151,7 @@ namespace SimoniDoorsInventory.Services
             var model = new PaymentModel()
             {
                 PaymentID = source.PaymentID,
-                AccountID = source.AccountID,
-                OrderID = source.OrderID,
+                CustomerID = source.CustomerID,
                 Amount = source.Amount,
                 PaymentTypeID = source.PaymentTypeID,
                 PaymentDate = source.PaymentDate,
@@ -129,8 +160,12 @@ namespace SimoniDoorsInventory.Services
 
             if (includeAllFields)
             {
-                model.Order = await OrderService.CreateOrderModelAsync(source.Order, includeAllFields);
-                // TODO: implement the same thing for model.Account
+                model.PaymentType = new PaymentTypeModel()
+                {
+                    PaymentTypeID = (int)source.PaymentTypeID,
+                    Name = source.PaymentType.Name
+                };
+                model.Customer = await CustomerService.CreateCustomerModelAsync(source.Customer, includeAllFields);
             }
             return model;
         }
@@ -138,12 +173,61 @@ namespace SimoniDoorsInventory.Services
         private void UpdatePaymentFromModel(Payment target, PaymentModel source)
         {
             target.PaymentID = source.PaymentID;
-            target.AccountID = source.AccountID;
-            target.OrderID = source.OrderID;
+            target.CustomerID = source.CustomerID;
             target.Amount = source.Amount;
             target.PaymentTypeID = source.PaymentTypeID;
             target.PaymentDate = source.PaymentDate;
             target.Observations = source.Observations;
         }
+
+        public async Task SavePaymentListToExcelFileAsync(IList<PaymentModel> paymentList)
+        {
+            Stream newFileStream = await FilePickerService.GetExcelFileStreamAsync($"{DateTime.Now}_ΠΛΗΡΩΜΕΣ_ΛΙΣΤΑ.xlsx");
+
+            StorageFile templateStorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/ExcelTemplates/PaymentListTemplate.xlsx"));
+            Stream templateFileStream = await templateStorageFile.OpenStreamForReadAsync();
+
+            if (newFileStream != Stream.Null && templateFileStream != Stream.Null)
+            {
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                try
+                {
+                    using (ExcelPackage package = new ExcelPackage(newFileStream, templateFileStream))
+                    {
+                        //Open the first worksheet
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        int cellIndex = 3;
+                        int paymentCount = paymentList.Count;
+                        worksheet.InsertRow(cellIndex, paymentCount);
+
+                        for (int i = 0; i < paymentCount; i++)
+                        {
+                            worksheet.Cells[$"A{cellIndex + i}"].Value = paymentList[i].PaymentID;
+                            worksheet.Cells[$"B{cellIndex + i}"].Value = paymentList[i].Customer?.FullName;
+                            worksheet.Cells[$"C{cellIndex + i}"].Value = paymentList[i].Amount;
+                            worksheet.Cells[$"D{cellIndex + i}"].Value = paymentList[i].PaymentType?.Name;
+                            worksheet.Cells[$"E{cellIndex + i}"].Value = paymentList[i].PaymentDate;
+                            worksheet.Cells[$"F{cellIndex + i}"].Value = paymentList[i].Observations;
+                        }
+
+                        //Switch the PageLayoutView back to normal
+                        worksheet.View.PageLayoutView = false;
+                        // save our new workbook and we are done!
+
+                        await package.SaveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DialogService.ShowAsync("Σφάλμα", "Το έγγραφο πρέπει να είναι κενό ή να μην υπάρχει");
+                    await LogService.WriteAsync(LogType.Error, "PaymentService", "SavePaymentListToExcelFileAsync", ex);
+                }
+
+                newFileStream.Close();
+                templateFileStream.Close();
+            }
+        }
+
     }
 }

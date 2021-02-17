@@ -258,6 +258,15 @@ namespace SimoniDoorsInventory.Controls
         public static readonly DependencyProperty ItemSecondaryActionInvokedCommandProperty = DependencyProperty.Register(nameof(ItemSecondaryActionInvokedCommand), typeof(ICommand), typeof(DataGrid), new PropertyMetadata(null));
         #endregion
 
+        #region PrintCommand
+        public ICommand PrintCommand
+        {
+            get { return (ICommand)GetValue(PrintCommandProperty); }
+            set { SetValue(PrintCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty PrintCommandProperty = DependencyProperty.Register(nameof(PrintCommand), typeof(ICommand), typeof(DataGrid), new PropertyMetadata(null));
+        #endregion
 
         public ListToolbarMode ToolbarMode => IsMultipleSelection ? (SelectedItemsCount > 0 ? ListToolbarMode.CancelDelete : ListToolbarMode.Cancel) : ListToolbarMode.Default;
         static DependencyExpression ToolbarModeExpression = DependencyExpressions.Register(nameof(ToolbarMode), nameof(IsMultipleSelection), nameof(SelectedItemsCount));
@@ -362,6 +371,9 @@ namespace SimoniDoorsInventory.Controls
                     break;
                 case ToolbarButton.Cancel:
                     CancelSelectionCommand?.TryExecute();
+                    break;
+                case ToolbarButton.Print:
+                    PrintCommand?.TryExecute();
                     break;
             }
         }

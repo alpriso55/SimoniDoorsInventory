@@ -12,11 +12,8 @@ namespace SimoniDoorsInventory.Data
         public long PaymentID { get; set; }
 
         [Required]
-        public long AccountID { get; set; }
-        public virtual Account Account { get; set; }
-
-        public long OrderID { get; set; }
-        public virtual Order Order { get; set; }
+        public long CustomerID { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [Required]
         public decimal Amount { get; set; }
@@ -34,6 +31,6 @@ namespace SimoniDoorsInventory.Data
         // Collections
         public string SearchTerms { get; set; }
         public string BuildSearchTerms() =>
-            $"{PaymentID} {AccountID} {OrderID}".ToLower();
+            $"{PaymentID} {CustomerID} {Customer?.FirstName} {Customer?.LastName} {PaymentType?.Name}".ToLower();
     }
 }

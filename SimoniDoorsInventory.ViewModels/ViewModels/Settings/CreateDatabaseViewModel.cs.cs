@@ -60,7 +60,7 @@ namespace SimoniDoorsInventory.ViewModels
             set => Set(ref _primaryButtonText, value);
         }
 
-        private string _secondaryButtonText = "Cancel";
+        private string _secondaryButtonText = "Ακύρωση";
         public string SecondaryButtonText
         {
             get => _secondaryButtonText;
@@ -72,33 +72,33 @@ namespace SimoniDoorsInventory.ViewModels
             try
             {
                 ProgressMaximum = 14;
-                ProgressStatus = "Connecting to Database";
+                ProgressStatus = "Σύνδεση με Βάση Δεδομένων";
                 using (var db = new SQLServerDb(connectionString))
                 {
                     var dbCreator = db.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
                     if (!await dbCreator.ExistsAsync())
                     {
                         ProgressValue = 1;
-                        ProgressStatus = "Creating Database...";
+                        ProgressStatus = "Δημιουργία Βάσης Δεδομένων...";
                         await db.Database.EnsureCreatedAsync();
                         ProgressValue = 2;
                         await CopyDataTables(db);
                         ProgressValue = 14;
-                        Message = "Database created successfully.";
-                        Result = Result.Ok("Database created successfully.");
+                        Message = "Βάση Δεδομένων δημιουργήθηκε επιτυχώς.";
+                        Result = Result.Ok("Βάση Δεδομένων δημιουργήθηκε επιτυχώς.");
                     }
                     else
                     {
                         ProgressValue = 14;
-                        Message = $"Database already exists. Please, delete database and try again.";
-                        Result = Result.Error("Database already exist");
+                        Message = $"Η βάση δεδομένων ήδη υπάρχει. Παρακαλώ, διαγράψτε τη βάση δεδομένων και προσπαθήστε ξανά.";
+                        Result = Result.Error("Η βάση δεδομένων ήδη υπάρχει.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Result = Result.Error("Error creating database. See details in Activity Log");
-                Message = $"Error creating database: {ex.Message}";
+                Result = Result.Error("Σφάλμα κατά τη δημιουργία βάσης δεδομένων. Δες περισσότερες πληροφορίες στο Activity Log");
+                Message = $"Σφάλμα κατά τη δημιουργία βάσης δεδομένων: {ex.Message}";
                 LogException("Settings", "Create Database", ex);
             }
             PrimaryButtonText = "Ok";
@@ -109,7 +109,7 @@ namespace SimoniDoorsInventory.ViewModels
         {
             using (var sourceDb = new SQLiteDb(SettingsService.PatternConnectionString))
             {
-                ProgressStatus = "Creating table Accessories...";
+                ProgressStatus = "Δημιουργία πίνακα Accessories...";
                 foreach (var item in sourceDb.Accessories.AsNoTracking())
                 {
                     await db.Accessories.AddAsync(item);
@@ -117,7 +117,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 1;
 
-                ProgressStatus = "Creating table Categories...";
+                ProgressStatus = "Δημιουργία πίνακα Categories...";
                 foreach (var item in sourceDb.Categories.AsNoTracking())
                 {
                     await db.Categories.AddAsync(item);
@@ -125,7 +125,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 1;
 
-                ProgressStatus = "Creating table Crews...";
+                ProgressStatus = "Δημιουργία πίνακα Crews...";
                 foreach (var item in sourceDb.Crews.AsNoTracking())
                 {
                     await db.Crews.AddAsync(item);
@@ -133,7 +133,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 2;
 
-                ProgressStatus = "Creating table InteriorDoorDesigns...";
+                ProgressStatus = "Δημιουργία πίνακα InteriorDoorDesigns...";
                 foreach (var item in sourceDb.InteriorDoorDesigns.AsNoTracking())
                 {
                     await db.InteriorDoorDesigns.AddAsync(item);
@@ -141,7 +141,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 3;
 
-                ProgressStatus = "Creating table InteriorDoorSkins...";
+                ProgressStatus = "Δημιουργία πίνακα InteriorDoorSkins...";
                 foreach (var item in sourceDb.InteriorDoorSkins.AsNoTracking())
                 {
                     await db.InteriorDoorSkins.AddAsync(item);
@@ -149,7 +149,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 4;
 
-                ProgressStatus = "Creating table OpeningSides...";
+                ProgressStatus = "Δημιουργία πίνακα OpeningSides...";
                 foreach (var item in sourceDb.OpeningSides.AsNoTracking())
                 {
                     await db.OpeningSides.AddAsync(item);
@@ -157,7 +157,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 5;
 
-                ProgressStatus = "Creating table OpeningTypes...";
+                ProgressStatus = "Δημιουργία πίνακα OpeningTypes...";
                 foreach (var item in sourceDb.OpeningTypes.AsNoTracking())
                 {
                     await db.OpeningTypes.AddAsync(item);
@@ -165,7 +165,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 6;
 
-                ProgressStatus = "Creating table OrderStatus...";
+                ProgressStatus = "Δημιουργία πίνακα OrderStatus...";
                 foreach (var item in sourceDb.OrderStatus.AsNoTracking())
                 {
                     await db.OrderStatus.AddAsync(item);
@@ -173,7 +173,7 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 7;
 
-                ProgressStatus = "Creating table PaymentTypes...";
+                ProgressStatus = "Δημιουργία πίνακα PaymentTypes...";
                 foreach (var item in sourceDb.PaymentTypes.AsNoTracking())
                 {
                     await db.PaymentTypes.AddAsync(item);
@@ -181,47 +181,39 @@ namespace SimoniDoorsInventory.ViewModels
                 await db.SaveChangesAsync();
                 ProgressValue = 8;
 
-                ProgressStatus = "Creating table Customers...";
+                ProgressStatus = "Δημιουργία πίνακα Customers...";
                 foreach (var item in sourceDb.Customers.AsNoTracking())
                 {
                     await db.Customers.AddAsync(item);
                 }
                 await db.SaveChangesAsync();
                 ProgressValue = 9;
-                
-                ProgressStatus = "Creating table Accounts...";
-                foreach (var item in sourceDb.Accounts.AsNoTracking())
-                {
-                    await db.Accounts.AddAsync(item);
-                }
-                await db.SaveChangesAsync();
-                ProgressValue = 10;
 
-                ProgressStatus = "Creating table Orders...";
+                ProgressStatus = "Δημιουργία πίνακα Orders...";
                 foreach (var item in sourceDb.Orders.AsNoTracking())
                 {
                     await db.Orders.AddAsync(item);
                 }
                 await db.SaveChangesAsync();
-                ProgressValue = 11;
+                ProgressValue = 10;
 
-                ProgressStatus = "Creating table InteriorDoors...";
+                ProgressStatus = "Δημιουργία πίνακα InteriorDoors...";
                 foreach (var item in sourceDb.InteriorDoors.AsNoTracking())
                 {
                     await db.InteriorDoors.AddAsync(item);
                 }
                 await db.SaveChangesAsync();
-                ProgressValue = 12;
+                ProgressValue = 11;
 
-                ProgressStatus = "Creating table Payments...";
+                ProgressStatus = "Δημιουργία πίνακα Payments...";
                 foreach (var item in sourceDb.Payments.AsNoTracking())
                 {
                     await db.Payments.AddAsync(item);
                 }
                 await db.SaveChangesAsync();
-                ProgressValue = 13;
+                ProgressValue = 12;
 
-                ProgressStatus = "Creating database version...";
+                ProgressStatus = "Δημιουργία πίνακα Version...";
                 await db.DbVersion.AddAsync(await sourceDb.DbVersion.FirstAsync());
                 await db.SaveChangesAsync();
                 ProgressValue = 14;

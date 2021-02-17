@@ -84,6 +84,14 @@ namespace SimoniDoorsInventory.Services
                             return ActivationInfo.Create<PaymentDetailsViewModel>(new PaymentDetailsArgs { PaymentID = paymentID });
                         }
                         return ActivationInfo.Create<PaymentsViewModel>(new PaymentListArgs());
+                    case "interiordoorskin":
+                    case "interiordoorskins":
+                        string interiorDoorSkinID = args.Uri.GetParameter("id");
+                        if (!string.IsNullOrWhiteSpace(interiorDoorSkinID))
+                        {
+                            return ActivationInfo.Create<InteriorDoorSkinDetailsViewModel>(new InteriorDoorSkinDetailsArgs { InteriorDoorSkinID = interiorDoorSkinID });
+                        }
+                        return ActivationInfo.Create<InteriorDoorSkinsViewModel>(new InteriorDoorSkinListArgs());
                 }
             }
             return ActivationInfo.CreateDefault();

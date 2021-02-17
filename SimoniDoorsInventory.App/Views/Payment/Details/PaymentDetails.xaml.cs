@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using SimoniDoorsInventory.ViewModels;
+using SimoniDoorsInventory.Controls;
 
 namespace SimoniDoorsInventory.Views
 {
@@ -28,5 +29,6 @@ namespace SimoniDoorsInventory.Views
         {
             details.SetFocus();
         }
+
     }
 }

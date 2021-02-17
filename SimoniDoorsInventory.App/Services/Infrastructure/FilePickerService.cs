@@ -13,6 +13,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -49,6 +50,52 @@ namespace SimoniDoorsInventory.Services
                 };
             }
             return null;
+        }
+
+        public async Task<ExcelFilePickerResult> OpenExcelFilePickerAsync(string defaultFileName)
+        {
+            FileSavePicker savePicker = new FileSavePicker();
+            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            
+            // Dropdown of file types the user can save the file as
+            savePicker.FileTypeChoices.Add("Excel File", new List<string>() { ".xlsx" });
+            
+            // Default file name if the user does not type one in or select a file to replace
+            savePicker.SuggestedFileName = defaultFileName;
+            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                return new ExcelFilePickerResult
+                {
+                    FileName = file.Name,
+                    ParentFolder = Path.GetDirectoryName(file.Path),
+                    ContentType = file.ContentType
+                };
+            }
+
+            return null;
+        }
+
+        public async Task<Stream> GetExcelFileStreamAsync(string defaultFileName)
+        {
+            FileSavePicker filePicker = new FileSavePicker();
+            filePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+
+            // Dropdown of file types the user can save the file as
+            filePicker.FileTypeChoices.Add("Excel File", new List<string>() { ".xlsx" });
+
+            // Default file name if the user does not type one in or select a file to replace
+            // filePicker.SuggestedFileName = $"{ViewModel.OrderDetails.Item.OrderID}_Order_Details.xlsx";
+            filePicker.SuggestedFileName = defaultFileName;
+            StorageFile newStorageFile = await filePicker.PickSaveFileAsync();
+            
+            if (newStorageFile != null)
+            {
+                Stream newFileStream = await newStorageFile.OpenStreamForWriteAsync();
+                return newFileStream;
+            }
+
+            return Stream.Null;
         }
 
         static private async Task<byte[]> GetImageBytesAsync(StorageFile file)

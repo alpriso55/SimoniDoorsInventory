@@ -83,8 +83,6 @@ namespace SimoniDoorsInventory.Models
                 CustomerID = source.CustomerID;
                 Customer = source.Customer;
                 OrderName = source.OrderName;
-                // AccountID = source.AccountID;
-                // Account = source.Account;
                 CrewId = source.CrewId;
                 Crew = source.Crew;
 

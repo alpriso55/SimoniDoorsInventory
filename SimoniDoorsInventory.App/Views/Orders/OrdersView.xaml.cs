@@ -47,7 +47,7 @@ namespace SimoniDoorsInventory.Views
             }
             else
             {
-                await NavigationService.CreateNewViewAsync<InteriorDoorsViewModel>(ViewModel.InteriorDoorList.CreateArgs());
+                await NavigationService.CreateNewViewAsync<InteriorDoorsViewModel>(ViewModel.OrderInteriorDoors.CreateArgs());
             }
         }
 

@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using SimoniDoorsInventory.ViewModels;
+using SimoniDoorsInventory.Controls;
 
 namespace SimoniDoorsInventory.Views
 {
@@ -33,5 +34,16 @@ namespace SimoniDoorsInventory.Views
         {
             return isItemNew ? 2 : 1;
         }
+
+        public AppBarButton GetPrintButton()
+        {
+            return details.GetPrintButton();
+        }
+
+        public DetailToolbar GetToolBar()
+        {
+            return details.GetDetailToolbar();
+        }
+
     }
 }

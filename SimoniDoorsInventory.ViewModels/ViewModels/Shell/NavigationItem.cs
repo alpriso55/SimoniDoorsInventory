@@ -13,7 +13,7 @@ namespace SimoniDoorsInventory.ViewModels
         public NavigationItem(int glyph, string label, Type viewModel) : this(viewModel)
         {
             Label = label;
-            Glyph = Char.ConvertFromUtf32(glyph).ToString();
+            Glyph = char.ConvertFromUtf32(glyph).ToString();
         }
 
         public readonly string Glyph;

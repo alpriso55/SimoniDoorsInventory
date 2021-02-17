@@ -10,19 +10,22 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="ItemTemplate" x:DataType="models:PaymentModel">
-            <Grid BorderThickness="1" BorderBrush="Gainsboro" Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10*"/>
-                    <RowDefinition Height="3*"/>
-                </Grid.RowDefinitions>
+            <Grid BorderThickness="1" BorderBrush="Gainsboro" Background="White" VerticalAlignment="Top" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="12*"/>
+                </Grid.ColumnDefinitions>
                 <Grid>
-                    <Image Source="ms-appx:///Assets/Images/payment-icon.jpg" 
-                           Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <!-- <Image Source="ms-appx:///Assets/Images/payment-icon.jpg" 
+                           Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8C7;" FontSize="30"/>
                 </Grid>
-                <Grid Grid.Row="1" Background="WhiteSmoke">
+                <Grid Grid.Column="1" Background="WhiteSmoke">
                     <StackPanel Margin="6" VerticalAlignment="Center">
-                        <TextBlock Text="{x:Bind PaymentDesc}" FontSize="12" FontWeight="SemiBold" />
-                        <TextBlock Text="{x:Bind PaymentType.Name}" FontSize="12" Foreground="Gray" />
+                        <TextBlock Text="{x:Bind Customer.FullName, Mode=OneWay}" FontSize="12" FontWeight="SemiBold" HorizontalTextAlignment="Left"/>
+                        <TextBlock Text="{x:Bind Amount, Mode=OneWay, Converter={StaticResource DecimalConverter}}" FontSize="12" Foreground="Green" HorizontalTextAlignment="Left"/>
+                        <TextBlock Text="{x:Bind PaymentType.Name, Mode=OneWay}" FontSize="12" Foreground="Gray" HorizontalTextAlignment="Left"/>
+                        <TextBlock Text="{x:Bind PaymentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" FontSize="12" Foreground="Gray" HorizontalTextAlignment="Left"/>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -45,5 +48,6 @@
                        DeselectItemsCommand="{x:Bind ViewModel.DeselectItemsCommand}"
                        SelectRangesCommand="{x:Bind ViewModel.SelectRangesCommand}"
                        ItemInvokedCommand="{x:Bind ViewModel.ItemInvokedCommand}"
-                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}" />
+                       DeleteCommand="{x:Bind ViewModel.DeleteSelectionCommand}"
+                       PrintCommand="{x:Bind ViewModel.PrintInNewViewCommand}"/>
 </UserControl>

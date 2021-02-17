@@ -127,15 +127,15 @@ namespace SimoniDoorsInventory.Controls
             {
                 case TextDataType.Integer:
                     Int64.TryParse(Text, out Int64 n);
-                    Text = n == 0 ? "" : n.ToString();
+                    Text = n == 0 ? "0" : n.ToString();
                     break;
                 case TextDataType.Decimal:
                     Decimal.TryParse(Text, out decimal m);
-                    Text = m == 0 ? "" : m.ToString();
+                    Text = m == 0 ? "0" : m.ToString();
                     break;
                 case TextDataType.Double:
                     Double.TryParse(Text, out double d);
-                    Text = d == 0 ? "" : d.ToString();
+                    Text = d == 0 ? "0" : d.ToString();
                     break;
                 case TextDataType.String:
                 default:

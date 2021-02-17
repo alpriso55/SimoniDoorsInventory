@@ -43,6 +43,7 @@ namespace SimoniDoorsInventory.Data.Services
             return await _dataSource.Orders.Where(r => r.OrderID == id)
                                            .Include(r => r.Customer)
                                            .Include(r => r.Crew)
+                                           .Include(r => r.OrderStatus)
                                            .FirstOrDefaultAsync();
         }
 
@@ -55,6 +56,7 @@ namespace SimoniDoorsInventory.Data.Services
                                      .Take(take)
                                      .Include(r => r.Customer)
                                      .Include(r => r.Crew)
+                                     .Include(r => r.OrderStatus)
                                      .AsNoTracking()
                                      .ToListAsync();
 
@@ -107,6 +109,7 @@ namespace SimoniDoorsInventory.Data.Services
             {
                 order.OrderID = UIDGenerator.Next(4);
                 order.OrderDate = DateTime.UtcNow;
+                order.TotalCost = 0.0m;
                 _dataSource.Entry(order).State = EntityState.Added;
             }
 

@@ -53,27 +53,30 @@
             </Grid>
 
             <Rectangle Style="{StaticResource CardSeparator}"/>
-            <TextBlock Style="{StaticResource CardSection}" Text="General"  />
+            <TextBlock Style="{StaticResource CardSection}" Text="Γενικές Πληροφορίες"  />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Customer ID" />
+            <TextBlock Style="{StaticResource CardHeader}" Text="Πελάτης #" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.CustomerID, Mode=OneWay}" />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Created On" />
+            <TextBlock Style="{StaticResource CardHeader}" Text="Υπόλοιπο (€)" />
+            <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Balance, Mode=OneWay, Converter={StaticResource DecimalConverter}}" />
+
+            <TextBlock Style="{StaticResource CardHeader}" Text="Δημιουργήθηκε" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.CreatedOn, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Last Update" />
+            <TextBlock Style="{StaticResource CardHeader}" Text="Τελευταία Ενημέρωση" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.LastModifiedOn, Mode=OneWay, Converter={StaticResource DateTimeFormatConverter}}" />
 
             <Rectangle Style="{StaticResource CardSeparator}"/>
-            <TextBlock Style="{StaticResource CardSection}" Text="Contact"/>
+            <TextBlock Style="{StaticResource CardSection}" Text="Επικοινωνία"/>
 
             <TextBlock Style="{StaticResource CardHeader}" Text="Email" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Email, Mode=OneWay}" />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Phone1" />
+            <TextBlock Style="{StaticResource CardHeader}" Text="Τηλέφωνο" />
             <TextBlock Style="{StaticResource CardText}" Text="{x:Bind Item.Phone1, Mode=OneWay}" />
 
-            <TextBlock Style="{StaticResource CardHeader}" Text="Address" />
+            <TextBlock Style="{StaticResource CardHeader}" Text="Διεύθυνση" />
             <TextBlock Style="{StaticResource CardText}" Margin="0" Text="{x:Bind Item.FullAddress, Mode=OneWay}" />
 
         </StackPanel>

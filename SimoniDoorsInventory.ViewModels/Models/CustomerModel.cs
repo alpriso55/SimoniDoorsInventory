@@ -12,6 +12,7 @@ namespace SimoniDoorsInventory.Models
         };
 
         public long CustomerID { get; set; }
+        public decimal Balance { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone1 { get; set; }
@@ -61,6 +62,7 @@ namespace SimoniDoorsInventory.Models
             if (source != null)
             {
                 CustomerID = source.CustomerID;
+                Balance = source.Balance;
                 FirstName = source.FirstName;
                 LastName = source.LastName;
                 Phone1 = source.Phone1;

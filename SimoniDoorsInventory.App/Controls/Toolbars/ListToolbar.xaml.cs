@@ -58,7 +58,7 @@ namespace SimoniDoorsInventory.Controls
             control.UpdateControl();
         }
 
-        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(ListToolbar), new PropertyMetadata("new,select,refresh,search", DefaultCommandsChanged));
+        public static readonly DependencyProperty DefaultCommandsProperty = DependencyProperty.Register(nameof(DefaultCommands), typeof(string), typeof(ListToolbar), new PropertyMetadata("new,print,select,refresh,search", DefaultCommandsChanged));
         #endregion
 
 
@@ -134,6 +134,9 @@ namespace SimoniDoorsInventory.Controls
                     case "buttonRefresh":
                         RaiseButtonClick(ToolbarButton.Refresh);
                         break;
+                    case "buttonPrint":
+                        RaiseButtonClick(ToolbarButton.Print);
+                        break;
                 }
             }
         }
@@ -147,5 +150,11 @@ namespace SimoniDoorsInventory.Controls
         {
             QuerySubmitted?.Invoke(sender, args);
         }
+
+        public AppBarButton GetPrintButton()
+        {
+            return this.buttonPrint;
+        }
+
     }
 }

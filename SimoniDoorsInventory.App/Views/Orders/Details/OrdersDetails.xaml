@@ -20,20 +20,21 @@
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
                     <controls:FormComboBox Header="Συνεργείο" ItemsSource="{x:Bind LookupTables.Crews}"
                                            SelectedValue="{x:Bind EditableItem.CrewId, Mode=TwoWay, Converter={StaticResource Int32Converter}}" SelectedValuePath="CrewID" DisplayMemberPath="CrewDesc" />
-                    <controls:FormCalendarDatePicker Header="Ημερομηνία Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=TwoWay}"
-                                                     MinDate="{x:Bind EditableItem.OrderDate, Mode=OneWay, Converter={StaticResource DateTimeOffsetConverter}}" />
+                    <controls:FormCalendarDatePicker Header="Ημ. Παράδοσης" Date="{x:Bind EditableItem.DeliveryDateTime, Mode=TwoWay}"/>
                 </controls:FluidGrid>
 
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
                     <controls:FormTextBox Header="Διεύθυνση Αποστολής" Text="{x:Bind EditableItem.AddressLine, Mode=TwoWay}" />
                     <controls:FormTextBox Header="Όροφος" Text="{x:Bind EditableItem.Floor, Mode=TwoWay, Converter={StaticResource Int32Converter}}" DataType="Integer"/>
                 </controls:FluidGrid>
+
+                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
+
                 <controls:FluidGrid Columns="2" ColumnSpacing="6" RowSpacing="12" MinColumnWidth="120">
                     <controls:FormTextBox Header="Ταχ. Κώδικας Αποστολής" Text="{x:Bind EditableItem.PostalCode, Mode=TwoWay}" />
                     <controls:FormTextBox Header="Πόλη Αποστολής" Text="{x:Bind EditableItem.City, Mode=TwoWay}" />
                 </controls:FluidGrid>
 
-                <controls:FormTextBox Header="Συνολικό Κόστος" Text="{x:Bind EditableItem.TotalCost, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.00" />
                 <controls:FormTextBox controls:FluidGrid.ColumnSpan="2" Header="Παρατηρήσεις" Text="{x:Bind EditableItem.Observations, Mode=TwoWay}" 
                                       TextWrapping="Wrap" AcceptsReturn="True" />
 
@@ -60,6 +61,7 @@
                           EditCommand="{x:Bind ViewModel.EditCommand}"
                           DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
                           SaveCommand="{x:Bind ViewModel.SaveCommand}"
-                          CancelCommand="{x:Bind ViewModel.CancelCommand}" />
+                          CancelCommand="{x:Bind ViewModel.CancelCommand}"
+                          PrintCommand="{x:Bind ViewModel.PrintInNewViewCommand}"/>
     </Grid>
 </UserControl>

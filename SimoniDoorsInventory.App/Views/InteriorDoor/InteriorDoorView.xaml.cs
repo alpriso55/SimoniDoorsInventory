@@ -17,6 +17,7 @@ namespace SimoniDoorsInventory.Views
             ViewModel = ServiceLocator.Current.GetService<InteriorDoorDetailsViewModel>();
             NavigationService = ServiceLocator.Current.GetService<INavigationService>();
             InitializeComponent();
+
         }
 
         public InteriorDoorDetailsViewModel ViewModel { get; }
@@ -32,6 +33,7 @@ namespace SimoniDoorsInventory.Views
                 await Task.Delay(100);
                 details.SetFocus();
             }
+
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

@@ -1,0 +1,48 @@
+﻿<UserControl
+    x:Class="SimoniDoorsInventory.Views.InteriorDoorSkinsDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:SimoniDoorsInventory.Controls"
+    xmlns:views="using:SimoniDoorsInventory.Views"
+    xmlns:viewmodels="using:SimoniDoorsInventory.ViewModels"
+    mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <!-- <converters:BindingTypeConverter x:Key="BindingTypeConverter" /> -->
+        <DataTemplate x:Key="DetailsTemplate" x:DataType="viewmodels:InteriorDoorSkinDetailsViewModel">
+            <controls:FluidGrid Columns="2" ColumnSpacing="12" Margin="12,18,6,6" RowSpacing="12">
+                <TextBlock Style="{StaticResource FormsSection}" controls:FluidGrid.ColumnSpan="2" Text="Στοιχεία Επένδυσης"/>
+                <controls:FormTextBox Header="Κωδικός Επένδυσης" Text="{x:Bind EditableItem.InteriorDoorSkinID, Mode=TwoWay}" />
+                <controls:FormTextBox Header="Αποθέματα" Text="{x:Bind EditableItem.StockUnits, Mode=TwoWay, Converter={StaticResource Int32Converter}}" />
+                <controls:FormTextBox Header="Ασφαλές Όριο Αποθεμάτων" Text="{x:Bind EditableItem.SafetyStockLevel, Mode=TwoWay, Converter={StaticResource Int32Converter}}" />
+                <controls:FormTextBox Header="Περιγραφή" Text="{x:Bind EditableItem.Description, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" />
+            </controls:FluidGrid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="LightGray" BorderThickness="0,1,1,0" Background="{StaticResource DetailsViewBackgroundColor}">
+            <views:InteriorDoorSkinCard Margin="6" ViewModel="{x:Bind ViewModel}" Item="{x:Bind ViewModel.Item, Mode=OneWay}" />
+        </Border>
+
+        <controls:Details x:Name="details" Grid.Column="1" Margin="6"
+                          DetailsContent="{x:Bind ViewModel}"
+                          DetailsTemplate="{StaticResource DetailsTemplate}"
+                          CanGoBack="{x:Bind ViewModel.CanGoBack}"
+                          IsEditMode="{x:Bind ViewModel.IsEditMode, Mode=OneWay}"
+                          BackCommand="{x:Bind ViewModel.BackCommand}"
+                          EditCommand="{x:Bind ViewModel.EditCommand}"
+                          DeleteCommand="{x:Bind ViewModel.DeleteCommand}"
+                          SaveCommand="{x:Bind ViewModel.SaveCommand}"
+                          CancelCommand="{x:Bind ViewModel.CancelCommand}"
+                          DefaultCommands="edit,delete"/>
+    </Grid>
+    
+</UserControl>
