@@ -12,12 +12,21 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>7E32C090E4A67F4FF44605C8A3DC43D8702F4450</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile />
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +50,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <Use64BitCompiler>true</Use64BitCompiler>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -100,6 +110,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -111,7 +122,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -857,15 +868,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Assets\AppLog\AppLog.db" />
-    <None Include="Assets\DatabaseTemplate\Template.db" />
-    <None Include="Assets\ExcelTemplates\CutomerDetailsTemplate.xlsx" />
-    <None Include="Assets\ExcelTemplates\CutomerListTemplate.xlsx" />
-    <None Include="Assets\ExcelTemplates\InteriorDoorListTemplate.xlsx" />
-    <None Include="Assets\ExcelTemplates\InteriorDoorSkinListTemplate.xlsx" />
-    <None Include="Assets\ExcelTemplates\OrderDetailsTemplate.xlsx" />
-    <None Include="Assets\ExcelTemplates\OrderListTemplate.xlsx" />
-    <None Include="Assets\ExcelTemplates\PaymentListTemplate.xlsx" />
+    <Content Include="Assets\AppLog\AppLog.db" />
+    <Content Include="Assets\DatabaseTemplate\Template.db" />
+    <Content Include="Assets\ExcelTemplates\CutomerDetailsTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\CutomerListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\InteriorDoorListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\InteriorDoorSkinListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\OrderDetailsTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\OrderListTemplate.xlsx" />
+    <Content Include="Assets\ExcelTemplates\PaymentListTemplate.xlsx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -8,8 +8,8 @@
 
   <Identity
     Name="ABCukaSimoniDoorsInventory"
-    Publisher="CN=porto"
-    Version="1.0.0.0" />
+    Publisher="CN=abcuka"
+    Version="1.0.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="73e86066-ee3a-4217-9a1d-ca89acd49581" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -45,6 +45,20 @@
           <uap:Protocol Name="simonidoorsinventory">
             <uap:DisplayName>SimoniDoors Inventory</uap:DisplayName>
           </uap:Protocol>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileOpenPicker">
+          <uap:FileOpenPicker>
+            <uap:SupportedFileTypes>
+              <uap:SupportsAnyFileType/>
+            </uap:SupportedFileTypes>
+          </uap:FileOpenPicker>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileSavePicker">
+          <uap:FileSavePicker>
+            <uap:SupportedFileTypes>
+              <uap:SupportsAnyFileType/>
+            </uap:SupportedFileTypes>
+          </uap:FileSavePicker>
         </uap:Extension>
       </Extensions>
     </Application>
