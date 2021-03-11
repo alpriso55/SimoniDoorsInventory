@@ -59,12 +59,15 @@
                                     ItemsSource="{x:Bind ViewModel.Payments, Mode=OneWay}" 
                                     Tag="Πληρωμές" />
                 
+                <!-- 
                 <views:InteriorDoorSkinsPane 
                                     Margin="12" 
                                     Width="650" 
                                     Height="320" 
                                     ItemsSource="{x:Bind ViewModel.InteriorDoorSkins, Mode=OneWay}"
-                                    Tag="Επενδύσεις" />
+                                    Tag="Επενδύσεις" />  
+                -->
+                
             </GridView>
         </Grid>
     </Grid>
