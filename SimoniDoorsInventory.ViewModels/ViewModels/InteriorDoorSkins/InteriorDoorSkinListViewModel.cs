@@ -127,6 +127,12 @@ namespace SimoniDoorsInventory.ViewModels
             }
         }
 
+        public ICommand ItemInvokedCommand => new RelayCommand<InteriorDoorSkinModel>(ItemInvoked);
+        private async void ItemInvoked(InteriorDoorSkinModel model)
+        {
+            await NavigationService.CreateNewViewAsync<InteriorDoorSkinDetailsViewModel>(new InteriorDoorSkinDetailsArgs { InteriorDoorSkinID = model.InteriorDoorSkinID });
+        }
+
         protected override async void OnNew()
         {
             if (IsMainView)
@@ -221,6 +227,7 @@ namespace SimoniDoorsInventory.ViewModels
             switch (message)
             {
                 case "NewItemSaved":
+                case "ItemChanged":
                 case "ItemDeleted":
                 case "ItemsDeleted":
                 case "ItemRangesDeleted":

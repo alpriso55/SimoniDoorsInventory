@@ -26,7 +26,7 @@
                                              CustomerSelectedCommand="{x:Bind CustomerSelectedCommand}"
                                              IsReadOnly="{x:Bind CanEditCustomer, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 
-                <controls:FormTextBox Header="Ποσό (€)" Text="{x:Bind EditableItem.Amount, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" DataType="Decimal" Format="0.0 €" />
+                <controls:FormTextBox Header="Ποσό (€)" Text="{x:Bind EditableItem.Amount, Mode=TwoWay, Converter={StaticResource DecimalConverter}}"/>
 
                 <controls:FormComboBox Header="Τρόπος Πληρωμής" ItemsSource="{x:Bind LookupTables.PaymentTypes}" 
                                        SelectedValue="{x:Bind EditableItem.PaymentTypeID, Mode=TwoWay, Converter={StaticResource Int32Converter}}" 

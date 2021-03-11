@@ -70,7 +70,7 @@ namespace SimoniDoorsInventory.Controls
             control.UpdateVisualState();
         }
 
-        public static readonly DependencyProperty ModeProperty = DependencyProperty.Register(nameof(Mode), typeof(FormEditMode), typeof(FormTextBox), new PropertyMetadata(FormEditMode.Auto, ModeChanged));
+        public static readonly DependencyProperty ModeProperty = DependencyProperty.Register(nameof(Mode), typeof(FormEditMode), typeof(FormTextBox), new PropertyMetadata(FormEditMode.Auto, ModeChanged)); // TRY TO GIVE A DIFFERENT VALUE TO FormEditMode
         #endregion
 
         protected override void OnApplyTemplate()
@@ -188,7 +188,7 @@ namespace SimoniDoorsInventory.Controls
         private void OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
             string str = args.NewText;
-            if (String.IsNullOrEmpty(str) || str == "-")
+            if (string.IsNullOrEmpty(str) || str == "-")
             {
                 return;
             }
@@ -259,6 +259,7 @@ namespace SimoniDoorsInventory.Controls
                     case FormVisualState.Focused:
                         _borderElement.Opacity = 1.0;
                         _contentElement.Visibility = Visibility.Visible;
+                        this.SelectAll(); // NEW LINE: Selects all text when it gets focus
                         _displayContent.Visibility = Visibility.Collapsed;
                         break;
                     case FormVisualState.Disabled:

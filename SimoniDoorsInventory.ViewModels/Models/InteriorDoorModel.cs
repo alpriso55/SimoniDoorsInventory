@@ -40,7 +40,7 @@ namespace SimoniDoorsInventory.Models
 
         public bool IsNew => InteriorDoorID <= 0;
 
-        public int ManufacturingWidth => Width - 3;
+        public int ManufacturingWidth => Width - 5;
         public int ManufacturingHeight => Height - 3;
 
         public string OpeningSideDesc => LookupTablesProxy.Instance.GetOpeningSide(OpeningSideID);

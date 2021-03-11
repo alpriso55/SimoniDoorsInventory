@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="ABCukaSimoniDoorsInventory"
-    Publisher="CN=abcuka"
-    Version="1.0.3.0" />
+    Name="13437ABCUKA.SimoniDoors"
+    Publisher="CN=7A7CB581-83DC-4805-9B29-645854A5A38C"
+    Version="1.0.14.0" />
 
-  <mp:PhoneIdentity PhoneProductId="73e86066-ee3a-4217-9a1d-ca89acd49581" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="2ce761df-4e37-4fad-a088-e1851de54026" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>SimoniDoors Inventory</DisplayName>
-    <PublisherDisplayName>porto</PublisherDisplayName>
+    <DisplayName>SimoniDoors</DisplayName>
+    <PublisherDisplayName>ABCUKA</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="SimoniDoorsInventory.App">
       <uap:VisualElements
-        DisplayName="SimoniDoors Inventory"
+        DisplayName="SimoniDoors"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="SimoniDoors Inventory Application for door sales."
